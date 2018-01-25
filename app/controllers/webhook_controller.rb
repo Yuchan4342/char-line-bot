@@ -1,4 +1,6 @@
 class WebhookController < ApplicationController
+  
+  require 'line_client'
   # Lineからのcallbackか認証
   protect_from_forgery with: :null_session
 
@@ -30,8 +32,7 @@ class WebhookController < ApplicationController
       logger.info({fail: res})
     end
 
-    # render :nothing => true, status: :ok
-    render :nothing => true, status: 200
+    render :nothing => true, status: :ok
   end
 
   private
