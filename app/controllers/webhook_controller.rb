@@ -19,7 +19,8 @@ class WebhookController < ApplicationController
     case event_type
     when "message"
       input_text = event["message"]["text"]
-      output_text = input_text
+      # output_text = input_text
+      output_text = "チャー"
     end
 
     client = LineClient.new(CHANNEL_ACCESS_TOKEN, OUTBOUND_PROXY)
@@ -37,7 +38,7 @@ class WebhookController < ApplicationController
   private
   # verify access from LINE
   def is_validate_signature
-    signature = request.headers["X-LINE-Signature"]
+    signature = request.headers["X-Line-Signature"]
     http_request_body = request.raw_post
     hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, CHANNEL_SECRET, http_request_body)
     signature_answer = Base64.strict_encode64(hash)
