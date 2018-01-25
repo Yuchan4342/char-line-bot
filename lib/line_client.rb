@@ -18,7 +18,7 @@ class LineClient
       request.url path
       request.headers = {
         'Content-type' => 'application/json',
-        'Authorization' => "Bearer #{@channel_access_token}"
+        'Authorization' => "Bearer {#{@channel_access_token}}"
       }
       request.body = data
     end
