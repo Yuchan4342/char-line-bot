@@ -15,8 +15,6 @@ class WebhookController < ApplicationController
     event = params["events"][0]
     event_type = event["type"]
     replyToken = event["replyToken"]
-    
-    render :nothing => true, status: :ok
 
     case event_type
     when "message"
