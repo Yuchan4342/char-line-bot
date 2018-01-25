@@ -1,6 +1,5 @@
 class WebhookController < ApplicationController
-  
-  require 'line_client'
+  require 'line/bot'
   # Lineからのcallbackか認証
   protect_from_forgery with: :null_session
 
