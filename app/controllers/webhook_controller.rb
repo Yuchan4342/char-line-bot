@@ -21,7 +21,7 @@ class WebhookController < ApplicationController
       input_text = event["message"]["text"]
       # output_text = input_text
       # output_text = input_text + "チャー"
-      output_text = input_text + "のまさ"
+      output_text = input_text + "まさ"
     end
 
     client = LineClient.new(CHANNEL_SECRET, CHANNEL_ACCESS_TOKEN, OUTBOUND_PROXY)
