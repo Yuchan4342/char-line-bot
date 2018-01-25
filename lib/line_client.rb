@@ -28,7 +28,7 @@ class LineClient
       config.channel_secret = @channel_secret
       config.channel_token = @channel_access_token
     }
-    response = client.reply_message(data["replyToken"], message)
+    response = client.reply_message(data["replyToken"], data["messages"])
     p response
   end
 
