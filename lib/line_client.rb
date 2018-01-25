@@ -25,7 +25,7 @@ class LineClient
     # end
     # res
     client = Line::Bot::Client.new { |config|
-      config.channel_secret = "<channel secret>"
+      config.channel_secret = @channel_secret
       config.channel_token = @channel_access_token
     }
     response = client.reply_message(data["replyToken"], message)
