@@ -22,8 +22,16 @@ class WebhookController < ApplicationController
     case event_type
     when "message"
       input_text = event["message"]["text"]
+      if input_text == "change-to-char" then
+        @@behind_text = "チャー"
+        output_text = "チャーに切替"
+      elsif input_text == "change-to-masa" then
+        @@behind_text = "まさ"
+        output_text = "まさに切替"
+      else
       # output_text = input_text
-      output_text = input_text + @@behind_text
+        output_text = input_text + @@behind_text
+      end
     end
 
     client = LineClient.new(CHANNEL_SECRET, CHANNEL_ACCESS_TOKEN, OUTBOUND_PROXY)
