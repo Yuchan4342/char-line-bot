@@ -26,15 +26,15 @@ class WebhookController < ApplicationController
       input_text = event["message"]["text"]
       if input_text == "change-to-char" then
         # @@behind_text = "チャー"
-        masa_array.delete(userId)
+        @@masa_array.delete(userId)
         output_text = "チャーに切替"
       elsif input_text == "change-to-masa" then
         # @@behind_text = "まさ"
-        masa_array << userId
+        @@masa_array << userId
         output_text = "まさに切替"
       else
       # output_text = input_text
-        if masa_array.include?(userId) then
+        if @@masa_array.include?(userId) then
           output_text = input_text + "まさ"
         else
           output_text = input_text + "チャー"
