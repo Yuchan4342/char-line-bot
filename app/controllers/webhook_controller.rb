@@ -9,6 +9,7 @@ class WebhookController < ApplicationController
   CHANNEL_ACCESS_TOKEN = ENV['LINE_CHANNEL_TOKEN']
   
   @@behind_text = "チャー"
+  @@masa_array = []
 
   def callback
     unless is_validate_signature
@@ -18,19 +19,26 @@ class WebhookController < ApplicationController
     event = params["events"][0]
     event_type = event["type"]
     replyToken = event["replyToken"]
+    userid = event["source"]["userId"]
 
     case event_type
     when "message"
       input_text = event["message"]["text"]
       if input_text == "change-to-char" then
-        @@behind_text = "チャー"
+        # @@behind_text = "チャー"
+        masa_array.delete(userId)
         output_text = "チャーに切替"
       elsif input_text == "change-to-masa" then
-        @@behind_text = "まさ"
+        # @@behind_text = "まさ"
+        masa_array << userId
         output_text = "まさに切替"
       else
       # output_text = input_text
-        output_text = input_text + @@behind_text
+        if masa_array.include?(userId) then
+          output_text = input_text + "まさ"
+        else
+          output_text = input_text + "チャー"
+        end
       end
     end
 
