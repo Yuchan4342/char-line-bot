@@ -18,8 +18,7 @@ class WebhookController < ApplicationController
     replyToken = event["replyToken"]
 
     case event_type
-    # when "message"
-    when Line::Bot::Event::MessageType::Text
+    when "message"
       input_text = event["message"]["text"]
       # output_text = input_text
       output_text = input_text + "チャー"
