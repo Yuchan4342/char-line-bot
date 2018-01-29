@@ -19,7 +19,7 @@ class WebhookController < ApplicationController
 
     case event_type
     # when "message"
-    when Line::Bot::Event::Message
+    when Line::Bot::Event::MessageType::Text
       input_text = event["message"]["text"]
       # output_text = input_text
       output_text = input_text + "チャー"
