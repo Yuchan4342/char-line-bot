@@ -8,7 +8,7 @@ class WebhookController < ApplicationController
   OUTBOUND_PROXY = ENV['OUTBOUND_PROXY']
   CHANNEL_ACCESS_TOKEN = ENV['LINE_CHANNEL_TOKEN']
   
-  behind_s = "チャー"
+  @behind_text = "チャー"
 
   def callback
     unless is_validate_signature
@@ -23,7 +23,7 @@ class WebhookController < ApplicationController
     when "message"
       input_text = event["message"]["text"]
       # output_text = input_text
-      output_text = input_text + behind_s
+      output_text = input_text + @behind_text
     end
 
     client = LineClient.new(CHANNEL_SECRET, CHANNEL_ACCESS_TOKEN, OUTBOUND_PROXY)
