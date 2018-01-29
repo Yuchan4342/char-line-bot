@@ -1,5 +1,6 @@
+require 'line/bot'
+
 class WebhookController < ApplicationController
-  require 'line/bot'
   # Lineからのcallbackか認証
   protect_from_forgery with: :null_session
 
@@ -17,7 +18,8 @@ class WebhookController < ApplicationController
     replyToken = event["replyToken"]
 
     case event_type
-    when "message"
+    # when "message"
+    when Line::Bot::Event::Message
       input_text = event["message"]["text"]
       # output_text = input_text
       output_text = input_text + "チャー"
