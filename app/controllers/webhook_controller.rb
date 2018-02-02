@@ -20,6 +20,21 @@ class WebhookController < ApplicationController
     event_type = event["type"]
     replyToken = event["replyToken"]
     userId = event["source"]["userId"]
+    richmenuId = "richmenu-5e4f503e24c38bf827f06da87e398c6e"
+    
+    # show user rich menu
+    uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{richmenuId}")
+    header = {'Authorization': "Bearer #{CHANNEL_ACCESS_TOKEN}"}
+    
+    req = Net::HTTP::Post.new(uri.path, header)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    
+    res = http.start do |http|
+        http.request(req)
+    end
+    puts res.code
+    puts res.body
 
     case event_type
     when "message"
