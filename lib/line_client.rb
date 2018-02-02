@@ -1,5 +1,3 @@
-require 'line/bot'
-
 class LineClient
   END_POINT = "https://api.line.me"
 
@@ -10,29 +8,28 @@ class LineClient
   end
 
   def post(path, data)
-#    client = Faraday.new(:url => END_POINT) do |conn|
-#      conn.request :json
-#      conn.response :json, :content_type => /\bjson$/
-#      conn.adapter Faraday.default_adapter
-#      conn.proxy @proxy
-#    end
-#
-#    res = client.post do |request|
-#      request.url path
-#      request.headers = {
-#        'Content-type' => 'application/json',
-#        'Authorization' => "Bearer #{@channel_access_token}"
-#      }
-#      request.body = data
-#    end
-#    res
-     client = Line::Bot::Client.new { |config|
-       config.channel_secret = @channel_secret
-       config.channel_token = @channel_access_token
-     }
-     response = client.reply_message(data["replyToken"], data["messages"])
-#     p response
-     response
+    client = Faraday.new(:url => END_POINT) do |conn|
+      conn.request :json
+      conn.response :json, :content_type => /\bjson$/
+      conn.adapter Faraday.default_adapter
+      conn.proxy @proxy
+    end
+
+    res = client.post do |request|
+      request.url path
+      request.headers = {
+        'Content-type' => 'application/json',
+        'Authorization' => "Bearer #{@channel_access_token}"
+      }
+      request.body = data
+    end
+    res
+    # client = Line::Bot::Client.new { |config|
+    #   config.channel_secret = @channel_secret
+    #   config.channel_token = @channel_access_token
+    # }
+    # response = client.reply_message(data["replyToken"], data["messages"])
+    # p response
   end
 
   def reply(replyToken, text)

@@ -60,11 +60,11 @@ class WebhookController < ApplicationController
     client = LineClient.new(CHANNEL_SECRET, CHANNEL_ACCESS_TOKEN, OUTBOUND_PROXY)
     res = client.reply(replyToken, output_text)
 
-#    if res.status == 200
-#      logger.info({success: res})
-#    else
-#      logger.info({fail: res})
-#    end
+    if res.status == 200
+      logger.info({success: res})
+    else
+      logger.info({fail: res})
+    end
 
     render :nothing => true, status: :ok
   end
