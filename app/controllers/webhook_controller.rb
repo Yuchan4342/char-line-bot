@@ -65,6 +65,13 @@ class WebhookController < ApplicationController
     else
       logger.info({fail: res})
     end
+    
+    # 初期認証用コード
+    puts <<EOF
+    Content-type: text/html
+    
+    linebot
+    EOF
 
     render :nothing => true, status: :ok
   end
