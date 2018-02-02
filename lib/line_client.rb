@@ -1,3 +1,5 @@
+require 'line/bot'
+
 class LineClient
   END_POINT = "https://api.line.me"
 
