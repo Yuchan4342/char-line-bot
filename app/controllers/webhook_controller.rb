@@ -1,72 +1,40 @@
-require 'line/bot'
-
 class WebhookController < ApplicationController
-  # Lineからのcallbackか認証
-  protect_from_forgery with: :null_session
+  require 'line/bot'  # gem 'line-bot-api'
 
-  CHANNEL_SECRET = ENV['LINE_CHANNEL_SECRET']
-  OUTBOUND_PROXY = ENV['OUTBOUND_PROXY']
-  CHANNEL_ACCESS_TOKEN = ENV['LINE_CHANNEL_TOKEN']
-  RICHMENU_ID = ENV['RICHMENU_ID']
-  
-  @@behind_text = "チャー"
-  @@masa_array = []
+  # callbackアクションのCSRFトークン認証を無効
+  protect_from_forgery :except => [:callback]
+
+  def client
+    @client ||= Line::Bot::Client.new { |config|
+      config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
+      config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
+    }
+  end
 
   def callback
-    unless is_validate_signature
-      render :nothing => true, status: 470
+    body = request.body.read
+
+    signature = request.env['HTTP_X_LINE_SIGNATURE']
+    unless client.validate_signature(body, signature)
+      error 400 do 'Bad Request' end
     end
 
-    event = params["events"][0]
-    event_type = event["type"]
-    replyToken = event["replyToken"]
-    userId = event["source"]["userId"]
-    
-    # show user rich menu
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
-    header = {'Authorization': "Bearer #{CHANNEL_ACCESS_TOKEN}"}
-    
-    req = Net::HTTP::Post.new(uri.path, header)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    
-    res = http.start do |http|
-        http.request(req)
-    end
-    puts res.code
-    puts res.body
+    events = client.parse_events_from(body)
 
-    case event_type
-    when "message"
-      input_text = event["message"]["text"]
-      if input_text == "change-to-char" then
-        # @@behind_text = "チャー"
-        @@masa_array.delete(userId)
-        output_text = "チャーに切替"
-      elsif input_text == "change-to-masa" then
-        # @@behind_text = "まさ"
-        @@masa_array << userId
-        output_text = "まさに切替"
-      else
-      # output_text = input_text
-        if @@masa_array.include?(userId) then
-          output_text = input_text + "まさ"
-        else
-          output_text = input_text + "チャー"
+    events.each { |event|
+      case event
+      when Line::Bot::Event::Message
+        case event.type
+        when Line::Bot::Event::MessageType::Text
+          message = {
+            type: 'text',
+            text: event.message['text']
+          }
+          client.reply_message(event['replyToken'], message)
         end
       end
-    end
+    }
 
-    client = LineClient.new(CHANNEL_SECRET, CHANNEL_ACCESS_TOKEN, OUTBOUND_PROXY)
-    res = client.reply(replyToken, output_text)
-
-    if res.status == 200
-      logger.info({success: res})
-    else
-      logger.info({fail: res})
-    end
-
-    render :nothing => true, status: :ok
     head :ok
   end
 
