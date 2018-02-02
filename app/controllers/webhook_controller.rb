@@ -7,6 +7,7 @@ class WebhookController < ApplicationController
   CHANNEL_SECRET = ENV['LINE_CHANNEL_SECRET']
   OUTBOUND_PROXY = ENV['OUTBOUND_PROXY']
   CHANNEL_ACCESS_TOKEN = ENV['LINE_CHANNEL_TOKEN']
+  RICHMENU_ID = ENV['RICHMENU_ID']
   
   @@behind_text = "チャー"
   @@masa_array = []
@@ -20,10 +21,9 @@ class WebhookController < ApplicationController
     event_type = event["type"]
     replyToken = event["replyToken"]
     userId = event["source"]["userId"]
-    richmenuId = "richmenu-5e4f503e24c38bf827f06da87e398c6e"
-    
+
     # show user rich menu
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{richmenuId}")
+    uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
     header = {'Authorization': "Bearer #{CHANNEL_ACCESS_TOKEN}"}
     
     req = Net::HTTP::Post.new(uri.path, header)
