@@ -23,6 +23,7 @@ class WebhookController < ApplicationController
     end
 
     events = client.parse_events_from(body)
+    userId = event.source['userId']
 
     events.each { |event|
       case event
@@ -37,7 +38,6 @@ class WebhookController < ApplicationController
             @@masa_array << userId
             output_text = "まさに切替"
           else
-            
             if @@masa_array.include?(userId) then
               output_text = input_text + "まさ"
             else
