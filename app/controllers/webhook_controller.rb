@@ -4,6 +4,7 @@ class WebhookController < ApplicationController
   # callbackアクションのCSRFトークン認証を無効
   protect_from_forgery :except => [:callback]
 
+  # リッチメニューのID設定 
   RICHMENU_ID = ENV['RICHMENU_ID']
 
   @@behind_text = "チャー"
@@ -11,6 +12,7 @@ class WebhookController < ApplicationController
 
   def client
     @client ||= Line::Bot::Client.new { |config|
+      # シークレットとアクセストークンの設定
       config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
       config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
     }
@@ -19,6 +21,7 @@ class WebhookController < ApplicationController
   def callback
     body = request.body.read
 
+    # 署名の検証
     signature = request.env['HTTP_X_LINE_SIGNATURE']
     unless client.validate_signature(body, signature)
       error 400 do 'Bad Request' end
@@ -29,7 +32,7 @@ class WebhookController < ApplicationController
     events.each { |event|
       userId = event['source']['userId']
 
-      # show user rich menu
+      # 送信ユーザとリッチメニューをリンクする
       uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
       header = {'Authorization': "Bearer #{@client.channel_token}"}
 
@@ -44,9 +47,9 @@ class WebhookController < ApplicationController
       puts "#{res.code} #{res.body}"
 
       case event
-      when Line::Bot::Event::Message
+      when Line::Bot::Event::Message # message event  
         case event.type
-        when Line::Bot::Event::MessageType::Text
+        when Line::Bot::Event::MessageType::Text # テキスト
           input_text = event.message['text']
           if input_text == "change-to-char" then
             @@masa_array.delete(userId)
@@ -65,6 +68,7 @@ class WebhookController < ApplicationController
             type: 'text',
             text:  output_text
           }
+          # 送信
           puts "Send #{message}"
           client.reply_message(event['replyToken'], message)
         end
@@ -72,15 +76,5 @@ class WebhookController < ApplicationController
     }
 
     head :ok
-  end
-
-  private
-  # verify access from LINE
-  def is_validate_signature
-    signature = request.headers["X-Line-Signature"]
-    http_request_body = request.raw_post
-    hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, CHANNEL_SECRET, http_request_body)
-    signature_answer = Base64.strict_encode64(hash)
-    signature == signature_answer
   end
 end
