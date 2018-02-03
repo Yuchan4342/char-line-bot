@@ -23,9 +23,9 @@ class WebhookController < ApplicationController
     end
 
     events = client.parse_events_from(body)
-    userId = events.source['userId']
 
     events.each { |event|
+      userId = event.source['userId']
       case event
       when Line::Bot::Event::Message
         case event.type
