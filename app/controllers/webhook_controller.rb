@@ -4,6 +4,8 @@ class WebhookController < ApplicationController
   # callbackアクションのCSRFトークン認証を無効
   protect_from_forgery :except => [:callback]
 
+  RICHMENU_ID = ENV['RICHMENU_ID']
+
   @@behind_text = "チャー"
   @@masa_array = []
 
@@ -23,7 +25,6 @@ class WebhookController < ApplicationController
     end
 
     events = client.parse_events_from(body)
-    RICHMENU_ID = ENV['RICHMENU_ID']
 
     events.each { |event|
       userId = event['source']['userId']
