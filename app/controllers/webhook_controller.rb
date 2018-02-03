@@ -27,9 +27,10 @@ class WebhookController < ApplicationController
 
     events.each { |event|
       userId = event['source']['userId']
+
       # show user rich menu
       uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
-      header = {'Authorization': "Bearer #{CHANNEL_ACCESS_TOKEN}"}
+      header = {'Authorization': "Bearer #{@client.channel_token}"}
 
       case event
       when Line::Bot::Event::Message
