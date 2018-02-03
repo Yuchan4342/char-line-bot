@@ -33,6 +33,16 @@ class WebhookController < ApplicationController
       uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
       header = {'Authorization': "Bearer #{@client.channel_token}"}
 
+      req = Net::HTTP::Post.new(uri.path, header)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+    
+      res = http.start do |http|
+        http.request(req)
+      end
+
+      puts "#{res.code} #{res.body}"
+
       case event
       when Line::Bot::Event::Message
         case event.type
