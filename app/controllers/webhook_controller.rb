@@ -23,7 +23,7 @@ class WebhookController < ApplicationController
     end
 
     events = client.parse_events_from(body)
-    userId = event.source['userId']
+    userId = events.source['userId']
 
     events.each { |event|
       case event
