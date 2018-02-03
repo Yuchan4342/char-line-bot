@@ -65,6 +65,7 @@ class WebhookController < ApplicationController
             type: 'text',
             text:  output_text
           }
+          puts "Send #{message}"
           client.reply_message(event['replyToken'], message)
         end
       end
