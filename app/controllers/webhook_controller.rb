@@ -85,6 +85,12 @@ class WebhookController < ApplicationController
           puts "Send #{message}"
           client.reply_message(event['replyToken'], message)
         end
+      when Line::Bot::Event::Follow # follow event
+      	puts "Followed or Unblocked."
+      when Line::Bot::Event::Unfollow # blocked event
+      	puts "Blocked."
+      when Line::Bot::Event::Leave # グループから退出したときのevent
+      	puts "Group left."
       end
     }
 
