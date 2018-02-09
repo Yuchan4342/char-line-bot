@@ -94,6 +94,7 @@ class WebhookController < ApplicationController
             unless webhook.unlinked then
               output_text = "リッチメニューはすでに追加されています。"
             else
+              # 送信ユーザとリッチメニューをリンクする
               webhook.unlinked = false
               webhook.save
               link_menu(userId)
@@ -103,6 +104,7 @@ class WebhookController < ApplicationController
             if webhook.unlinked then
               output_text = "リッチメニューはすでに削除されています。"
             else
+              # リッチメニューとのリンクを削除する
               webhook.unlinked = true
               webhook.save
               unlink_menu(userId)
