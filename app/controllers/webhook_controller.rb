@@ -36,7 +36,7 @@ class WebhookController < ApplicationController
         puts "New User."
         # 送信ユーザとリッチメニューをリンクする
         uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
-        header = {'Authorization': "Bearer #{@client.channel_token}"}
+        header = {'Authorization': "Bearer #{client.channel_token}"}
 
         req = Net::HTTP::Post.new(uri.path, header)
         http = Net::HTTP.new(uri.host, uri.port)
