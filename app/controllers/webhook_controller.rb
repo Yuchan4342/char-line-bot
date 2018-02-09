@@ -7,9 +7,6 @@ class WebhookController < ApplicationController
   # リッチメニューのID設定 
   RICHMENU_ID = ENV['RICHMENU_ID']
 
-  @@behind_text = "チャー"
-  @@masa_array = []
-
   def client
     @client ||= Line::Bot::Client.new { |config|
       # シークレットとアクセストークンの設定
@@ -67,15 +64,12 @@ class WebhookController < ApplicationController
           if input_text == "change-to-char" then
             @webhook.masa = false
             @webhook.save
-            # @@masa_array.delete(userId)
             output_text = "チャーに切替"
           elsif input_text == "change-to-masa" then
             @webhook.masa = true
             @webhook.save
-            # @@masa_array << userId
             output_text = "まさに切替"
           else
-            # if @@masa_array.include?(userId) then
             if @webhook.masa then
               output_text = input_text + "まさ"
             else
