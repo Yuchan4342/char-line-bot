@@ -32,16 +32,20 @@ class WebhookController < ApplicationController
     events.each { |event|
       userId = event['source']['userId']
 
-      # 送信ユーザとリッチメニューをリンクする
-      uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
-      header = {'Authorization': "Bearer #{@client.channel_token}"}
+      if Webhook.find_by(user_id: userId)
+        
+      else
+        # 送信ユーザとリッチメニューをリンクする
+        uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
+        header = {'Authorization': "Bearer #{@client.channel_token}"}
 
-      req = Net::HTTP::Post.new(uri.path, header)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-    
-      res = http.start do |http|
-        http.request(req)
+        req = Net::HTTP::Post.new(uri.path, header)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
+      
+        res = http.start do |http|
+          http.request(req)
+        end
       end
 
       puts "#{res.code} #{res.body}"
