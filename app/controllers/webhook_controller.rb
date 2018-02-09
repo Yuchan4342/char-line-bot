@@ -50,7 +50,7 @@ class WebhookController < ApplicationController
 
         # ユーザIDをデータベースに追加する
         wh = Webhook.new
-        wh.type = event['source']['type']
+        wh.talk_type = event['source']['type']
         wh.user_id = userId
         wh.masa = false
         wh.save
