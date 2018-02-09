@@ -34,7 +34,7 @@ class WebhookController < ApplicationController
 
       # ユーザIDがデータベースに追加されているかどうか  
       if Webhook.find_by(user_id: userId)
-        
+
       else
         # 送信ユーザとリッチメニューをリンクする
         uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
@@ -52,6 +52,7 @@ class WebhookController < ApplicationController
         wh = Webhook.new
         wh.type = event['source']['type']
         wh.user_id = userId
+        wh.masa = false
         wh.save
       end
 
