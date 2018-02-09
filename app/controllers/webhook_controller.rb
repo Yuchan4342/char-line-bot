@@ -15,6 +15,22 @@ class WebhookController < ApplicationController
     }
   end
 
+  # 送信ユーザとリッチメニューをリンクする
+  def link_menu (userId)
+    uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
+    header = {'Authorization': "Bearer #{client.channel_token}"}
+
+    req = Net::HTTP::Post.new(uri.path, header)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+      
+    res = http.start do |http|
+      http.request(req)
+    end
+    
+    puts "#{res.code} #{res.body}"
+  end
+
   def callback
     body = request.body.read
 
@@ -35,18 +51,7 @@ class WebhookController < ApplicationController
       else
         puts "New User."
         # 送信ユーザとリッチメニューをリンクする
-        uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
-        header = {'Authorization': "Bearer #{client.channel_token}"}
-
-        req = Net::HTTP::Post.new(uri.path, header)
-        http = Net::HTTP.new(uri.host, uri.port)
-        http.use_ssl = true
-      
-        res = http.start do |http|
-          http.request(req)
-        end
-
-        puts "#{res.code} #{res.body}"
+        link_menu(userId)
 
         # ユーザIDをデータベースに追加する
         wh = Webhook.new
@@ -86,6 +91,8 @@ class WebhookController < ApplicationController
           client.reply_message(event['replyToken'], message)
         end
       when Line::Bot::Event::Follow # follow event
+        # 送信ユーザとリッチメニューをリンクする
+        link_menu(userId)
       	puts "Followed or Unblocked."
       when Line::Bot::Event::Unfollow # blocked event
       	puts "Blocked."
