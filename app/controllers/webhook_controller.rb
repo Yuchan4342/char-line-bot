@@ -17,15 +17,18 @@ class WebhookController < ApplicationController
 
   # 送信ユーザとリッチメニューをリンクする
   def link_menu (userId)
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
-    header = {'Authorization': "Bearer #{client.channel_token}"}
+    wh = Webhook.find_by(user_id: userId)
+    unless wh.unlinked
+      uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
+      header = {'Authorization': "Bearer #{client.channel_token}"}
 
-    req = Net::HTTP::Post.new(uri.path, header)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
+      req = Net::HTTP::Post.new(uri.path, header)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
       
-    res = http.start do |http|
-      http.request(req)
+      res = http.start do |http|
+        http.request(req)
+      end
     end
     puts "Linked. #{res.code} #{res.body}"
   end
@@ -87,7 +90,14 @@ class WebhookController < ApplicationController
             webhook.masa = true
             webhook.save
             output_text = "まさに切替"
+          elsif input_text == "メニュー追加" then
+            webhook = false
+            webhook.save
+            link_menu(userId)
+            output_text = "リッチメニューを追加しました。"
           elsif input_text == "メニュー削除" then
+            webhook = true
+            webhook.save
             unlink_menu(userId)
             output_text = "リッチメニューを削除しました。"
           else
