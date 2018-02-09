@@ -94,12 +94,12 @@ class WebhookController < ApplicationController
             webhook.unlinked = false
             webhook.save
             link_menu(userId)
-            output_text = "リッチメニューを追加しました。"
+            output_text = "リッチメニューを追加しました。\n追加したいときは「メニュー削除」と送ってください。"
           elsif input_text == "メニュー削除" then
             webhook.unlinked = true
             webhook.save
             unlink_menu(userId)
-            output_text = "リッチメニューを削除しました。"
+            output_text = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
           else
             output_text = input_text + (webhook.masa ? "まさ" : "チャー")
           end
