@@ -31,7 +31,7 @@ class WebhookController < ApplicationController
   end
 
   def unlink_menu (userId)
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
+    uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu")
     header = {'Authorization': "Bearer #{client.channel_token}"}
 
     req = Net::HTTP::Delete.new(uri.path, header)
