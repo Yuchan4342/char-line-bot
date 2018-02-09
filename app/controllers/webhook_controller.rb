@@ -88,7 +88,7 @@ class WebhookController < ApplicationController
             webhook.save
             output_text = "まさに切替"
           elsif input_text == "メニュー削除" then
-            unlink_menu
+            unlink_menu(userId)
             output_text = "リッチメニューを削除しました。"
           else
             output_text = input_text + webhook.masa ? "まさ" : "チャー"
