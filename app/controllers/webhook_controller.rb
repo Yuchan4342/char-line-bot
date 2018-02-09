@@ -27,7 +27,20 @@ class WebhookController < ApplicationController
     res = http.start do |http|
       http.request(req)
     end
-    
+    puts "#{res.code} #{res.body}"
+  end
+
+  def unlink_menu (userId)
+    uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
+    header = {'Authorization': "Bearer #{client.channel_token}"}
+
+    req = Net::HTTP::Delete.new(uri.path, header)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+      
+    res = http.start do |http|
+      http.request(req)
+    end
     puts "#{res.code} #{res.body}"
   end
 
@@ -74,6 +87,9 @@ class WebhookController < ApplicationController
             webhook.masa = true
             webhook.save
             output_text = "まさに切替"
+          elsif input_text == "メニュー削除" then
+            unlink_menu
+            output_text = "リッチメニューを削除しました。"
           else
             output_text = input_text + webhook.masa ? "まさ" : "チャー"
           end
@@ -99,6 +115,7 @@ class WebhookController < ApplicationController
         link_menu(userId)
       	puts "Followed or Unblocked."
       when Line::Bot::Event::Unfollow # blocked event
+        unlink_menu(userId)
       	puts "Blocked."
       when Line::Bot::Event::Leave # グループから退出したときのevent
       	puts "Group left."
