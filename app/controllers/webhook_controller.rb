@@ -91,7 +91,7 @@ class WebhookController < ApplicationController
             unlink_menu(userId)
             output_text = "リッチメニューを削除しました。"
           else
-            output_text = input_text + webhook.masa ? "まさ" : "チャー"
+            output_text = input_text + (webhook.masa ? "まさ" : "チャー")
           end
           message = {
             type: 'text',
