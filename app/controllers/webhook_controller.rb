@@ -98,6 +98,7 @@ class WebhookController < ApplicationController
               webhook.save
               link_menu(userId)
               output_text = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
+            end
           elsif input_text == "メニュー削除" then
             if webhook.unlinked then
               output_text = "リッチメニューはすでに削除されています。"
