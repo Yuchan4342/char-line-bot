@@ -85,6 +85,7 @@ class WebhookController < ApplicationController
           puts "Send #{message}"
           client.reply_message(event['replyToken'], message)
         when Line::Bot::Event::MessageType::Sticker # スタンプ
+          webhook = Webhook.find_by(user_id: userId)
           output_text = "おもしろいスタンプだ" + (webhook.masa ? "まさ" : "チャー") + "！"
           message = {
             type: 'text',
