@@ -48,14 +48,14 @@ class WebhookController < ApplicationController
           http.request(req)
         end
 
+        puts "#{res.code} #{res.body}"
+
         # ユーザIDをデータベースに追加する
         wh = Webhook.new
         wh.type = event['source']['type']
         wh.user_id = userId
         wh.masa = false
         wh.save
-
-        puts "#{res.code} #{res.body}"
       end
 
       case event
