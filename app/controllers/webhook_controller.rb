@@ -91,12 +91,12 @@ class WebhookController < ApplicationController
             webhook.save
             output_text = "まさに切替"
           elsif input_text == "メニュー追加" then
-            webhook = false
+            webhook.unlinked = false
             webhook.save
             link_menu(userId)
             output_text = "リッチメニューを追加しました。"
           elsif input_text == "メニュー削除" then
-            webhook = true
+            webhook.unlinked = true
             webhook.save
             unlink_menu(userId)
             output_text = "リッチメニューを削除しました。"
