@@ -27,7 +27,7 @@ class WebhookController < ApplicationController
     res = http.start do |http|
       http.request(req)
     end
-    puts "#{res.code} #{res.body}"
+    puts "Linked. #{res.code} #{res.body}"
   end
 
   def unlink_menu (userId)
@@ -41,7 +41,7 @@ class WebhookController < ApplicationController
     res = http.start do |http|
       http.request(req)
     end
-    puts "#{res.code} #{res.body}"
+    puts "Link deleted. #{res.code} #{res.body}"
   end
 
   def callback
