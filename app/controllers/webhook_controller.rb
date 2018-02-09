@@ -64,15 +64,15 @@ class WebhookController < ApplicationController
         when Line::Bot::Event::MessageType::Text # テキスト
           input_text = event.message['text']
           if input_text == "change-to-char" then
-            @webhook = Webhook.find_by(user_id: userId)
-            @webhook.masa = false
-            @webhook.save
+            # @webhook = Webhook.find_by(user_id: userId)
+            # @webhook.masa = false
+            # @webhook.save
             @@masa_array.delete(userId)
             output_text = "チャーに切替"
           elsif input_text == "change-to-masa" then
-            @webhook = Webhook.find_by(user_id: userId)
-            @webhook.masa = true
-            @webhook.save
+            # @webhook = Webhook.find_by(user_id: userId)
+            # @webhook.masa = true
+            # @webhook.save
             @@masa_array << userId
             output_text = "まさに切替"
           else
