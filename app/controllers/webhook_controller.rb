@@ -50,9 +50,6 @@ class WebhookController < ApplicationController
         puts "This user id is always registered in this database."
       else
         puts "New User."
-        # 送信ユーザとリッチメニューをリンクする
-        link_menu(userId)
-
         # ユーザIDをデータベースに追加する
         wh = Webhook.new
         wh.talk_type = event['source']['type']
@@ -62,31 +59,37 @@ class WebhookController < ApplicationController
       end
 
       case event
-      when Line::Bot::Event::Message # message event  
+      when Line::Bot::Event::Message # message event
+        # 送信ユーザとリッチメニューをリンクする
+        link_menu(userId)
         case event.type
         when Line::Bot::Event::MessageType::Text # テキスト
           input_text = event.message['text']
-          @webhook = Webhook.find_by(user_id: userId)
+          webhook = Webhook.find_by(user_id: userId)
           if input_text == "change-to-char" then
-            @webhook.masa = false
-            @webhook.save
+            webhook.masa = false
+            webhook.save
             output_text = "チャーに切替"
           elsif input_text == "change-to-masa" then
-            @webhook.masa = true
-            @webhook.save
+            webhook.masa = true
+            webhook.save
             output_text = "まさに切替"
           else
-            if @webhook.masa then
-              output_text = input_text + "まさ"
-            else
-              output_text = input_text + "チャー"
-            end
+            output_text = input_text + webhook.masa ? "まさ" : "チャー"
           end
           message = {
             type: 'text',
             text:  output_text
           }
           # 送信
+          puts "Send #{message}"
+          client.reply_message(event['replyToken'], message)
+        when Line::Bot::Event::MessageType::Sticker # スタンプ
+          output_text = "おもしろいスタンプだ" + webhook.masa ? "まさ" : "チャー" + "！"
+          message = {
+            type: 'text',
+            text:  output_text
+          }
           puts "Send #{message}"
           client.reply_message(event['replyToken'], message)
         end
