@@ -144,4 +144,7 @@ class WebhookController < ApplicationController
 
     head :ok
   end
+
+  def index
+  end
 end
