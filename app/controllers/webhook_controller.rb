@@ -63,7 +63,7 @@ class WebhookController < ApplicationController
 
       # ユーザIDがデータベースに追加されているかどうか  
       if Webhook.find_by(user_id: userId) then
-        puts "This user id is always registered in this database."
+        puts "Registered User."
       else
         puts "New User."
         # ユーザIDをデータベースに追加する
@@ -94,7 +94,7 @@ class WebhookController < ApplicationController
             webhook.unlinked = false
             webhook.save
             link_menu(userId)
-            output_text = "リッチメニューを追加しました。\n追加したいときは「メニュー削除」と送ってください。"
+            output_text = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
           elsif input_text == "メニュー削除" then
             webhook.unlinked = true
             webhook.save
