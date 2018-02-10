@@ -13,3 +13,8 @@
  *= require_tree .
  *= require_self
  */
+
+ body {
+     font-family: Verdana, sans-serif;
+     font-size: 14px;
+ }
