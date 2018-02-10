@@ -14,14 +14,19 @@
  *= require_self
  */
 
- body {
-     font-family: Verdana, sans-serif;
-     font-size: 14px;
+.container {
+     width: 400px;
+     margin: 20px auto;
  }
 
- h1 {
-     font-size: 18px;
-     padding-bottom: 16px;
-     margin: 15px;
-     border-bottom: 1px solid #ddd;
- }
+body {
+  font-family: Verdana, sans-serif;
+  font-size: 14px;
+}
+
+h1 {
+  font-size: 18px;
+  padding-bottom: 16px;
+  margin: 15px;
+  border-bottom: 1px solid #ddd;
+}
