@@ -71,6 +71,7 @@ class WebhookController < ApplicationController
         wh.talk_type = event['source']['type']
         wh.user_id = userId
         wh.masa = false
+        wh.unlinked = false
         wh.save
       end
 
