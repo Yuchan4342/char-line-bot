@@ -27,7 +27,7 @@ body {
 
 h1 {
   font-size: 18px;
-  line-height: 1.3em;
+  /* line-height: 1.3em; */
   padding-bottom: 16px;
   /* margin: 15px; */
   border-bottom: 1px solid #ddd;
