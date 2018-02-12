@@ -15,9 +15,9 @@
  */
 
 .container {
-     width: 750px;
-     margin: 20px auto;
- }
+  width: 750px;
+  margin: 20px auto;
+}
 
 body {
   font-family: Verdana, sans-serif;
@@ -31,8 +31,4 @@ h1 {
   padding-bottom: 16px;
   margin: 15px;
   border-bottom: 1px solid #ddd;
-}
-
-p {
-  margin-bottom: 2px;
 }
