@@ -1,16 +1,20 @@
 <!-- <h1>Webhook#index</h1> -->
 <!-- <p>Find me in app/views/webhook/index.html.erb</p> -->
 <h1>おチャーbot</h1>
+
 <p>
 このLINE botはあなたのメッセージの後ろに「チャー」をつけて返します！<br>
 友だち登録はこちら！↓↓↓
 </p>
+
 <p>
 LINE ID:
-<!-- コピー対象 -->
 <span id="line-id">@ido0212s</span>
 <!-- コピーボタン -->
 <button class="btn" data-clipboard-target="#line-id">Copy</button>
+</p>
+
+<!-- コピーボタンの実装JS -->
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.3/clipboard.min.js"></script>
 <script>
@@ -21,13 +25,14 @@ LINE ID:
     });
   });
 </script>
-</p>
+
 <p>
 <a href="https://line.me/R/ti/p/%40ido0212s">
 <img height="36" border="0" alt="友だち追加" src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png">
 </a>
 </p>
+
 <p>
-QRコード↓<br>
-<img src="http://qr-official.line.me/L/-g-rxQQgVQ.png">
+<div>QRコード↓</div>
+<img id="qr" src="http://qr-official.line.me/L/-g-rxQQgVQ.png">
 </p>
