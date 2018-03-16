@@ -21,8 +21,15 @@
 }
 
 .header {
-    height: 120px;
+    height: 80px;
     border-bottom: 1px solid #ddd;
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    float: left;
+    vertical-align: center;
 }
 
 body {
@@ -31,15 +38,9 @@ body {
   line-height: 1.5em;
 }
 
-.logo {
-    width: 100px;
-    height: 100px;
-    float: left;
-}
-
 h1 {
-  font-size: 30px;
-  padding-bottom: 16px;
+  font-size: 40px;
+  vertical-align: center;
 }
 
 #qr {
