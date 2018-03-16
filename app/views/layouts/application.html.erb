@@ -12,7 +12,9 @@
   </head>
 
   <body>
-    <h1><%= link_to image_tag('logo.png', class: 'logo'), root_path %></h1>
+    <div class="header">
+    <%= link_to image_tag('logo.png', class: 'logo'), root_path %>
+    </div>
     <div class="container">
     <%= yield %>
     </div>

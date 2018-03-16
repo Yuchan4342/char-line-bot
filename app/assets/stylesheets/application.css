@@ -26,6 +26,11 @@ body {
   line-height: 1.5em;
 }
 
+.logo {
+    width: 140px;
+    height: 140px;
+}
+
 h1 {
   font-size: 30px;
   /* line-height: 1.3em; */
