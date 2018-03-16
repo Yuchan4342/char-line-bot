@@ -14,10 +14,14 @@
  *= require_self
  */
 
-.container {
+.container, .header {
   width: 90%;
   max-width: 750px;
   margin: 20px auto;
+}
+
+.header {
+  height: 150px;
 }
 
 body {
