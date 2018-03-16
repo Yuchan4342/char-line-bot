@@ -15,13 +15,14 @@
  */
 
 .container, .header {
-  width: 90%;
-  max-width: 750px;
-  margin: 20px auto;
+    width: 90%;
+    max-width: 750px;
+    margin: 20px auto;
 }
 
 .header {
-  height: 150px;
+    height: 120px;
+    border-bottom: 1px solid #ddd;
 }
 
 body {
@@ -31,16 +32,13 @@ body {
 }
 
 .logo {
-    width: 140px;
-    height: 140px;
+    width: 100px;
+    height: 100px;
 }
 
 h1 {
   font-size: 30px;
-  /* line-height: 1.3em; */
   padding-bottom: 16px;
-  /* margin: 15px; */
-  border-bottom: 1px solid #ddd;
 }
 
 #qr {
