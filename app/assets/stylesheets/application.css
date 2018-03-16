@@ -17,12 +17,15 @@
 .container, .header {
     width: 90%;
     max-width: 750px;
-    margin: 20px auto;
 }
 
 .header {
-    height: 70px;
+    height: 69px;
     border-bottom: 1px solid #ddd;
+}
+
+.container {
+    margin: 20px auto;
 }
 
 .logo {
