@@ -29,7 +29,7 @@
     width: 60px;
     height: 60px;
     float: left;
-    vertical-align: center;
+    margin-top: 25px;
 }
 
 body {
@@ -41,7 +41,6 @@ body {
 h1 {
   font-size: 30px;
   margin-left: 10px;
-  margin-top: 30px;
   margin-bottom: 10px;
 }
 
