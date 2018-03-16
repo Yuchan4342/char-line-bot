@@ -14,7 +14,7 @@
  *= require_self
  */
 
-.header {
+h1.header {
     width: 90%;
     max-width: 750px;
     margin: 10px auto;
