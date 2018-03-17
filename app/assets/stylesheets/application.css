@@ -40,19 +40,13 @@ h1.header {
 body {
   font-family: Verdana, sans-serif;
   font-size: 16px;
-  margin: 0px;
-  padding: 0px;
-  line-height: 1.5em;
-  background-color: #CCFFCC;
-}
-
-div.body {
   width: 90%;
   max-width: 750px;
-  padding: 0px 10px auto;
   border-left:  1px solid #000;
   border-right: 1px solid #000;
-  background-color: #FFF;
+  line-height: 1.5em;
+  background-color: #CCFFCC;
+  color: #eee;
 }
 
 #qr {
