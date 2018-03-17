@@ -16,7 +16,7 @@
 
 .header {
     height: 69px;
-    padding: 0px 9px;
+    padding: 10px 9px;
     margin: 0px 0px 10px;
     border-bottom: 1px solid #ddd;
 }
@@ -44,7 +44,6 @@ body {
   width: 90%;
   max-width: 750px;
   margin: 0px auto;
-  padding: 10px auto;
   border-left:  1px solid #000;
   border-right: 1px solid #000;
   line-height: 1.5em;
