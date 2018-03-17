@@ -62,7 +62,7 @@ body {
 .btn1 {
   margin: 0 auto;
   width: 60px;
-  padding: 5px;
+  padding: 3px;
   border-radius: 3px;
   background: #008800; /* ボタン色 */
   box-shadow: 0 4px 0 #004400;
@@ -75,7 +75,7 @@ body {
 }
 
 .btn1:active { /* ボタンを押したとき */
-  margin-top: 12px;
+  margin-top: 2px;
   box-shadow: 0 2px 0 #004400;
 }
 
