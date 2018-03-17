@@ -60,13 +60,14 @@ body {
 }
 
 .btn1 {
-  display: inline-block;
-  padding: 0.5em 1em;
-  text-decoration: none;
-  background: #005500; /* ボタン色 */
-  color: #FFF;
-  box-shadow: 0 4px 0 #003300;
+  margin: 0 auto;
+  width: 60px;
+  padding: 5px;
   border-radius: 3px;
+  background: #008800; /* ボタン色 */
+  box-shadow: 0 4px 0 #004400;
+  color: #FFF;
+  cursor: pointer;
 }
 
 .btn1:hover { /* カーソルが載ったとき */
@@ -74,10 +75,8 @@ body {
 }
 
 .btn1:active { /* ボタンを押したとき */
-  -ms-transform: translateY(4px);
-  -webkit-transform: translateY(4px);
-  transform: translateY(4px); /*下に動く*/
-  border-bottom: none; /*線を消す*/
+  margin-top: 12px;
+  box-shadow: 0 2px 0 #004400;
 }
 
 #site-title {
