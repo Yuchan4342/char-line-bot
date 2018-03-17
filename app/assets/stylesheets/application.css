@@ -47,6 +47,10 @@ body {
   background-color: #CCFFCC;
 }
 
+.body1 {
+  background-color: #FFF;
+}
+
 #qr {
   width: 100%;
   max-width: 360px;
