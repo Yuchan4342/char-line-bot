@@ -65,7 +65,7 @@ body {
   padding: 3px;
   border-radius: 3px;
   background: #008800; /* ボタン色 */
-  box-shadow: 0 4px 0 #004400;
+  /* box-shadow: 0 4px 0 #004400; */
   color: #FFF;
   cursor: pointer;
 }
@@ -75,8 +75,8 @@ body {
 }
 
 .btn1:active { /* ボタンを押したとき */
-  margin-top: 2px;
-  box-shadow: 0 2px 0 #004400;
+  /* margin-top: 2px; */
+  /* box-shadow: 0 2px 0 #004400; */
 }
 
 #site-title {
