@@ -14,16 +14,16 @@
  *= require_self
  */
 
-h1.header {
+.header {
     height: 69px;
-    padding: 0px 5px;
+    padding: 0px 9px;
     margin: 0px;
     border-bottom: 1px solid #ddd;
 }
 
 .container {
-    margin: 20px auto;
-    margin-bottom: 0px;
+    padding: 0px 9px;
+    margin: 20px auto 0px;
 }
 
 .logo {
