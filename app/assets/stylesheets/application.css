@@ -14,40 +14,41 @@
  *= require_self
  */
 
-.header {
-    height: 69px;
-    padding: 10px 9px;
-    margin: 0px 0px 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.container {
-    padding: 0px 14px;
-    margin: 0px auto;
-}
-
-.logo {
-    width: 60px;
-    height: 60px;
-    float: left;
-    margin: 5px;
-}
-
-#site-title {
-  font-size: 30px;
-  padding-top: 20px;
-}
-
 body {
   font-family: Verdana, sans-serif;
   font-size: 16px;
   width: 90%;
   max-width: 750px;
+  min-width: 100%;
   margin: 0px auto;
   border-left:  1px solid #000;
   border-right: 1px solid #000;
   line-height: 1.5em;
   background-color: #CCFFCC;
+}
+
+.header {
+  height: 69px;
+  padding: 10px 9px;
+  margin: 0px 0px 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.container {
+  padding: 0px 14px;
+  margin: 0px auto;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  float: left;
+  margin: 5px;
+}
+
+#site-title {
+  font-size: 30px;
+  padding-top: 20px;
 }
 
 p {
