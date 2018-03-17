@@ -31,6 +31,7 @@ body {
 }
 
 .body1 {
+  height: 100%;
   background-color: #fefefe;
 }
 
@@ -55,7 +56,7 @@ body {
 
 #site-title {
   font-size: 30px;
-  padding: auto;
+  padding: 20px auto;
 }
 
 p {
