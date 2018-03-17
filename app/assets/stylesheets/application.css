@@ -46,7 +46,9 @@ body {
 .body {
   width: 90%;
   max-width: 750px;
-  margin: 0px 10px auto;
+  padding: 0px 10px auto;
+  border-left:  1px solid #000;
+  border-right: 1px solid #000;
   background-color: #FFF;
 }
 
