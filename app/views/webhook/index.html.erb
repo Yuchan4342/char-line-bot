@@ -7,7 +7,7 @@
 LINE ID:
 <span id="line-id">@ido0212s</span>
 <!-- コピーボタン -->
-<button class="btn" data-clipboard-target="#line-id">Copy</button>
+<button class="btn1" data-clipboard-target="#line-id">Copy</button>
 </p>
 
 <!-- コピーボタンの実装JS -->
@@ -15,7 +15,7 @@ LINE ID:
 <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.3/clipboard.min.js"></script>
 <script>
   $(function () {
-    var clipboard = new Clipboard('.btn');
+    var clipboard = new Clipboard('.btn1');
     clipboard.on('success', function(e) {
       e.clearSelection();
     });
