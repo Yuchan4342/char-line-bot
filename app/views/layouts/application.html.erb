@@ -12,14 +12,14 @@
   </head>
 
   <body>
-  <div id="body1">
-    <h1 class="header">
-    <%= link_to image_tag('logo.png', class: 'logo'), root_path %>
-    <div id="site-title">おチャーbot</div>
-    </h1>
-    <div class="container">
-    <%= yield %>
+    <div class="body">
+      <h1 class="header">
+      <%= link_to image_tag('logo.png', class: 'logo'), root_path %>
+      <div id="site-title">おチャーbot</div>
+      </h1>
+      <div class="container">
+      <%= yield %>
+      </div>
     </div>
-  </div>
   </body>
 </html>
