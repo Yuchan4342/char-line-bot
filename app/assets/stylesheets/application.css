@@ -16,6 +16,8 @@
 
 h1.header {
     height: 69px;
+    padding: 0px;
+    margin: 0px;
     border-bottom: 1px solid #ddd;
 }
 
@@ -42,7 +44,7 @@ body {
   background-color: #CCFFCC;
 }
 
-.body {
+div.body {
   width: 90%;
   max-width: 750px;
   padding: 0px 10px auto;
