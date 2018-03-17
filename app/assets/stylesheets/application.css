@@ -15,16 +15,12 @@
  */
 
 h1.header {
-    width: 90%;
-    max-width: 750px;
     margin: 10px auto;
     height: 69px;
     border-bottom: 1px solid #ddd;
 }
 
 .container {
-    width: 90%;
-    max-width: 750px;
     margin: 20px auto;
 }
 
@@ -47,7 +43,9 @@ body {
   background-color: #CCFFCC;
 }
 
-.body1 {
+#body1 {
+  width: 90%;
+  max-width: 750px;
   background-color: #FFF;
 }
 
