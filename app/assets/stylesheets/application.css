@@ -62,7 +62,7 @@ body {
 .btn1 {
   margin: 0 5px 0;
   width: 40px;
-  padding: 2px;
+  padding: 1px;
   border-radius: 3px;
   background: #008800; /* ボタン色 */
   /* box-shadow: 0 4px 0 #004400; */
@@ -73,11 +73,6 @@ body {
 .btn1:hover { /* カーソルが載ったとき */
   opacity: 0.8;
 }
-
-/* .btn1:active { *//* ボタンを押したとき */
-  /* margin-top: 2px; */
-  /* box-shadow: 0 2px 0 #004400; */
-/* } */
 
 #site-title {
   font-size: 30px;
