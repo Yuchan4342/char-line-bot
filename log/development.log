@@ -110,3 +110,40 @@ puma (3.11.2) lib/puma/server.rb:624:in `handle_request'
 puma (3.11.2) lib/puma/server.rb:438:in `process_client'
 puma (3.11.2) lib/puma/server.rb:302:in `block in run'
 puma (3.11.2) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/" for 127.0.0.1 at 2018-03-22 22:35:20 +0900
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by WebhookController#index as HTML
+  Rendering webhook/index.html.erb within layouts/application
+  Rendered webhook/index.html.erb within layouts/application (1.4ms)
+Completed 200 OK in 543ms (Views: 530.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 192.168.1.7 at 2018-03-22 22:36:20 +0900
+Cannot render console from 192.168.1.7! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+Processing by WebhookController#index as HTML
+  Rendering webhook/index.html.erb within layouts/application
+  Rendered webhook/index.html.erb within layouts/application (0.6ms)
+Completed 200 OK in 28ms (Views: 23.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2018-03-22 22:38:40 +0900
+Processing by WebhookController#index as HTML
+  Rendering webhook/index.html.erb within layouts/application
+  Rendered webhook/index.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 31ms (Views: 26.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2018-03-22 22:38:42 +0900
+Processing by WebhookController#index as HTML
+  Rendering webhook/index.html.erb within layouts/application
+  Rendered webhook/index.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 34ms (Views: 29.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2018-03-22 22:38:49 +0900
+Processing by WebhookController#index as HTML
+  Rendering webhook/index.html.erb within layouts/application
+  Rendered webhook/index.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 27ms (Views: 23.8ms | ActiveRecord: 0.0ms)
+
+
