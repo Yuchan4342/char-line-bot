@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 
-ruby "2.3.4" # For heroku
+if v = ENV['CUSTOM_RUBY_VERSION']
+  ruby v
+end
+# ruby "2.3.4" # For heroku
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
