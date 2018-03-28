@@ -60,18 +60,27 @@ body {
 }
 
 .btn1 {
+  font-size: 12px;
+  text-align: center;
   margin: 0 5px 0;
-  width: 40px;
-  padding: 1px;
-  border-radius: 3px;
+  width: 50px;
+  height: 25px;
+  border-radius: 2px;
   background: #008800; /* ボタン色 */
-  /* box-shadow: 0 4px 0 #004400; */
+  box-shadow: 0 4px 0 #004400;
   color: #FFF;
   cursor: pointer;
+  border-style: none;
+  user-select: none;
 }
 
 .btn1:hover { /* カーソルが載ったとき */
   opacity: 0.8;
+}
+
+.btn1:active { /* ボタンを押したとき */
+  box-shadow: 0 2px 0 #004400;
+  transform: translate(0, 2px);
 }
 
 #site-title {
