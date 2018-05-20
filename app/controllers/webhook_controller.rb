@@ -65,14 +65,9 @@ class WebhookController < ApplicationController
       if Webhook.find_by(user_id: userId) then
         puts "Registered User."
       else
-        puts "New User."
+        p "create new User"
         # ユーザIDをデータベースに追加する
-        wh = Webhook.new
-        wh.talk_type = event['source']['type']
-        wh.user_id = userId
-        wh.masa = false
-        wh.unlinked = false
-        wh.save
+        Webhook.create(talk_type: event['source']['type'], user_id: userId, masa: false, unlinked: false)
       end
 
       case event
@@ -84,20 +79,17 @@ class WebhookController < ApplicationController
           input_text = event.message['text']
           webhook = Webhook.find_by(user_id: userId)
           if input_text == "change-to-char" then
-            webhook.masa = false
-            webhook.save
+            webhook.update(masa: false)
             output_text = "チャーに切替"
           elsif input_text == "change-to-masa" then
-            webhook.masa = true
-            webhook.save
+            webhook.update(masa: true)
             output_text = "まさに切替"
           elsif input_text == "メニュー追加" then
             unless webhook.unlinked then
               output_text = "リッチメニューはすでに追加されています。"
             else
               # 送信ユーザとリッチメニューをリンクする
-              webhook.unlinked = false
-              webhook.save
+              webhook.update(unlinked: false)
               link_menu(userId)
               output_text = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
             end
@@ -106,8 +98,7 @@ class WebhookController < ApplicationController
               output_text = "リッチメニューはすでに削除されています。"
             else
               # リッチメニューとのリンクを削除する
-              webhook.unlinked = true
-              webhook.save
+              webhook.update(unlinked: true)
               unlink_menu(userId)
               output_text = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
             end
