@@ -59,6 +59,7 @@ class WebhookController < ApplicationController
     events = client.parse_events_from(body)
 
     events.each { |event|
+      p event
       userId = event['source']['userId']
 
       # ユーザIDがデータベースに追加されているかどうか  
