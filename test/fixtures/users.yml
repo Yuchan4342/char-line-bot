@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  talk_type: MyString
+  user_id: MyString
+  masa: false
+  linked: false
+  user_name: MyString
+
+two:
+  talk_type: MyString
+  user_id: MyString
+  masa: false
+  linked: false
+  user_name: MyString
