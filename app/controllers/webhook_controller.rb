@@ -17,8 +17,7 @@ class WebhookController < ApplicationController
 
   # 送信ユーザとリッチメニューをリンクする
   def link_menu (userId)
-    wh = Webhook.find_by(user_id: userId)
-    unless wh.unlinked
+    if User.find_by(user_id: userId).linked
       uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
       header = {'Authorization': "Bearer #{client.channel_token}"}
 
@@ -58,17 +57,18 @@ class WebhookController < ApplicationController
 
     events = client.parse_events_from(body)
 
-    events.each { |event|
+    events.each do |event|
       p event
       userId = event['source']['userId']
+      user = User.find_by(user_id: userId)
 
       # ユーザIDがデータベースに追加されているかどうか  
-      if Webhook.find_by(user_id: userId) then
-        puts "Registered User."
+      if user
+        p "Registered User. #{user&.user_name}"
       else
         p "create new User"
         # ユーザIDをデータベースに追加する
-        Webhook.create(talk_type: event['source']['type'], user_id: userId, masa: false, unlinked: false)
+        User.create(talk_type: event['source']['type'], user_id: userId, masa: false, linked: true)
       end
 
       case event
@@ -78,48 +78,41 @@ class WebhookController < ApplicationController
         case event.type
         when Line::Bot::Event::MessageType::Text # テキスト
           input_text = event.message['text']
-          webhook = Webhook.find_by(user_id: userId)
-          if input_text == "change-to-char" then
-            webhook.update(masa: false)
+          if input_text == "change-to-char"
+            user.update(masa: false)
             output_text = "チャーに切替"
-          elsif input_text == "change-to-masa" then
-            webhook.update(masa: true)
+          elsif input_text == "change-to-masa"
+            user.update(masa: true)
             output_text = "まさに切替"
-          elsif input_text == "メニュー追加" then
-            unless webhook.unlinked then
+          elsif input_text == "メニュー追加"
+            if user.linked
               output_text = "リッチメニューはすでに追加されています。"
             else
               # 送信ユーザとリッチメニューをリンクする
-              webhook.update(unlinked: false)
+              user.update(linked: true)
               link_menu(userId)
               output_text = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
             end
-          elsif input_text == "メニュー削除" then
-            if webhook.unlinked then
+          elsif input_text == "メニュー削除"
+            unless user.linked
               output_text = "リッチメニューはすでに削除されています。"
             else
               # リッチメニューとのリンクを削除する
-              webhook.update(unlinked: true)
+              user.update(linked: false)
               unlink_menu(userId)
               output_text = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
             end
           else
-            output_text = input_text + (webhook.masa ? "まさ" : "チャー")
+            output_text = input_text + (user.masa ? "まさ" : "チャー")
           end
-          message = {
-            type: 'text',
-            text:  output_text
-          }
+          message = { type: 'text', text: output_text }
           # 送信
           puts "Send #{message}"
           client.reply_message(event['replyToken'], message)
         when Line::Bot::Event::MessageType::Sticker # スタンプ
-          webhook = Webhook.find_by(user_id: userId)
-          output_text = "おもしろいスタンプだ" + (webhook.masa ? "まさ" : "チャー") + "！"
-          message = {
-            type: 'text',
-            text:  output_text
-          }
+          output_text = "おもしろいスタンプだ" + (user.masa ? "まさ" : "チャー") + "！"
+          message = { type: 'text', text: output_text }
+          # 送信
           puts "Send #{message}"
           client.reply_message(event['replyToken'], message)
         end
@@ -133,8 +126,7 @@ class WebhookController < ApplicationController
       when Line::Bot::Event::Leave # グループから退出したときのevent
       	puts "Group left."
       end
-    }
-
+    end
     head :ok
   end
 end
