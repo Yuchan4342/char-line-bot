@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 if v = ENV['CUSTOM_RUBY_VERSION']
   ruby v
 end
-# ruby "2.4.4" # For heroku
+# ruby "2.5.1" # For heroku
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
