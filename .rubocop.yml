@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 # .rubocop.yml
 Rails:
   Enabled: true
@@ -72,6 +74,8 @@ AllCops:
 # from default.yml
     - 'node_modules/**/*'
     - 'vendor/**/*'
+Metrics/ClassLength:
+  Enabled: false
 Style/ExpandPathArguments:
   Exclude:
     - 'bin/**'
@@ -85,3 +89,4 @@ Style/MixinUsage:
 Style/StderrPuts:
   Exclude:
     - 'bin/yarn'
+inherit_from: .rubocop_todo.yml

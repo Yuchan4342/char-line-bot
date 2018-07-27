@@ -67,7 +67,7 @@ class WebhookController < ApplicationController
     events.each do |event|
       logger.info event
       user_id = event['source']['userId']
-      @user = User.find_by(user_id: user_id)
+      @user = @users.find_by(user_id: user_id)
 
       # ユーザIDがデータベースに追加されているかどうか
       if @user
@@ -103,7 +103,7 @@ class WebhookController < ApplicationController
               # 送信ユーザとリッチメニューをリンクする
               @user.update(linked: true)
               link_menu
-              output_text = 'リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。'
+              output_text = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
             end
           elsif input_text == 'メニュー削除'
             if @user.linked
