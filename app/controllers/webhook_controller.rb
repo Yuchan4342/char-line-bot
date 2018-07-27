@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 # WebhookController
 # LINE からのリクエストに答えるコントローラ
 class WebhookController < ApplicationController
