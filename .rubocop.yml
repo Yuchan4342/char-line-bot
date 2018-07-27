@@ -1,0 +1,5 @@
+# .rubocop.yml
+Rails:
+  Enabled: true
+Style/AsciiComments:
+  Enabled: false

@@ -1,3 +1,5 @@
+# WebhookController
+# LINE からのリクエストに答えるコントローラ
 class WebhookController < ApplicationController
   require 'line/bot'  # gem 'line-bot-api'
 
