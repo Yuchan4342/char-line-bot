@@ -20,24 +20,24 @@ class WebhookController < ApplicationController
   end
 
   # 送信ユーザとリッチメニューをリンクする
-  def link_menu (userId)
-    if User.find_by(user_id: userId).linked
-      uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu/#{RICHMENU_ID}")
+  def link_menu (user_id)
+    if User.find_by(user_id: user_id).linked
+      uri = URI.parse("https://api.line.me/v2/bot/user/#{user_id}/richmenu/#{RICHMENU_ID}")
       header = {'Authorization': "Bearer #{client.channel_token}"}
 
       req = Net::HTTP::Post.new(uri.path, header)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       
-      res = http.start do |http|
-        http.request(req)
+      res = http.start do |h|
+        h.request(req)
       end
       puts "Linked. #{res.code} #{res.body}"
     end
   end
 
-  def unlink_menu (userId)
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{userId}/richmenu")
+  def unlink_menu (user_id)
+    uri = URI.parse("https://api.line.me/v2/bot/user/#{user_id}/richmenu")
     header = {'Authorization': "Bearer #{client.channel_token}"}
 
     req = Net::HTTP::Delete.new(uri.path, header)
@@ -63,8 +63,8 @@ class WebhookController < ApplicationController
 
     events.each do |event|
       p event
-      userId = event['source']['userId']
-      user = User.find_by(user_id: userId)
+      user_id = event['source']['userId']
+      user = User.find_by(user_id: user_id)
 
       # ユーザIDがデータベースに追加されているかどうか
       if user
@@ -72,13 +72,13 @@ class WebhookController < ApplicationController
       else
         p 'create new User'
         # ユーザIDをデータベースに追加する
-        User.create(talk_type: event['source']['type'], user_id: userId, masa: false, linked: true)
+        User.create(talk_type: event['source']['type'], user_id: user_id, masa: false, linked: true)
       end
 
       case event
       when Line::Bot::Event::Message # message event
         # 送信ユーザとリッチメニューをリンクする
-        link_menu(userId)
+        link_menu(user_id)
         case event.type
         when Line::Bot::Event::MessageType::Text # テキスト
           input_text = event.message['text']
@@ -94,7 +94,7 @@ class WebhookController < ApplicationController
             else
               # 送信ユーザとリッチメニューをリンクする
               user.update(linked: true)
-              link_menu(userId)
+              link_menu(user_id)
               output_text = 'リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。'
             end
           elsif input_text == 'メニュー削除'
@@ -103,7 +103,7 @@ class WebhookController < ApplicationController
             else
               # リッチメニューとのリンクを削除する
               user.update(linked: false)
-              unlink_menu(userId)
+              unlink_menu(user_id)
               output_text = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
             end
           else
@@ -122,10 +122,10 @@ class WebhookController < ApplicationController
         end
       when Line::Bot::Event::Follow # follow event
         # 送信ユーザとリッチメニューをリンクする
-        link_menu(userId)
+        link_menu(user_id)
         puts 'Followed or Unblocked.'
       when Line::Bot::Event::Unfollow # blocked event
-        unlink_menu(userId)
+        unlink_menu(user_id)
         puts 'Blocked.'
       when Line::Bot::Event::Leave # グループから退出したときのevent
         puts 'Group left.'
