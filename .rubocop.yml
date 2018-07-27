@@ -4,6 +4,7 @@ Rails:
 Style/AsciiComments:
   Enabled: false
 AllCops:
+  TargetRubyVersion: 2.5
   RubyInterpreters:
     - ruby
     - macruby
