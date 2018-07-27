@@ -20,9 +20,9 @@ class WebhookController < ApplicationController
   end
 
   # 送信ユーザとリッチメニューをリンクする
-  def link_menu(user_id)
-    return unless User.find_by(user_id: user_id).linked
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{user_id}/richmenu/#{RICHMENU_ID}")
+  def link_menu
+    return unless @user&.linked
+    uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu/#{RICHMENU_ID}")
     header = { 'Authorization': "Bearer #{client.channel_token}" }
 
     req = Net::HTTP::Post.new(uri.path, header)
@@ -35,9 +35,9 @@ class WebhookController < ApplicationController
     logger.info "Linked. #{res.code} #{res.body}"
   end
 
-  def unlink_menu(user_id)
-    return if User.find_by(user_id: user_id).linked
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{user_id}/richmenu")
+  def unlink_menu
+    return if @user&.linked
+    uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu")
     header = { 'Authorization': "Bearer #{client.channel_token}" }
 
     req = Net::HTTP::Delete.new(uri.path, header)
@@ -50,6 +50,7 @@ class WebhookController < ApplicationController
     logger.info "Link deleted. #{res.code} #{res.body}"
   end
 
+  # LINE Client から送信(POSTリクエスト)が来た場合の動作
   def callback
     body = request.body.read
 
@@ -64,11 +65,11 @@ class WebhookController < ApplicationController
     events.each do |event|
       logger.info event
       user_id = event['source']['userId']
-      user = User.find_by(user_id: user_id)
+      @user = User.find_by(user_id: user_id)
 
       # ユーザIDがデータベースに追加されているかどうか
-      if user
-        logger.info "Registered User. #{user&.user_name}"
+      if @user
+        logger.info "Registered User. #{@user&.user_name}"
       else
         logger.info 'create new User'
         # ユーザIDをデータベースに追加する
@@ -88,38 +89,38 @@ class WebhookController < ApplicationController
         when Line::Bot::Event::MessageType::Text # テキスト
           input_text = event.message['text']
           if input_text == 'change-to-char'
-            user.update(masa: false)
+            @user.update(masa: false)
             output_text = 'チャーに切替'
           elsif input_text == 'change-to-masa'
-            user.update(masa: true)
+            @user.update(masa: true)
             output_text = 'まさに切替'
           elsif input_text == 'メニュー追加'
-            if user.linked
+            if @user.linked
               output_text = 'リッチメニューはすでに追加されています。'
             else
               # 送信ユーザとリッチメニューをリンクする
-              user.update(linked: true)
+              @user.update(linked: true)
               link_menu(user_id)
               output_text = 'リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。'
             end
           elsif input_text == 'メニュー削除'
-            if user.linked
+            if @user.linked
               # リッチメニューとのリンクを削除する
-              user.update(linked: false)
+              @user.update(linked: false)
               unlink_menu(user_id)
               output_text = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
             else
               output_text = 'リッチメニューはすでに削除されています。'
             end
           else
-            output_text = input_text + (user.masa ? 'まさ' : 'チャー')
+            output_text = input_text + (@user.masa ? 'まさ' : 'チャー')
           end
           message = { type: 'text', text: output_text }
           # 送信
           logger.info "Send #{message}"
           client.reply_message(event['replyToken'], message)
         when Line::Bot::Event::MessageType::Sticker # スタンプ
-          output_text = 'おもしろいスタンプだ' + (user.masa ? 'まさ' : 'チャー') + '！'
+          output_text = 'おもしろいスタンプだ' + (@user.masa ? 'まさ' : 'チャー') + '！'
           message = { type: 'text', text: output_text }
           # 送信
           logger.info "Send #{message}"
