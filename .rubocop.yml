@@ -71,3 +71,13 @@ AllCops:
 # from default.yml
     - 'node_modules/**/*'
     - 'vendor/**/*'
+Style/ExpandPathArguments:
+  Exclude:
+    - 'bin/**'
+Style/MixinUsage:
+  Exclude:
+    - 'bin/setup'
+    - 'bin/update'
+Style/StderrPuts:
+  Exclude:
+    - 'bin/yarn'
