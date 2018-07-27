@@ -61,6 +61,8 @@ class WebhookController < ApplicationController
     end
 
     events = client.parse_events_from(body)
+    user_ids = events.map { |e| e['source']['userId'] }
+    @users = User.where(user_id: user_ids)
 
     events.each do |event|
       logger.info event
@@ -84,7 +86,7 @@ class WebhookController < ApplicationController
       case event
       when Line::Bot::Event::Message # message event
         # 送信ユーザとリッチメニューをリンクする
-        link_menu(user_id)
+        link_menu
         case event.type
         when Line::Bot::Event::MessageType::Text # テキスト
           input_text = event.message['text']
@@ -100,14 +102,14 @@ class WebhookController < ApplicationController
             else
               # 送信ユーザとリッチメニューをリンクする
               @user.update(linked: true)
-              link_menu(user_id)
+              link_menu
               output_text = 'リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。'
             end
           elsif input_text == 'メニュー削除'
             if @user.linked
               # リッチメニューとのリンクを削除する
               @user.update(linked: false)
-              unlink_menu(user_id)
+              unlink_menu
               output_text = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
             else
               output_text = 'リッチメニューはすでに削除されています。'
@@ -128,10 +130,10 @@ class WebhookController < ApplicationController
         end
       when Line::Bot::Event::Follow # follow event
         # 送信ユーザとリッチメニューをリンクする
-        link_menu(user_id)
+        link_menu
         logger.info 'Followed or Unblocked.'
       when Line::Bot::Event::Unfollow # blocked event
-        unlink_menu(user_id)
+        unlink_menu
         logger.info 'Blocked.'
       when Line::Bot::Event::Leave # グループから退出したときのevent
         logger.info 'Group left.'
