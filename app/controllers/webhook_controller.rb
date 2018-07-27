@@ -66,11 +66,11 @@ class WebhookController < ApplicationController
       userId = event['source']['userId']
       user = User.find_by(user_id: userId)
 
-      # ユーザIDがデータベースに追加されているかどうか  
+      # ユーザIDがデータベースに追加されているかどうか
       if user
         p "Registered User. #{user&.user_name}"
       else
-        p "create new User"
+        p 'create new User'
         # ユーザIDをデータベースに追加する
         User.create(talk_type: event['source']['type'], user_id: userId, masa: false, linked: true)
       end
@@ -82,24 +82,24 @@ class WebhookController < ApplicationController
         case event.type
         when Line::Bot::Event::MessageType::Text # テキスト
           input_text = event.message['text']
-          if input_text == "change-to-char"
+          if input_text == 'change-to-char'
             user.update(masa: false)
-            output_text = "チャーに切替"
-          elsif input_text == "change-to-masa"
+            output_text = 'チャーに切替'
+          elsif input_text == 'change-to-masa'
             user.update(masa: true)
-            output_text = "まさに切替"
-          elsif input_text == "メニュー追加"
+            output_text = 'まさに切替'
+          elsif input_text == 'メニュー追加'
             if user.linked
-              output_text = "リッチメニューはすでに追加されています。"
+              output_text = 'リッチメニューはすでに追加されています。'
             else
               # 送信ユーザとリッチメニューをリンクする
               user.update(linked: true)
               link_menu(userId)
-              output_text = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
+              output_text = 'リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。'
             end
-          elsif input_text == "メニュー削除"
+          elsif input_text == 'メニュー削除'
             unless user.linked
-              output_text = "リッチメニューはすでに削除されています。"
+              output_text = 'リッチメニューはすでに削除されています。'
             else
               # リッチメニューとのリンクを削除する
               user.update(linked: false)
@@ -107,14 +107,14 @@ class WebhookController < ApplicationController
               output_text = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
             end
           else
-            output_text = input_text + (user.masa ? "まさ" : "チャー")
+            output_text = input_text + (user.masa ? 'まさ' : 'チャー')
           end
           message = { type: 'text', text: output_text }
           # 送信
           puts "Send #{message}"
           client.reply_message(event['replyToken'], message)
         when Line::Bot::Event::MessageType::Sticker # スタンプ
-          output_text = "おもしろいスタンプだ" + (user.masa ? "まさ" : "チャー") + "！"
+          output_text = 'おもしろいスタンプだ' + (user.masa ? 'まさ' : 'チャー') + '！'
           message = { type: 'text', text: output_text }
           # 送信
           puts "Send #{message}"
@@ -123,12 +123,12 @@ class WebhookController < ApplicationController
       when Line::Bot::Event::Follow # follow event
         # 送信ユーザとリッチメニューをリンクする
         link_menu(userId)
-        puts "Followed or Unblocked."
+        puts 'Followed or Unblocked.'
       when Line::Bot::Event::Unfollow # blocked event
         unlink_menu(userId)
-        puts "Blocked."
+        puts 'Blocked.'
       when Line::Bot::Event::Leave # グループから退出したときのevent
-        puts "Group left."
+        puts 'Group left.'
       end
     end
     head :ok
