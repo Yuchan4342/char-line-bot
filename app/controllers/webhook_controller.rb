@@ -121,12 +121,12 @@ class WebhookController < ApplicationController
       when Line::Bot::Event::Follow # follow event
         # 送信ユーザとリッチメニューをリンクする
         link_menu(userId)
-      	puts "Followed or Unblocked."
+        puts "Followed or Unblocked."
       when Line::Bot::Event::Unfollow # blocked event
         unlink_menu(userId)
-      	puts "Blocked."
+        puts "Blocked."
       when Line::Bot::Event::Leave # グループから退出したときのevent
-      	puts "Group left."
+        puts "Group left."
       end
     end
     head :ok
