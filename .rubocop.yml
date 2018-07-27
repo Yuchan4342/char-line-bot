@@ -75,6 +75,9 @@ AllCops:
 Style/ExpandPathArguments:
   Exclude:
     - 'bin/**'
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'bin/**'
 Style/MixinUsage:
   Exclude:
     - 'bin/setup'
