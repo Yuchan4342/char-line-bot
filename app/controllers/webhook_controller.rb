@@ -32,7 +32,7 @@ class WebhookController < ApplicationController
     res = http.start do |h|
       h.request(req)
     end
-    puts "Linked. #{res.code} #{res.body}"
+    logger.info "Linked. #{res.code} #{res.body}"
   end
 
   def unlink_menu(user_id)
@@ -47,7 +47,7 @@ class WebhookController < ApplicationController
     res = http.start do |h|
       h.request(req)
     end
-    puts "Link deleted. #{res.code} #{res.body}"
+    logger.info "Link deleted. #{res.code} #{res.body}"
   end
 
   def callback
@@ -62,15 +62,15 @@ class WebhookController < ApplicationController
     events = client.parse_events_from(body)
 
     events.each do |event|
-      p event
+      logger.info event
       user_id = event['source']['userId']
       user = User.find_by(user_id: user_id)
 
       # ユーザIDがデータベースに追加されているかどうか
       if user
-        p "Registered User. #{user&.user_name}"
+        logger.info "Registered User. #{user&.user_name}"
       else
-        p 'create new User'
+        logger.info 'create new User'
         # ユーザIDをデータベースに追加する
         User.create(
           talk_type: event['source']['type'],
@@ -116,24 +116,24 @@ class WebhookController < ApplicationController
           end
           message = { type: 'text', text: output_text }
           # 送信
-          puts "Send #{message}"
+          logger.info "Send #{message}"
           client.reply_message(event['replyToken'], message)
         when Line::Bot::Event::MessageType::Sticker # スタンプ
           output_text = 'おもしろいスタンプだ' + (user.masa ? 'まさ' : 'チャー') + '！'
           message = { type: 'text', text: output_text }
           # 送信
-          puts "Send #{message}"
+          logger.info "Send #{message}"
           client.reply_message(event['replyToken'], message)
         end
       when Line::Bot::Event::Follow # follow event
         # 送信ユーザとリッチメニューをリンクする
         link_menu(user_id)
-        puts 'Followed or Unblocked.'
+        logger.info 'Followed or Unblocked.'
       when Line::Bot::Event::Unfollow # blocked event
         unlink_menu(user_id)
-        puts 'Blocked.'
+        logger.info 'Blocked.'
       when Line::Bot::Event::Leave # グループから退出したときのevent
-        puts 'Group left.'
+        logger.info 'Group left.'
       end
     end
     head :ok
