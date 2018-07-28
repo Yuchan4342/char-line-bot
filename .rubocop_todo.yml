@@ -16,11 +16,6 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Max: 64
 
-# Offense count: 3
-# Configuration parameters: CountBlocks.
-Metrics/BlockNesting:
-  Max: 4
-
 # Offense count: 1
 Metrics/CyclomaticComplexity:
   Max: 17

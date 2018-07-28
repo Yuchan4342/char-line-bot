@@ -74,6 +74,8 @@ AllCops:
 # from default.yml
     - 'node_modules/**/*'
     - 'vendor/**/*'
+Metrics/BlockNesting:
+  Max: 4
 Metrics/ClassLength:
   Enabled: false
 Style/ExpandPathArguments:
