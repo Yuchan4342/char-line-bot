@@ -135,9 +135,10 @@ class WebhookController < ApplicationController
   def link_menu_request(uri)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
+    req = Net::HTTP::Delete.new(uri.path, header)
     header = { 'Authorization': "Bearer #{client.channel_token}" }
     http.start do |h|
-      h.request(Net::HTTP::Delete.new(uri.path, header))
+      h.request(req)
     end
   end
 end
