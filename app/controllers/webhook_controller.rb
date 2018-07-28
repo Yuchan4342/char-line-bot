@@ -119,7 +119,9 @@ class WebhookController < ApplicationController
   # 送信ユーザとリッチメニューをリンクする
   def link_menu
     return unless @user&.linked
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu/#{RICHMENU_ID}")
+    uri = URI.parse(
+      "https://api.line.me/v2/bot/user/#{@user.user_id}/richmenu/#{RICHMENU_ID}"
+    )
     res = link_menu_request(uri)
     logger.info "Linked. #{res.code} #{res.body}"
   end
@@ -127,7 +129,9 @@ class WebhookController < ApplicationController
   # 送信ユーザとリッチメニューのリンクを削除する
   def unlink_menu
     return if @user&.linked
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu")
+    uri = URI.parse(
+      "https://api.line.me/v2/bot/user/#{@user.user_id}/richmenu"
+    )
     res = link_menu_request(uri)
     logger.info "Link deleted. #{res.code} #{res.body}"
   end
