@@ -119,22 +119,27 @@ class WebhookController < ApplicationController
   # 送信ユーザとリッチメニューをリンクする
   def link_menu
     return unless @user&.linked
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu/#{RICHMENU_ID}")
-    res = link_menu_request(uri)
+    res = link_menu_request(true)
     logger.info "Linked. #{res.code} #{res.body}"
   end
 
   # 送信ユーザとリッチメニューのリンクを削除する
   def unlink_menu
     return if @user&.linked
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu")
-    res = link_menu_request(uri)
+    res = link_menu_request(false)
     logger.info "Link deleted. #{res.code} #{res.body}"
   end
 
-  def link_menu_request(uri)
+  def link_menu_request(link)
     header = { 'Authorization': "Bearer #{client.channel_token}" }
-    req = Net::HTTP::Delete.new(uri.path, header)
+    if link
+      req = Net::HTTP::Post.new(uri.path, header)
+      uri_s = "/#{@user&.user_id}/richmenu/#{RICHMENU_ID}"
+    else
+      req = Net::HTTP::Delete.new(uri.path, header)
+      uri_s = "/#{@user&.user_id}/richmenu"
+    end
+    uri = URI.parse('https://api.line.me/v2/bot/user' + uri_s)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.start do |h|
