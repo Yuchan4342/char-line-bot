@@ -119,7 +119,7 @@ class WebhookController < ApplicationController
   def link_menu
     return unless @user&.linked
     uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu/#{RICHMENU_ID}")
-    link_menu_request(uri)
+    res = link_menu_request(uri)
     logger.info "Linked. #{res.code} #{res.body}"
   end
 
@@ -127,7 +127,7 @@ class WebhookController < ApplicationController
   def unlink_menu
     return if @user&.linked
     uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu")
-    link_menu_request(uri)
+    res = link_menu_request(uri)
     logger.info "Link deleted. #{res.code} #{res.body}"
   end
 
