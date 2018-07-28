@@ -129,6 +129,7 @@ class WebhookController < ApplicationController
     return if @user&.linked
     uri_s = "/#{@user.user_id}/richmenu"
     res = link_menu_request(uri_s)
+    logger.info res
     logger.info "Link deleted. #{res.code} #{res.body}"
   end
 
