@@ -19,37 +19,6 @@ class WebhookController < ApplicationController
     end
   end
 
-  # 送信ユーザとリッチメニューをリンクする
-  def link_menu
-    return unless @user&.linked
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu/#{RICHMENU_ID}")
-    header = { 'Authorization': "Bearer #{client.channel_token}" }
-
-    req = Net::HTTP::Post.new(uri.path, header)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-
-    res = http.start do |h|
-      h.request(req)
-    end
-    logger.info "Linked. #{res.code} #{res.body}"
-  end
-
-  def unlink_menu
-    return if @user&.linked
-    uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu")
-    header = { 'Authorization': "Bearer #{client.channel_token}" }
-
-    req = Net::HTTP::Delete.new(uri.path, header)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-
-    res = http.start do |h|
-      h.request(req)
-    end
-    logger.info "Link deleted. #{res.code} #{res.body}"
-  end
-
   # LINE Client から送信(POSTリクエスト)が来た場合の動作
   def callback
     body = request.body.read
@@ -143,4 +112,35 @@ class WebhookController < ApplicationController
     end
     head :ok
   end
+
+  private
+    # 送信ユーザとリッチメニューをリンクする
+    def link_menu
+      return unless @user&.linked
+      uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu/#{RICHMENU_ID}")
+      header = { 'Authorization': "Bearer #{client.channel_token}" }
+
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+
+      res = http.start do |h|
+        h.request(Net::HTTP::Post.new(uri.path, header))
+      end
+      logger.info "Linked. #{res.code} #{res.body}"
+    end
+
+    # 送信ユーザとリッチメニューのリンクを削除する
+    def unlink_menu
+      return if @user&.linked
+      uri = URI.parse("https://api.line.me/v2/bot/user/#{@user&.user_id}/richmenu")
+      header = { 'Authorization': "Bearer #{client.channel_token}" }
+
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+
+      res = http.start do |h|
+        h.request(Net::HTTP::Delete.new(uri.path, header))
+      end
+      logger.info "Link deleted. #{res.code} #{res.body}"
+    end
 end
