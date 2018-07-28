@@ -10,4 +10,10 @@
 #     { name: 'Lord of the Rings' }
 #   ])
 #   Character.create(name: 'Luke', movie: movies.first)
-User.create(user_id: 'hoge', masa: false, linked: true)
+User.create(
+  talk_type: 'user',
+  user_id: 'hoge1',
+  masa: false,
+  linked: true,
+  user_name: 'チャー'
+)

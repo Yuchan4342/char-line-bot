@@ -1,15 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  talk_type: MyString
-  user_id: MyString
+  talk_type: 'user'
+  user_id: 'hoge1'
   masa: false
-  linked: false
-  user_name: MyString
+  linked: true
+  user_name: 'チャー'
 
 two:
-  talk_type: MyString
-  user_id: MyString
+  talk_type: 'user'
+  user_id: 'hoge2'
   masa: false
-  linked: false
-  user_name: MyString
+  linked: true
+  user_name: 'まさ'
