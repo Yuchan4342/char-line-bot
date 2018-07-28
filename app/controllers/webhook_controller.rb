@@ -61,13 +61,14 @@ class WebhookController < ApplicationController
         case event.type
         when Line::Bot::Event::MessageType::Text # テキスト
           input_text = event.message['text']
-          if input_text == 'change-to-char'
+          case input_text
+          when 'change-to-char'
             @user.update(masa: false)
             output_text = 'チャーに切替'
-          elsif input_text == 'change-to-masa'
+          when 'change-to-masa'
             @user.update(masa: true)
             output_text = 'まさに切替'
-          elsif input_text == 'メニュー追加'
+          when 'メニュー追加'
             if @user.linked
               output_text = 'リッチメニューはすでに追加されています。'
             else
@@ -76,7 +77,7 @@ class WebhookController < ApplicationController
               link_menu
               output_text = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
             end
-          elsif input_text == 'メニュー削除'
+          when 'メニュー削除'
             if @user.linked
               # リッチメニューとのリンクを削除する
               @user.update(linked: false)
