@@ -131,15 +131,18 @@ class WebhookController < ApplicationController
   end
 
   def link_menu_request(link)
-    header = { 'Authorization': "Bearer #{client.channel_token}" }
-    if link
-      req = Net::HTTP::Post.new(uri.path, header)
-      uri_s = "/#{@user&.user_id}/richmenu/#{RICHMENU_ID}"
-    else
-      req = Net::HTTP::Delete.new(uri.path, header)
-      uri_s = "/#{@user&.user_id}/richmenu"
-    end
+    uri_s = if link
+              "/#{@user&.user_id}/richmenu/#{RICHMENU_ID}"
+            else
+              "/#{@user&.user_id}/richmenu"
+            end
     uri = URI.parse('https://api.line.me/v2/bot/user' + uri_s)
+    header = { 'Authorization': "Bearer #{client.channel_token}" }
+    req = if link
+            Net::HTTP::Post.new(uri.path, header)
+          else
+            Net::HTTP::Delete.new(uri.path, header)
+          end
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
     http.start do |h|
