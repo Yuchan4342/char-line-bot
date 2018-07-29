@@ -36,11 +36,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
         }
       ]
     }.to_json
-    # uri = URI.parse('http://localhost:3000/callback')
-    # http = Net::HTTP.new(uri.host, uri.port)
-    # req = Net::HTTP::Post.new(uri.path)
-    # req.body = json
-    # res = http.request(req)
-    # assert_equal('200', res.code)
+    post '/callback', params: json
+    assert_response :success
   end
 end

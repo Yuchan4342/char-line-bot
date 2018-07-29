@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   get 'top/index'
   get 'top' => 'top#index'
 
-  post '/callback' => 'webhook#callback'
+  post 'callback' => 'webhook#callback'
 end
