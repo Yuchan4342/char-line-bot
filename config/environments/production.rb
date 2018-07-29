@@ -14,10 +14,9 @@ Rails.application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
-  # Attempt to read encrypted secrets from `config/secrets.yml.enc`.
+  # Attempt to read encrypted credentials from `config/credentials.yml.enc`.
   # Requires an encryption key in `ENV["RAILS_MASTER_KEY"]` or
-  # `config/secrets.yml.key`.
-  config.read_encrypted_secrets = true
+  # `config/master.key`.
   config.require_master_key = true
 
   # Disable serving static files from the `/public` folder by default since
