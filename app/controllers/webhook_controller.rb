@@ -25,9 +25,7 @@ class WebhookController < ApplicationController
 
     # 署名の検証
     signature = request.env['HTTP_X_LINE_SIGNATURE']
-    unless client.validate_signature(body, signature)
-      head :bad_request
-    end
+    head :bad_request unless client.validate_signature(body, signature)
 
     events = client.parse_events_from(body)
     user_ids = events.map { |e| e['source']['userId'] }
@@ -85,14 +83,14 @@ class WebhookController < ApplicationController
               output_text = 'リッチメニューはすでに削除されています。'
             end
           else
-            output_text = input_text + (@user.masa ? 'まさ' : 'チャー')
+            output_text = input_text + (@user&.masa ? 'まさ' : 'チャー')
           end
           message = { type: 'text', text: output_text }
           # 送信
           logger.info "Send #{message}"
           client.reply_message(event['replyToken'], message)
         when Line::Bot::Event::MessageType::Sticker # スタンプ
-          output_text = 'おもしろいスタンプだ' + (@user.masa ? 'まさ' : 'チャー') + '！'
+          output_text = 'おもしろいスタンプだ' + (@user&.masa ? 'まさ' : 'チャー') + '！'
           message = { type: 'text', text: output_text }
           # 送信
           logger.info "Send #{message}"
