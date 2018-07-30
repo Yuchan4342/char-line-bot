@@ -17,7 +17,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     text1 = 'リッチメニューはすでに追加されています。'
     assert_equal reply_message(text1), assigns(:message)
     assert assigns(:user).linked
-    
+
     # linked = false (リッチメニューが追加されていない)の場合
     post '/callback', params: text_message_event('メニュー追加', 'hoge2')
     assert_response :success
