@@ -59,6 +59,11 @@ group :development do
   gem 'rubocop', require: false
 end
 
+# production: heroku用
+group :production do
+  gem 'rails_12factor'
+end
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
@@ -68,7 +73,5 @@ gem 'dotenv-rails'
 gem 'faraday'
 gem 'faraday_middleware'
 
-# heroku用
-group :production do
-  gem 'rails_12factor'
-end
+# Minitest assigns 用
+gem 'rails-controller-testing'

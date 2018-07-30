@@ -85,16 +85,16 @@ class WebhookController < ApplicationController
           else
             output_text = input_text + (@user&.masa ? 'まさ' : 'チャー')
           end
-          message = { type: 'text', text: output_text }
+          @message = { type: 'text', text: output_text }
           # 送信
-          logger.info "Send #{message}"
-          client.reply_message(event['replyToken'], message)
+          logger.info "Send #{@message}"
+          client.reply_message(event['replyToken'], @message)
         when Line::Bot::Event::MessageType::Sticker # スタンプ
           output_text = 'おもしろいスタンプだ' + (@user&.masa ? 'まさ' : 'チャー') + '！'
-          message = { type: 'text', text: output_text }
+          @message = { type: 'text', text: output_text }
           # 送信
-          logger.info "Send #{message}"
-          client.reply_message(event['replyToken'], message)
+          logger.info "Send #{@message}"
+          client.reply_message(event['replyToken'], @message)
         end
       when Line::Bot::Event::Follow # follow event
         # 送信ユーザとリッチメニューをリンクする

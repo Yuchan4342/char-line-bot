@@ -36,7 +36,12 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
         }
       ]
     }.to_json
+    message = {
+      type: 'text', 
+      text: 'HogeHogeチャー'
+    }
     post '/callback', params: json
     assert_response :success
+    assert_equal message, assigns(:message)
   end
 end
