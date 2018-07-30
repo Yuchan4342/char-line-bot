@@ -9,4 +9,31 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def text_message_event(text)
+    {
+      'events': [
+        {
+          'replyToken': '8cf9239d56244f4197887e939187e19e',
+          'type': 'message',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': 'hoge2'
+          },
+          'message': {
+            'id': '325709',
+            'type': 'text',
+            'text': text
+          }
+        }
+      ]
+    }.to_json
+  end
+
+  def reply_message(text)
+    {
+      type: 'text',
+      text: text
+    }
+  end
 end

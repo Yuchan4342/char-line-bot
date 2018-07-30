@@ -3,45 +3,18 @@
 require 'test_helper'
 
 class WebhookControllerTest < ActionDispatch::IntegrationTest
-  test 'post callback' do
-    json = {
-      'events': [
-        {
-          'replyToken': '0f3779fba3b349968c5d07db31eab56f',
-          'type': 'message',
-          'timestamp': 1_462_629_479_859,
-          'source': {
-            'type': 'user',
-            'userId': 'hoge1'
-          },
-          'message': {
-            'id': '325708',
-            'type': 'text',
-            'text': 'Hello, world'
-          }
-        },
-        {
-          'replyToken': '8cf9239d56244f4197887e939187e19e',
-          'type': 'message',
-          'timestamp': 1_462_629_479_859,
-          'source': {
-            'type': 'user',
-            'userId': 'hoge1'
-          },
-          'message': {
-            'id': '325709',
-            'type': 'text',
-            'text': 'HogeHoge'
-          }
-        }
-      ]
-    }.to_json
-    message = {
-      type: 'text', 
-      text: 'HogeHogeチャー'
-    }
-    post '/callback', params: json
+  test 'post message to callback' do
+    text = 'HogeHogeチャー'
+    post '/callback', params: text_message_event('HogeHoge')
     assert_response :success
-    assert_equal message, assigns(:message)
+    assert_equal reply_message(text), assigns(:message)
+  end
+
+  test 'post link menu to callback' do
+    text = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
+    post '/callback', params: text_message_event('メニュー追加')
+    assert_response :success
+    assert_equal reply_message(text), assigns(:message)
+    assert assigns(:user).linked
   end
 end

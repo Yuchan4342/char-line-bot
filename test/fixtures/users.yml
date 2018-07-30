@@ -11,5 +11,5 @@ two:
   talk_type: 'user'
   user_id: 'hoge2'
   masa: false
-  linked: true
+  linked: false
   user_name: 'まさ'
