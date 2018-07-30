@@ -9,7 +9,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
-  def text_message_event(text)
+  def text_message_event(text, user_id = 'hoge1')
     {
       'events': [
         {
@@ -18,7 +18,7 @@ class ActiveSupport::TestCase
           'timestamp': 1_462_629_479_859,
           'source': {
             'type': 'user',
-            'userId': 'hoge2'
+            'userId': user_id
           },
           'message': {
             'id': '325709',

@@ -12,7 +12,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
 
   test 'post link menu to callback' do
     text = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
-    post '/callback', params: text_message_event('メニュー追加')
+    post '/callback', params: text_message_event('メニュー追加', 'hoge2')
     assert_response :success
     assert_equal reply_message(text), assigns(:message)
     assert assigns(:user).linked
