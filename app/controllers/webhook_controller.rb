@@ -25,7 +25,7 @@ class WebhookController < ApplicationController
 
     # 署名の検証
     signature = request.env['HTTP_X_LINE_SIGNATURE']
-    head :bad_request unless client.validate_signature(body, signature)
+    return head :bad_request unless client.validate_signature(body, signature)
 
     events = client.parse_events_from(body)
     user_ids = events.map { |e| e['source']['userId'] }
