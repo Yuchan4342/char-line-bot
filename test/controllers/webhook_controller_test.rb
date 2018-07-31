@@ -64,4 +64,18 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert_equal reply_message(text2), assigns(:message)
     assert_not assigns(:user).masa
   end
+
+  test 'メッセージを送ったときに masa が変更されていない' do
+    post '/callback', params: text_message_event('HogeHoge')
+    assert_not assigns(:user).masa
+    post '/callback', params: text_message_event('HogeHoge', 'hoge2')
+    assert assigns(:user).masa
+  end
+
+  test 'メッセージを送ったときに linked が変更されていない' do
+    post '/callback', params: text_message_event('HogeHoge')
+    assert assigns(:user).linked
+    post '/callback', params: text_message_event('HogeHoge', 'hoge2')
+    assert_not assigns(:user).linked
+  end
 end
