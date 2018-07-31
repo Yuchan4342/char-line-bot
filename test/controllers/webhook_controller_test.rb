@@ -3,14 +3,21 @@
 require 'test_helper'
 
 class WebhookControllerTest < ActionDispatch::IntegrationTest
-  test 'post message to callback' do
+  test "メッセージに'チャー'をつけて返す" do
     text = 'HogeHogeチャー'
     post '/callback', params: text_message_event('HogeHoge')
     assert_response :success
     assert_equal reply_message(text), assigns(:message)
   end
 
-  test 'post link menu to callback' do
+  test "メッセージに'まさ'をつけて返す" do
+    text = 'HogeHogeまさ'
+    post '/callback', params: text_message_event('HogeHoge', 'hoge2')
+    assert_response :success
+    assert_equal reply_message(text), assigns(:message)
+  end
+
+  test "メニュー'メニュー追加'に対する動作" do
     # linked = true (リッチメニューがすでに追加されている)の場合
     post '/callback', params: text_message_event('メニュー追加')
     assert_response :success
@@ -26,7 +33,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert assigns(:user).linked
   end
 
-  test 'post unlink menu to callback' do
+  test "メニュー'メニュー削除'に対する動作" do
     # linked = true (リッチメニューが追加されている)の場合
     post '/callback', params: text_message_event('メニュー削除')
     assert_response :success
@@ -35,10 +42,26 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert_not assigns(:user).linked
 
     # linked = false (リッチメニューが追加されていない)の場合
-    post '/callback', params: text_message_event('メニュー削除')
+    post '/callback', params: text_message_event('メニュー削除', 'hoge2')
     assert_response :success
     text2 = 'リッチメニューはすでに削除されています。'
     assert_equal reply_message(text2), assigns(:message)
     assert_not assigns(:user).linked
+  end
+
+  test "'change-to-masa'で属性 masa が true に切り替わる" do
+    post '/callback', params: text_message_event('change-to-masa')
+    assert_response :success
+    text1 = 'まさに切替'
+    assert_equal reply_message(text1), assigns(:message)
+    assert assigns(:user).masa
+  end
+
+  test "'change-to-char'で属性 masa が false に切り替わる" do
+    post '/callback', params: text_message_event('change-to-char', 'hoge2')
+    assert_response :success
+    text2 = 'チャーに切替'
+    assert_equal reply_message(text2), assigns(:message)
+    assert_not assigns(:user).masa
   end
 end

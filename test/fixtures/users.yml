@@ -10,6 +10,6 @@ one:
 two:
   talk_type: 'user'
   user_id: 'hoge2'
-  masa: false
+  masa: true
   linked: false
   user_name: 'まさ'
