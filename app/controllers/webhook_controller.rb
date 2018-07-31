@@ -23,9 +23,11 @@ class WebhookController < ApplicationController
   def callback
     body = request.body.read
 
-    # 署名の検証
-    signature = request.env['HTTP_X_LINE_SIGNATURE']
-    return head :bad_request unless client.validate_signature(body, signature)
+    # 署名の検証(production 環境のみ)
+    if Rails.env.production?
+      signature = request.env['HTTP_X_LINE_SIGNATURE']
+      return head :bad_request unless client.validate_signature(body, signature)
+    end
 
     events = client.parse_events_from(body)
     user_ids = events.map { |e| e['source']['userId'] }
