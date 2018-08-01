@@ -78,4 +78,9 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     post '/callback', params: text_message_event('HogeHoge', 'hoge2')
     assert_not assigns(:user).linked
   end
+
+  test 'フォローイベントで新規ユーザーが User に追加されている' do
+    post '/callback', params: follow_event('hoge3')
+    assert_not_nil User.find_by(user_id: 'hoge3')
+  end
 end

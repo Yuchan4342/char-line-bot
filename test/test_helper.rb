@@ -8,7 +8,7 @@ class ActiveSupport::TestCase
   # for all tests in alphabetical order.
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
+  # Add more helper methods to be used by all tests here.
   def text_message_event(text, user_id = 'hoge1')
     {
       'events': [
@@ -24,6 +24,22 @@ class ActiveSupport::TestCase
             'id': '325709',
             'type': 'text',
             'text': text
+          }
+        }
+      ]
+    }.to_json
+  end
+
+  def follow_event(user_id = 'hoge3')
+    {
+      'events': [
+        {
+          'replyToken': 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
+          'type': 'follow',
+          'timestamp': 1_462_629_479_859,
+          'source': {
+            'type': 'user',
+            'userId': user_id
           }
         }
       ]
