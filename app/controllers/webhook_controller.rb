@@ -2,22 +2,17 @@
 
 # WebhookController
 # LINE からのリクエストに答えるコントローラ
+
+require 'line/bot' # gem 'line-bot-api'
+
 class WebhookController < ApplicationController
-  require 'line/bot' # gem 'line-bot-api'
+  before_action :set_client, only: [:callback]
 
   # callbackアクションのCSRFトークン認証を無効
   protect_from_forgery except: [:callback]
 
   # リッチメニューのID設定
   RICHMENU_ID = ENV['RICHMENU_ID']
-
-  def client
-    @client ||= Line::Bot::Client.new do |config|
-      # シークレットとアクセストークンの設定
-      config.channel_secret = ENV['LINE_CHANNEL_SECRET']
-      config.channel_token = ENV['LINE_CHANNEL_TOKEN']
-    end
-  end
 
   # LINE Client から送信(POSTリクエスト)が来た場合の動作
   def callback
@@ -26,10 +21,10 @@ class WebhookController < ApplicationController
     # 署名の検証(production 環境のみ)
     if Rails.env.production?
       signature = request.env['HTTP_X_LINE_SIGNATURE']
-      return head :bad_request unless client.validate_signature(body, signature)
+      return head :bad_request unless @client.validate_signature(body, signature)
     end
 
-    events = client.parse_events_from(body)
+    events = @client.parse_events_from(body)
     user_ids = events.map { |e| e['source']['userId'] }
     @users = User.where(user_id: user_ids)
 
@@ -90,13 +85,13 @@ class WebhookController < ApplicationController
           @message = { type: 'text', text: output_text }
           # 送信
           logger.info "Send #{@message}"
-          client.reply_message(event['replyToken'], @message)
+          @client.reply_message(event['replyToken'], @message)
         when Line::Bot::Event::MessageType::Sticker # スタンプ
           output_text = 'おもしろいスタンプだ' + (@user&.masa ? 'まさ' : 'チャー') + '！'
           @message = { type: 'text', text: output_text }
           # 送信
           logger.info "Send #{@message}"
-          client.reply_message(event['replyToken'], @message)
+          @client.reply_message(event['replyToken'], @message)
         end
       when Line::Bot::Event::Follow # follow event
         # 送信ユーザとリッチメニューをリンクする
@@ -113,6 +108,15 @@ class WebhookController < ApplicationController
   end
 
   private
+
+  # 環境変数から @client を生成
+  def set_client
+    @client ||= Line::Bot::Client.new do |config|
+      # シークレットとアクセストークンの設定
+      config.channel_secret = ENV['LINE_CHANNEL_SECRET']
+      config.channel_token = ENV['LINE_CHANNEL_TOKEN']
+    end
+  end
 
   # 送信ユーザとリッチメニューをリンクする
   def link_menu
@@ -135,7 +139,7 @@ class WebhookController < ApplicationController
               "/#{@user&.user_id}/richmenu"
             end
     uri = URI.parse('https://api.line.me/v2/bot/user' + uri_s)
-    header = { 'Authorization': "Bearer #{client.channel_token}" }
+    header = { 'Authorization': "Bearer #{@client.channel_token}" }
     req = if link
             Net::HTTP::Post.new(uri.path, header)
           else
