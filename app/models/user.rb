@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
-# User の構造
-# id
-# talk_type
-# user_id
-# masa
-# linked
-# user_name
+# == Schema Information
+#
+# Table name: users
+#
+#  id         :bigint(8)        not null, primary key
+#  talk_type  :string
+#  user_id    :string
+#  masa       :boolean
+#  linked     :boolean
+#  user_name  :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
 
 class User < ApplicationRecord
 end

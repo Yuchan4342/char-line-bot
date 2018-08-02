@@ -75,3 +75,6 @@ gem 'faraday_middleware'
 
 # Minitest assigns 用
 gem 'rails-controller-testing'
+
+# モデルのカラム情報追加
+gem 'annotate'
