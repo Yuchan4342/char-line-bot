@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-# WebhookController
-# LINE からのリクエストに答えるコントローラ
-
 require 'line/bot' # gem 'line-bot-api'
 
+# WebhookController
+# LINE からのリクエストに答えるコントローラ
 class WebhookController < ApplicationController
-  before_action :set_client, only: [:callback]
+  before_action :client, only: [:callback]
 
   # callbackアクションのCSRFトークン認証を無効
   protect_from_forgery except: [:callback]
@@ -21,7 +20,9 @@ class WebhookController < ApplicationController
     # 署名の検証(production 環境のみ)
     if Rails.env.production?
       signature = request.env['HTTP_X_LINE_SIGNATURE']
-      return head :bad_request unless @client.validate_signature(body, signature)
+      unless @client.validate_signature(body, signature)
+        return head :bad_request
+      end
     end
 
     events = @client.parse_events_from(body)
@@ -110,7 +111,7 @@ class WebhookController < ApplicationController
   private
 
   # 環境変数から @client を生成
-  def set_client
+  def client
     @client ||= Line::Bot::Client.new do |config|
       # シークレットとアクセストークンの設定
       config.channel_secret = ENV['LINE_CHANNEL_SECRET']
