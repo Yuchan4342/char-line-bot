@@ -78,3 +78,6 @@ gem 'rails-controller-testing'
 
 # モデルのカラム情報追加
 gem 'annotate'
+
+# er図の生成 `rails erd`
+gem 'rails-erd'
