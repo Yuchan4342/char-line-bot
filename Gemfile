@@ -44,6 +44,8 @@ group :development, :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+  # er図の生成 `rails erd`
+  gem 'rails-erd'
 end
 
 group :development do
@@ -79,8 +81,10 @@ gem 'rails-controller-testing'
 # モデルのカラム情報追加
 gem 'annotate'
 
-# er図の生成 `rails erd`
-gem 'rails-erd'
-
 # rails console (irb/pry) の出力整形
 gem 'awesome_print'
+
+# pry を導入
+gem 'pry-byebug'
+gem 'pry-doc'
+gem 'pry-rails'
