@@ -19,8 +19,12 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
+one: 
+  id: 1
+  event_type: 'message'
+  timestamp: 1_535_178_163_473
+  source_type: 'user'
+  user_id: 101
+
 two: {}
 # column: value

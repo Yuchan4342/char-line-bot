@@ -14,12 +14,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
+  id: 101
   user_id: 'hoge1'
   masa: false
   linked: true
   user_name: 'チャー'
 
 two:
+  id: 102
   user_id: 'hoge2'
   masa: true
   linked: false

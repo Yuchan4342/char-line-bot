@@ -30,14 +30,8 @@ class WebhookController < ApplicationController
     events.each do |event|
       logger.info event
       user_id = event['source']['userId']
-      @user = User.find_by(user_id: user_id)
-      add_user(user_id)
-      WebhookEvent.create(
-        event_type: event['type'],
-        timestamp: event['timestamp'],
-        source_type: event['source']['type'],
-        user_id: @user.id
-      )
+      @user = get_user(user_id)
+      create_wh_event(event)
 
       case event
       when Line::Bot::Event::Message # message event
@@ -101,19 +95,32 @@ class WebhookController < ApplicationController
 
   private
 
-  # ユーザIDがデータベースに追加されていなければ追加する
-  def add_user(user_id)
-    if @user.nil?
+  # ユーザをDBから取得して返す
+  def get_user(user_id)
+    user = User.find_by(user_id: user_id)
+    # ユーザIDがデータベースに追加されていなければ追加する
+    if user.nil?
       logger.info 'create new User'
       # ユーザIDをデータベースに追加する
-      @user = User.create(
+      user = User.create(
         user_id: user_id,
         masa: false,
         linked: true
       )
     else
-      logger.info "Registered User. #{@user&.user_name}"
+      logger.info "Registered User. #{user&.user_name}"
     end
+    user
+  end
+
+  # WebhookEvent モデルを生成する
+  def create_wh_event(event)
+    WebhookEvent.create(
+      event_type: event['type'],
+      timestamp: event['timestamp'],
+      source_type: event['source']['type'],
+      user_id: @user.id
+    )
   end
 
   # 環境変数から @client を生成

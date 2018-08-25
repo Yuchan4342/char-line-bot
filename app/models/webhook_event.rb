@@ -15,7 +15,7 @@
 #  updated_at    :datetime         not null
 #
 
-# Event モデル: Bot に来たイベントを保存する
+# WebhookEvent モデル: Bot に来た Webhook イベントを保存する
 class WebhookEvent < ApplicationRecord
   belongs_to :user
 end
