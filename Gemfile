@@ -81,3 +81,6 @@ gem 'annotate'
 
 # er図の生成 `rails erd`
 gem 'rails-erd'
+
+# rails console (irb/pry) の出力整形
+gem 'awesome_print'
