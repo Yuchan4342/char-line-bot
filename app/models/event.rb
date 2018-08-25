@@ -15,5 +15,7 @@
 #  updated_at    :datetime         not null
 #
 
+# Event モデル: Bot に来たイベントを保存する
 class Event < ApplicationRecord
+  belongs_to :user
 end

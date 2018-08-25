@@ -14,5 +14,7 @@
 #  updated_at :datetime         not null
 #
 
+# User クラス: Bot にイベントを送ったユーザ情報を保存する
 class User < ApplicationRecord
+  has_many :events, dependent: :nullify
 end
