@@ -16,5 +16,5 @@
 
 # User クラス: Bot にイベントを送ったユーザ情報を保存する
 class User < ApplicationRecord
-  has_many :events, dependent: :nullify
+  has_many :webhook_events, dependent: :nullify
 end

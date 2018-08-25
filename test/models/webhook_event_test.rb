@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: events
+# Table name: webhook_events
 #
 #  id            :bigint(8)        not null, primary key
 #  type          :string
@@ -17,7 +17,7 @@
 
 require 'test_helper'
 
-class EventTest < ActiveSupport::TestCase
+class WebhookEventTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

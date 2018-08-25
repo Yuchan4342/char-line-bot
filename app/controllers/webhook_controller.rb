@@ -34,6 +34,12 @@ class WebhookController < ApplicationController
       user_id = event['source']['userId']
       @user = @users.find_by(user_id: user_id)
       add_user(user_id, event['source']['type'])
+      WebhookEvent.create(
+        type: event['type'],
+        timestamp: event['timestamp'],
+        source_type: event['source']['type'],
+        user_id: @user.id
+      )
 
       case event
       when Line::Bot::Event::Message # message event
@@ -102,7 +108,7 @@ class WebhookController < ApplicationController
     if @user.nil?
       logger.info 'create new User'
       # ユーザIDをデータベースに追加する
-      User.create(
+      @user = User.create(
         talk_type: talk_type,
         user_id: user_id,
         masa: false,

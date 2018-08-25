@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: events
+# Table name: webhook_events
 #
 #  id            :bigint(8)        not null, primary key
 #  type          :string
@@ -16,6 +16,6 @@
 #
 
 # Event モデル: Bot に来たイベントを保存する
-class Event < ApplicationRecord
+class WebhookEvent < ApplicationRecord
   belongs_to :user
 end
