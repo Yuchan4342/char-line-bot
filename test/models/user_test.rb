@@ -5,7 +5,6 @@
 # Table name: users
 #
 #  id         :bigint(8)        not null, primary key
-#  talk_type  :string
 #  user_id    :string
 #  masa       :boolean
 #  linked     :boolean

@@ -26,14 +26,12 @@ class WebhookController < ApplicationController
     end
 
     events = @client.parse_events_from(body)
-    user_ids = events.map { |e| e['source']['userId'] }.uniq
-    @users = User.where(user_id: user_ids)
 
     events.each do |event|
       logger.info event
       user_id = event['source']['userId']
-      @user = @users.find_by(user_id: user_id)
-      add_user(user_id, event['source']['type'])
+      @user = User.find_by(user_id: user_id)
+      add_user(user_id)
       WebhookEvent.create(
         event_type: event['type'],
         timestamp: event['timestamp'],
@@ -104,12 +102,11 @@ class WebhookController < ApplicationController
   private
 
   # ユーザIDがデータベースに追加されていなければ追加する
-  def add_user(user_id, talk_type = nil)
+  def add_user(user_id)
     if @user.nil?
       logger.info 'create new User'
       # ユーザIDをデータベースに追加する
       @user = User.create(
-        talk_type: talk_type,
         user_id: user_id,
         masa: false,
         linked: true
