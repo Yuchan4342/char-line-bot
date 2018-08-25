@@ -10,21 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_25_042832) do
+ActiveRecord::Schema.define(version: 2018_08_25_060123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "events", force: :cascade do |t|
-    t.string "type"
-    t.bigint "timestamp"
-    t.string "source_type"
-    t.bigint "user_id"
-    t.bigint "room_id"
-    t.bigint "talk_group_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "users", force: :cascade do |t|
     t.string "talk_type"
@@ -32,6 +21,17 @@ ActiveRecord::Schema.define(version: 2018_08_25_042832) do
     t.boolean "masa"
     t.boolean "linked"
     t.string "user_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "webhook_events", force: :cascade do |t|
+    t.string "type"
+    t.bigint "timestamp"
+    t.string "source_type"
+    t.bigint "user_id"
+    t.bigint "room_id"
+    t.bigint "talk_group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
