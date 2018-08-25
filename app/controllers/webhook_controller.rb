@@ -35,7 +35,7 @@ class WebhookController < ApplicationController
       @user = @users.find_by(user_id: user_id)
       add_user(user_id, event['source']['type'])
       WebhookEvent.create(
-        type: event['type'],
+        event_type: event['type'],
         timestamp: event['timestamp'],
         source_type: event['source']['type'],
         user_id: @user.id

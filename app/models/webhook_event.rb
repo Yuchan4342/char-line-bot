@@ -5,7 +5,7 @@
 # Table name: webhook_events
 #
 #  id            :bigint(8)        not null, primary key
-#  type          :string
+#  event_type    :string
 #  timestamp     :bigint(8)
 #  source_type   :string
 #  user_id       :bigint(8)
