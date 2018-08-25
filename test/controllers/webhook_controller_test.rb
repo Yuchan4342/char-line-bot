@@ -83,4 +83,12 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     post '/callback', params: follow_event('hoge3')
     assert_not_nil User.find_by(user_id: 'hoge3')
   end
+
+  # test 'イベントが WebhookEvent に追加されている' do
+  #   old_wh_events = WebhookEvent.all
+  #   post '/callback', params: text_message_event('HogeHoge', 'hoge2')
+  #   assert_response :success
+  #   new_wh_events = WebhookEvent.all
+  #   assert_not_equal old_wh_events, new_wh_events
+  # end
 end
