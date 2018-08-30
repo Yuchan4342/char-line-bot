@@ -29,8 +29,9 @@ class WebhookController < ApplicationController
 
     events.each do |event|
       logger.info event
-      user_id = event['source']['userId']
-      @user = get_user(user_id)
+      @user = get_user(event['source']['userId'])
+      @room = get_room(event['source']['roomId'])
+      @group = get_group(event['source']['groupId'])
       create_wh_event(event)
 
       case event
@@ -113,13 +114,43 @@ class WebhookController < ApplicationController
     user
   end
 
+  # トークルームをDBから取得して返す
+  def get_room(room_id)
+    room = Room.find_by(room_id: room_id)
+    # ルームIDがデータベースに追加されていなければ追加する
+    if room.nil?
+      logger.info 'create new Room'
+      # ルームIDをデータベースに追加する
+      room = Room.create(room_id: room_id)
+    else
+      logger.info 'Registered Room.'
+    end
+    room
+  end
+
+  # トークグループをDBから取得して返す
+  def get_group(talk_group_id)
+    talk_group = TalkGroup.find_by(group_id: talk_group_id)
+    # グループIDがデータベースに追加されていなければ追加する
+    if talk_group.nil?
+      logger.info 'create new TalkGroup'
+      # グループIDをデータベースに追加する
+      talk_group = TalkGroup.create(group_id: talk_group_id)
+    else
+      logger.info 'Registered TalkGroup.'
+    end
+    talk_group
+  end
+
   # WebhookEvent モデルを生成する
   def create_wh_event(event)
     WebhookEvent.create(
       event_type: event['type'],
       timestamp: event['timestamp'],
       source_type: event['source']['type'],
-      user_id: @user.id
+      user_id: @user.id,
+      room_id: @room.id,
+      talk_group_id: @group.id
     )
   end
 
