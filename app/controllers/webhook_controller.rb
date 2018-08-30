@@ -29,9 +29,7 @@ class WebhookController < ApplicationController
 
     events.each do |event|
       logger.info event
-      @user = get_user(event['source']['userId'])
-      @room = get_room(event['source']['roomId'])
-      @group = get_group(event['source']['groupId'])
+      get_user(event)
       create_wh_event(event)
 
       case event
@@ -97,21 +95,23 @@ class WebhookController < ApplicationController
   private
 
   # ユーザをDBから取得して返す
-  def get_user(user_id)
-    user = User.find_by(user_id: user_id)
+  def get_user(event)
+    source = event['source']
+    @user = User.find_by(user_id: source['userId'])
     # ユーザIDがデータベースに追加されていなければ追加する
-    if user.nil?
+    if @user.nil?
       logger.info 'create new User'
-      # ユーザIDをデータベースに追加する
-      user = User.create(
-        user_id: user_id,
+      @user = User.create(
+        user_id: source['userId'],
         masa: false,
         linked: true
       )
     else
-      logger.info "Registered User. #{user&.user_name}"
+      logger.info "Registered User. #{@user&.user_name}"
     end
-    user
+    @room = get_room(source['roomId']) unless source['roomId'].nil?
+    @group = get_group(source['groupId']) unless source['groupId'].nil?
+    @user
   end
 
   # トークルームをDBから取得して返す
@@ -120,7 +120,6 @@ class WebhookController < ApplicationController
     # ルームIDがデータベースに追加されていなければ追加する
     if room.nil?
       logger.info 'create new Room'
-      # ルームIDをデータベースに追加する
       room = Room.create(room_id: room_id)
     else
       logger.info 'Registered Room.'
@@ -134,7 +133,6 @@ class WebhookController < ApplicationController
     # グループIDがデータベースに追加されていなければ追加する
     if talk_group.nil?
       logger.info 'create new TalkGroup'
-      # グループIDをデータベースに追加する
       talk_group = TalkGroup.create(group_id: talk_group_id)
     else
       logger.info 'Registered TalkGroup.'
@@ -149,8 +147,8 @@ class WebhookController < ApplicationController
       timestamp: event['timestamp'],
       source_type: event['source']['type'],
       user_id: @user.id,
-      room_id: @room.id,
-      talk_group_id: @group.id
+      room_id: @room&.id,
+      talk_group_id: @group&.id
     )
   end
 
