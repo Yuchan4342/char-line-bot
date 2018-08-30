@@ -10,5 +10,7 @@
 #  updated_at :datetime         not null
 #
 
+# TalkGroup クラス: LINE でのグループ
 class TalkGroup < ApplicationRecord
+  has_many :webhook_events, dependent: :nullify
 end

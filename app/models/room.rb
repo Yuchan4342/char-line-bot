@@ -10,5 +10,7 @@
 #  updated_at :datetime         not null
 #
 
+# Room クラス: LINE でのトークルーム(グループトーク)
 class Room < ApplicationRecord
+  has_many :webhook_events, dependent: :nullify
 end
