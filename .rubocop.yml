@@ -91,4 +91,3 @@ Style/MixinUsage:
 Style/StderrPuts:
   Exclude:
     - 'bin/yarn'
-inherit_from: .rubocop_todo.yml
