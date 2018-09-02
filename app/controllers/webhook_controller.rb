@@ -97,47 +97,10 @@ class WebhookController < ApplicationController
   # ユーザをDBから取得して返す
   def get_user(event)
     source = event['source']
-    @user = User.find_by(user_id: source['userId'])
-    # ユーザIDがデータベースに追加されていなければ追加する
-    if @user.nil?
-      logger.info 'create new User'
-      @user = User.create(
-        user_id: source['userId'],
-        masa: false,
-        linked: true
-      )
-    else
-      logger.info "Registered User. #{@user&.user_name}"
-    end
-    @room = get_room(source['roomId']) unless source['roomId'].nil?
-    @group = get_group(source['groupId']) unless source['groupId'].nil?
+    @user = User.get_by(source['userId'])
+    @room = Room.get_by(source['roomId']) unless source['roomId'].nil?
+    @group = Group.get_by(source['groupId']) unless source['groupId'].nil?
     @user
-  end
-
-  # トークルームをDBから取得して返す
-  def get_room(room_id)
-    room = Room.find_by(room_id: room_id)
-    # ルームIDがデータベースに追加されていなければ追加する
-    if room.nil?
-      logger.info 'create new Room'
-      room = Room.create(room_id: room_id)
-    else
-      logger.info 'Registered Room.'
-    end
-    room
-  end
-
-  # トークグループをDBから取得して返す
-  def get_group(talk_group_id)
-    talk_group = TalkGroup.find_by(group_id: talk_group_id)
-    # グループIDがデータベースに追加されていなければ追加する
-    if talk_group.nil?
-      logger.info 'create new TalkGroup'
-      talk_group = TalkGroup.create(group_id: talk_group_id)
-    else
-      logger.info 'Registered TalkGroup.'
-    end
-    talk_group
   end
 
   # WebhookEvent モデルを生成する

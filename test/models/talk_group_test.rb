@@ -13,7 +13,21 @@
 require 'test_helper'
 
 class TalkGroupTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  # get_by で指定の group_id を持つモデルが取得できることをテスト
+  test 'get_by 存在する場合' do
+    group_id = 'hogehoge01'
+    group = TalkGroup.get_by(group_id)
+    assert_not_nil group
+    assert_equal TalkGroup.find(1), group
+  end
+
+  # get_by で新規に指定の group_id を持つモデルが生成されることをテスト
+  test 'get_by 存在しない場合' do
+    group_id = 'hogehoge02'
+    assert_nil TalkGroup.find_by(group_id: group_id)
+    group = TalkGroup.get_by(group_id)
+    group_found = TalkGroup.find_by(group_id: group_id)
+    assert_not_nil group_found
+    assert_equal group, group_found
+  end
 end
