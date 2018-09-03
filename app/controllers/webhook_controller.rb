@@ -105,13 +105,21 @@ class WebhookController < ApplicationController
 
   # WebhookEvent モデルを生成する
   def create_wh_event(event)
-    WebhookEvent.create(
+    @wh_event = WebhookEvent.create(
       event_type: event['type'],
       timestamp: event['timestamp'],
       source_type: event['source']['type'],
       user_id: @user.id,
       room_id: @room&.id,
       talk_group_id: @group&.id
+    )
+    return unless @wh_event.event_type == 'message'
+    Message.create(
+      reply_token: event['replyToken'],
+      message_id: event['message']['id'],
+      type: event['message']['type'],
+      text: event['message']['text'],
+      webhook_event_id: @wh_event
     )
   end
 
