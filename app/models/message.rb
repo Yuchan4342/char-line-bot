@@ -7,7 +7,7 @@
 #  id               :bigint(8)        not null, primary key
 #  reply_token      :string
 #  message_id       :string
-#  type             :string
+#  message_type     :string
 #  text             :string
 #  webhook_event_id :bigint(8)        not null
 #  created_at       :datetime         not null

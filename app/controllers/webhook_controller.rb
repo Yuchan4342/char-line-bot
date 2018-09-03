@@ -117,7 +117,7 @@ class WebhookController < ApplicationController
     Message.create(
       reply_token: event['replyToken'],
       message_id: event['message']['id'],
-      type: event['message']['type'],
+      message_type: event['message']['type'],
       text: event['message']['text'],
       webhook_event_id: @wh_event
     )
