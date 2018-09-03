@@ -20,4 +20,6 @@ class WebhookEvent < ApplicationRecord
   belongs_to :user
   belongs_to :room, optional: true
   belongs_to :talk_group, optional: true
+
+  has_one :message, dependent: :destroy
 end

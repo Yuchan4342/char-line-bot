@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_30_150022) do
+ActiveRecord::Schema.define(version: 2018_09_03_122017) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "messages", force: :cascade do |t|
+    t.string "reply_token"
+    t.string "message_id"
+    t.string "type"
+    t.string "text"
+    t.bigint "webhook_event_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "rooms", force: :cascade do |t|
     t.string "room_id"
