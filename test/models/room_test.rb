@@ -18,7 +18,7 @@ class RoomTest < ActiveSupport::TestCase
     room_id = 'hogehoge01'
     room = Room.get_by(room_id)
     assert_not_nil room
-    assert_equal Room.find(1), room
+    assert_equal rooms(:one), room
   end
 
   # get_by で新規に指定の room_id を持つモデルが生成されることをテスト

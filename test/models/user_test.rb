@@ -21,7 +21,7 @@ class UserTest < ActiveSupport::TestCase
     user_id = 'hoge1'
     user = User.get_by(user_id)
     assert_not_nil user
-    assert_equal User.find(101), user
+    assert_equal users(:one), user
   end
 
   # get_by で新規に指定の user_id を持つモデルが生成されることをテスト

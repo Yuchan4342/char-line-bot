@@ -18,7 +18,7 @@ class TalkGroupTest < ActiveSupport::TestCase
     group_id = 'hogehoge01'
     group = TalkGroup.get_by(group_id)
     assert_not_nil group
-    assert_equal TalkGroup.find(1), group
+    assert_equal talk_groups(:one), group
   end
 
   # get_by で新規に指定の group_id を持つモデルが生成されることをテスト
