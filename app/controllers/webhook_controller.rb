@@ -29,7 +29,7 @@ class WebhookController < ApplicationController
 
     events.each do |event|
       logger.info event
-      get_user(event)
+      get_model(event)
       create_wh_event(event)
 
       case event
@@ -94,8 +94,8 @@ class WebhookController < ApplicationController
 
   private
 
-  # ユーザをDBから取得して返す
-  def get_user(event)
+  # ユーザ, トークルーム, グループのモデルをDBから取得して返す
+  def get_model(event)
     source = event['source']
     @user = User.get_by(source['userId'])
     @room = Room.get_by(source['roomId']) unless source['roomId'].nil?
