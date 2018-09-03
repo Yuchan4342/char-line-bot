@@ -119,7 +119,7 @@ class WebhookController < ApplicationController
       message_id: event['message']['id'],
       message_type: event['message']['type'],
       text: event['message']['text'],
-      webhook_event_id: @wh_event
+      webhook_event: @wh_event
     )
   end
 

@@ -90,4 +90,12 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     end
     assert_response :success
   end
+
+  test 'イベントがメッセージのとき, メッセージが Message に追加されている' do
+    assert_difference('Message.count', 1) do
+      post callback_path, params: text_message_event('HogeHoge', 'hoge2')
+    end
+    assert_response :success
+    assert_equal assigns(:wh_event).message.text, 'HogeHoge'
+  end
 end
