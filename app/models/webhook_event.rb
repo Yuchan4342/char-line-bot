@@ -18,6 +18,6 @@
 # WebhookEvent モデル: Bot に来た Webhook イベントを保存する
 class WebhookEvent < ApplicationRecord
   belongs_to :user
-  belongs_to :room
-  belongs_to :talk_group
+  belongs_to :room, optional: true
+  belongs_to :talk_group, optional: true
 end
