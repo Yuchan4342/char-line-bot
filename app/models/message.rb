@@ -17,4 +17,6 @@
 # Message
 class Message < ApplicationRecord
   belongs_to :webhook_event
+
+  validates :webhook_event_id, uniqueness: true
 end
