@@ -26,5 +26,9 @@ one:
   source_type: 'user'
   user_id: 101
 
-# two: {}
-# column: value
+two: 
+  id: 2
+  event_type: 'message'
+  timestamp: 1_535_178_162_474
+  source_type: 'user'
+  user_id: 102

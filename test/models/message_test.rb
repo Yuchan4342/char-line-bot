@@ -17,7 +17,15 @@
 require 'test_helper'
 
 class MessageTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'webhook_event_id = nil では create できない' do
+    Message.create(id: 101, webhook_event_id: nil)
+    assert_nil Message.find_by(id: 101)
+  end
+
+  test 'webhook_event_id = 2 では create できる' do
+    message = Message.create(id: 101, webhook_event_id: 2)
+    message_found = Message.find_by(id: 101)
+    assert_not_nil message_found
+    assert_equal message, message_found
+  end
 end
