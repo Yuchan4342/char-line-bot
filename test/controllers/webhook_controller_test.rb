@@ -55,6 +55,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     text1 = 'まさに切替'
     assert_equal reply_message(text1), assigns(:message)
     assert assigns(:user).masa
+    assert_equal assigns(:user).suffix, 'まさ'
   end
 
   test "'change-to-char'で属性 masa が false に切り替わる" do
@@ -63,13 +64,16 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     text2 = 'チャーに切替'
     assert_equal reply_message(text2), assigns(:message)
     assert_not assigns(:user).masa
+    assert_equal assigns(:user).suffix, 'チャー'
   end
 
   test 'メッセージを送ったときに masa が変更されていない' do
     post callback_path, params: text_message_event('HogeHoge')
     assert_not assigns(:user).masa
+    assert_equal assigns(:user).suffix, 'チャー'
     post callback_path, params: text_message_event('HogeHoge', 'hoge2')
     assert assigns(:user).masa
+    assert_equal assigns(:user).suffix, 'まさ'
   end
 
   test 'メッセージを送ったときに linked が変更されていない' do

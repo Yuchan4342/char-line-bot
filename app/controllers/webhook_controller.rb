@@ -41,10 +41,10 @@ class WebhookController < ApplicationController
           input_text = event.message['text']
           case input_text
           when 'change-to-char'
-            @user.update(masa: false)
+            @user.update(masa: false, suffix: 'チャー')
             output_text = 'チャーに切替'
           when 'change-to-masa'
-            @user.update(masa: true)
+            @user.update(masa: true, suffix: 'まさ')
             output_text = 'まさに切替'
           when 'メニュー追加'
             if @user.linked

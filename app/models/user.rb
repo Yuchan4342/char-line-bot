@@ -27,6 +27,7 @@ class User < ApplicationRecord
       user = User.create(
         user_id: user_id,
         masa: false,
+        suffix: 'チャー',
         linked: true
       )
     else

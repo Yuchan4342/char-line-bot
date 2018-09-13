@@ -28,7 +28,7 @@ class MessageTest < ActiveSupport::TestCase
     assert_not_nil message_found
     assert_equal message, message_found
   end
-  
+
   test 'webhook_event_id を重複させては create できない' do
     Message.create(id: 101, webhook_event_id: 1)
     assert_nil Message.find_by(id: 101)
