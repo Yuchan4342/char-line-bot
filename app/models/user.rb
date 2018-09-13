@@ -11,6 +11,7 @@
 #  user_name  :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  suffix     :string
 #
 
 # User クラス: Bot にイベントを送ったユーザ情報を保存する
