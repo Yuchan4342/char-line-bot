@@ -65,14 +65,14 @@ class WebhookController < ApplicationController
               output_text = 'リッチメニューはすでに削除されています。'
             end
           else
-            output_text = input_text + (@user&.masa ? 'まさ' : 'チャー')
+            output_text = input_text + @user&.suffix
           end
           @message = { type: 'text', text: output_text }
           # 送信
           logger.info "Send #{@message}"
           @client.reply_message(event['replyToken'], @message)
         when Line::Bot::Event::MessageType::Sticker # スタンプ
-          output_text = 'おもしろいスタンプだ' + (@user&.masa ? 'まさ' : 'チャー') + '！'
+          output_text = 'おもしろいスタンプだ' + @user&.suffix + '！'
           @message = { type: 'text', text: output_text }
           # 送信
           logger.info "Send #{@message}"
