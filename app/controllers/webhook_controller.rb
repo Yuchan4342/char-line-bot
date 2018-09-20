@@ -32,12 +32,12 @@ class WebhookController < ApplicationController
       logger.info event
       get_model(event)
 
-      case event
-      when Line::Bot::Event::Message # message event
+      case event['type']
+      when 'message' # message event
         # 送信ユーザとリッチメニューをリンクする
         link_menu
-        case event.type
-        when Line::Bot::Event::MessageType::Text # テキスト
+        case event['message']['type']
+        when 'text' # テキスト
           input_text = event.message['text']
           case input_text
           when 'change-to-char'
@@ -71,22 +71,28 @@ class WebhookController < ApplicationController
           # 送信
           logger.info "Send #{@message}"
           @client.reply_message(event['replyToken'], @message)
-        when Line::Bot::Event::MessageType::Sticker # スタンプ
+        # when 'image' # 画像
+        # when 'video' # 映像
+        # when 'audio' # 音声
+        # when 'file' # ファイル
+        # when 'location' # 位置情報
+        when 'sticker' # スタンプ
           output_text = 'おもしろいスタンプだ' + @user&.suffix + '！'
           @message = { type: 'text', text: output_text }
           # 送信
           logger.info "Send #{@message}"
           @client.reply_message(event['replyToken'], @message)
         end
-      when Line::Bot::Event::Follow # follow event
-        # 送信ユーザとリッチメニューをリンクする
+      when 'follow' # follow event
         link_menu
         logger.info 'Followed or Unblocked.'
-      when Line::Bot::Event::Unfollow # blocked event
+      when 'unfollow' # blocked event
         unlink_menu
         logger.info 'Blocked.'
-      when Line::Bot::Event::Leave # グループから退出したときのevent
-        logger.info 'Group left.'
+      when 'join' # グループから退出したときのevent
+        logger.info 'Joined group or room.'
+      when 'leave' # グループから退出したときのevent
+        logger.info 'Left group or room.'
       end
     end
     head :ok
