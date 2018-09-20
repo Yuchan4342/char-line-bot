@@ -114,9 +114,8 @@ class WebhookController < ApplicationController
   def get_model(event)
     source = event['source']
     @user = User.get_by(source['userId'])
-    @room = Room.get_by(source['roomId']) unless source['roomId'].nil?
-    @group = Group.get_by(source['groupId']) unless source['groupId'].nil?
-    @user
+    @room = Room.get_by(source['roomId']) if source['type'] == 'room'
+    @group = Group.get_by(source['groupId']) if source['type'] == 'group'
   end
 
   # WebhookEvent モデルを生成する
@@ -152,6 +151,7 @@ class WebhookController < ApplicationController
   def link_menu
     return unless @user&.linked
     res = link_menu_request(true)
+    # res = @client.link_user_rich_menu(@user&.user_id, RICHMENU_ID)
     logger.info "Linked. #{res.code} #{res.body}"
   end
 
@@ -159,6 +159,7 @@ class WebhookController < ApplicationController
   def unlink_menu
     return if @user&.linked
     res = link_menu_request(false)
+    # res = @client.unlink_user_rich_menu(@user&.user_id)
     logger.info "Link deleted. #{res.code} #{res.body}"
   end
 
