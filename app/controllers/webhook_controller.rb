@@ -34,55 +34,7 @@ class WebhookController < ApplicationController
 
       case event['type']
       when 'message' # message event
-        # 送信ユーザとリッチメニューをリンクする
-        link_menu
-        case event['message']['type']
-        when 'text' # テキスト
-          input_text = event.message['text']
-          case input_text
-          when 'change-to-char'
-            @user.update(suffix: 'チャー')
-            output_text = 'チャーに切替'
-          when 'change-to-masa'
-            @user.update(suffix: 'まさ')
-            output_text = 'まさに切替'
-          when 'メニュー追加'
-            if @user.linked
-              output_text = 'リッチメニューはすでに追加されています。'
-            else
-              # 送信ユーザとリッチメニューをリンクする
-              @user.update(linked: true)
-              link_menu
-              output_text = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
-            end
-          when 'メニュー削除'
-            if @user.linked
-              # リッチメニューとのリンクを削除する
-              @user.update(linked: false)
-              unlink_menu
-              output_text = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
-            else
-              output_text = 'リッチメニューはすでに削除されています。'
-            end
-          else
-            output_text = input_text + @user&.suffix
-          end
-          @message = { type: 'text', text: output_text }
-          # 送信
-          logger.info "Send #{@message}"
-          @client.reply_message(event['replyToken'], @message)
-        # when 'image' # 画像
-        # when 'video' # 映像
-        # when 'audio' # 音声
-        # when 'file' # ファイル
-        # when 'location' # 位置情報
-        when 'sticker' # スタンプ
-          output_text = 'おもしろいスタンプだ' + @user&.suffix + '！'
-          @message = { type: 'text', text: output_text }
-          # 送信
-          logger.info "Send #{@message}"
-          @client.reply_message(event['replyToken'], @message)
-        end
+        reply_to_message_event(event)
       when 'follow' # follow event
         link_menu
         logger.info 'Followed or Unblocked.'
@@ -151,6 +103,59 @@ class WebhookController < ApplicationController
       text: event['message']['text'],
       webhook_event: @wh_event
     )
+  end
+
+  def reply_to_message_event(event)
+    return unless event['type'] == 'message'
+    # 送信ユーザとリッチメニューをリンクする
+    link_menu
+    case event['message']['type']
+    when 'text' # テキスト
+      input_text = event['message']['text']
+      case input_text
+      when 'change-to-char'
+        @user.update(suffix: 'チャー')
+        output_text = 'チャーに切替'
+      when 'change-to-masa'
+        @user.update(suffix: 'まさ')
+        output_text = 'まさに切替'
+      when 'メニュー追加'
+        if @user.linked
+          output_text = 'リッチメニューはすでに追加されています。'
+        else
+          # 送信ユーザとリッチメニューをリンクする
+          @user.update(linked: true)
+          link_menu
+          output_text = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
+        end
+      when 'メニュー削除'
+        if @user.linked
+          # リッチメニューとのリンクを削除する
+          @user.update(linked: false)
+          unlink_menu
+          output_text = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
+        else
+          output_text = 'リッチメニューはすでに削除されています。'
+        end
+      else
+        output_text = input_text + @user&.suffix
+      end
+      @message = { type: 'text', text: output_text }
+      # 送信
+      logger.info "Send #{@message}"
+      @client.reply_message(event['replyToken'], @message)
+    # when 'image' # 画像
+    # when 'video' # 映像
+    # when 'audio' # 音声
+    # when 'file' # ファイル
+    # when 'location' # 位置情報
+    when 'sticker' # スタンプ
+      output_text = 'おもしろいスタンプだ' + @user&.suffix + '！'
+      @message = { type: 'text', text: output_text }
+      # 送信
+      logger.info "Send #{@message}"
+      @client.reply_message(event['replyToken'], @message)
+    end
   end
 
   # 送信ユーザとリッチメニューをリンクする
