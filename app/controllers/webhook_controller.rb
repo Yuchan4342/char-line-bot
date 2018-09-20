@@ -95,6 +95,15 @@ class WebhookController < ApplicationController
 
   private
 
+  # 環境変数から @client を生成
+  def client
+    @client ||= Line::Bot::Client.new do |config|
+      # シークレットとアクセストークンの設定
+      config.channel_secret = ENV['LINE_CHANNEL_SECRET']
+      config.channel_token = ENV['LINE_CHANNEL_TOKEN']
+    end
+  end
+
   # events の各 event に共通プロパティなどの必須項目が入ってるか検証
   def validate_events(events)
     events.each do |event|
@@ -138,48 +147,17 @@ class WebhookController < ApplicationController
     )
   end
 
-  # 環境変数から @client を生成
-  def client
-    @client ||= Line::Bot::Client.new do |config|
-      # シークレットとアクセストークンの設定
-      config.channel_secret = ENV['LINE_CHANNEL_SECRET']
-      config.channel_token = ENV['LINE_CHANNEL_TOKEN']
-    end
-  end
-
   # 送信ユーザとリッチメニューをリンクする
   def link_menu
     return unless @user&.linked
-    res = link_menu_request(true)
-    # res = @client.link_user_rich_menu(@user&.user_id, RICHMENU_ID)
+    res = @client.link_user_rich_menu(@user&.user_id, RICHMENU_ID)
     logger.info "Linked. #{res.code} #{res.body}"
   end
 
   # 送信ユーザとリッチメニューのリンクを削除する
   def unlink_menu
     return if @user&.linked
-    res = link_menu_request(false)
-    # res = @client.unlink_user_rich_menu(@user&.user_id)
+    res = @client.unlink_user_rich_menu(@user&.user_id)
     logger.info "Link deleted. #{res.code} #{res.body}"
-  end
-
-  def link_menu_request(link)
-    uri_s = if link
-              "/#{@user&.user_id}/richmenu/#{RICHMENU_ID}"
-            else
-              "/#{@user&.user_id}/richmenu"
-            end
-    uri = URI.parse('https://api.line.me/v2/bot/user' + uri_s)
-    header = { 'Authorization': "Bearer #{@client.channel_token}" }
-    req = if link
-            Net::HTTP::Post.new(uri.path, header)
-          else
-            Net::HTTP::Delete.new(uri.path, header)
-          end
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    http.start do |h|
-      h.request(req)
-    end
   end
 end
