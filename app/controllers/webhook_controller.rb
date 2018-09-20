@@ -31,7 +31,6 @@ class WebhookController < ApplicationController
     events.each do |event|
       logger.info event
       get_model(event)
-      create_wh_event(event)
 
       case event
       when Line::Bot::Event::Message # message event
@@ -125,6 +124,7 @@ class WebhookController < ApplicationController
     @user = User.get_by(source['userId'])
     @room = Room.get_by(source['roomId']) if source['type'] == 'room'
     @group = Group.get_by(source['groupId']) if source['type'] == 'group'
+    create_wh_event(event)
   end
 
   # WebhookEvent モデルを生成する
