@@ -26,6 +26,7 @@ class WebhookController < ApplicationController
     end
 
     events = @client.parse_events_from(body)
+    return head :bad_request unless validate_events(events)
 
     events.each do |event|
       logger.info event
@@ -93,6 +94,21 @@ class WebhookController < ApplicationController
   end
 
   private
+
+  # events の各 event に共通プロパティなどの必須項目が入ってるか検証
+  def validate_events(events)
+    events.each do |event|
+      # 共通プロパティ
+      if event['type'].nil? || event['timestamp'].nil? || event['source'].nil?
+        return false
+      end
+      # source 下で必ず存在するプロパティ
+      if event['source']['type'].nil? || event['source']['userId'].nil?
+        return false
+      end
+    end
+    true
+  end
 
   # ユーザ, トークルーム, グループのモデルをDBから取得して返す
   def get_model(event)
