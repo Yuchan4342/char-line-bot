@@ -6,7 +6,6 @@
 #
 #  id         :bigint(8)        not null, primary key
 #  user_id    :string
-#  masa       :boolean
 #  linked     :boolean
 #  user_name  :string
 #  created_at :datetime         not null
@@ -26,7 +25,6 @@ class User < ApplicationRecord
       logger.info 'create new User'
       user = User.create(
         user_id: user_id,
-        masa: false,
         suffix: 'チャー',
         linked: true
       )
