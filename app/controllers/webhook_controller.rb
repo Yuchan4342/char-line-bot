@@ -96,6 +96,7 @@ class WebhookController < ApplicationController
       talk_group_id: @group&.id
     )
     return unless @wh_event.event_type == 'message'
+
     Message.create(
       reply_token: event['replyToken'],
       message_id: event['message']['id'],
@@ -107,6 +108,7 @@ class WebhookController < ApplicationController
 
   def reply_to_message_event(event)
     return unless event['type'] == 'message'
+
     # 送信ユーザとリッチメニューをリンクする
     link_menu
     case event['message']['type']
@@ -161,6 +163,7 @@ class WebhookController < ApplicationController
   # 送信ユーザとリッチメニューをリンクする
   def link_menu
     return unless @user&.linked
+
     res = @client.link_user_rich_menu(@user&.user_id, RICHMENU_ID)
     logger.info "Linked. #{res.code} #{res.body}"
   end
@@ -168,6 +171,7 @@ class WebhookController < ApplicationController
   # 送信ユーザとリッチメニューのリンクを削除する
   def unlink_menu
     return if @user&.linked
+
     res = @client.unlink_user_rich_menu(@user&.user_id)
     logger.info "Link deleted. #{res.code} #{res.body}"
   end
