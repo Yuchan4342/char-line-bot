@@ -60,7 +60,7 @@ group :development do
   # rubocop コード規約に則っているかチェック
   gem 'rubocop', require: false
   # Solargraph for Ruby (http://solargraph.org)
-  gem "solargraph", require: false
+  gem 'solargraph', require: false
 end
 
 # production: heroku用
