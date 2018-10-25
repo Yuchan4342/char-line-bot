@@ -59,6 +59,8 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   # rubocop コード規約に則っているかチェック
   gem 'rubocop', require: false
+  # Solargraph for Ruby (http://solargraph.org)
+  gem "solargraph", require: false
 end
 
 # production: heroku用
