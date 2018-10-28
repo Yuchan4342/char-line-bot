@@ -30,20 +30,24 @@ class ActiveSupport::TestCase
     }.to_json
   end
 
-  def follow_event(user_id = 'hoge3')
+  def follow_events(user_id = 'hoge3')
     {
       'events': [
-        {
-          'replyToken': 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
-          'type': 'follow',
-          'timestamp': 1_462_629_479_859,
-          'source': {
-            'type': 'user',
-            'userId': user_id
-          }
-        }
+        follow_event(user_id)
       ]
     }.to_json
+  end
+
+  def follow_event(user_id = 'hoge3')
+    {
+      'replyToken': 'nHuyWiB7yP5Zw52FIkcQobQuGDXCTA',
+      'type': 'follow',
+      'timestamp': 1_462_629_479_859,
+      'source': {
+        'type': 'user',
+        'userId': user_id
+      }
+    }
   end
 
   def reply_message(text)

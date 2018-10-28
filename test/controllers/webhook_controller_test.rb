@@ -80,7 +80,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'フォローイベントで新規ユーザーが User に追加されている' do
-    post callback_path, params: follow_event('hoge3')
+    post callback_path, params: follow_events('hoge3')
     assert_not_nil User.find_by(user_id: 'hoge3')
   end
 
