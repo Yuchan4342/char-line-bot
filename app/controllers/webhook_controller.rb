@@ -25,25 +25,7 @@ class WebhookController < ApplicationController
     events = @client.parse_events_from(body)
     return head :bad_request unless validate_events(events)
 
-    events.each do |event|
-      logger.info event
-      get_model(event)
-
-      case event['type']
-      # message event
-      when 'message' then reply_to_message_event(event)
-      when 'follow' # follow event
-        link_menu
-        logger.info 'Followed or Unblocked.'
-      when 'unfollow' # blocked event
-        unlink_menu
-        logger.info 'Blocked.'
-      # グループに参加したときのevent
-      when 'join' then logger.info 'Joined group or room.'
-      # グループから退出したときのevent
-      when 'leave' then logger.info 'Left group or room.'
-      end
-    end
+    process_events(events)
     head :ok
   end
 
@@ -113,6 +95,37 @@ class WebhookController < ApplicationController
       text: event['message']['text'],
       webhook_event: @wh_event
     )
+  end
+
+  # events に対するループ処理
+  # @param events 処理したいイベントの配列
+  def process_events(events)
+    events.each do |event|
+      logger.info event
+      get_model(event)
+      process_event(event)
+    end
+  end
+
+  # 各 event に対する処理
+  # @param event 処理したいイベント
+  def process_event(event)
+    case event['type']
+    # message event
+    when 'message' then reply_to_message_event(event)
+    # follow event
+    when 'follow'
+      link_menu
+      logger.info 'Followed or Unblocked.'
+    # blocked event
+    when 'unfollow'
+      unlink_menu
+      logger.info 'Blocked.'
+    # グループに参加したときのevent
+    when 'join' then logger.info 'Joined group or room.'
+    # グループから退出したときのevent
+    when 'leave' then logger.info 'Left group or room.'
+    end
   end
 
   def reply_to_message_event(event)
