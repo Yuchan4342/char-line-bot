@@ -18,11 +18,8 @@ class WebhookController < ApplicationController
     body = request.body.read
 
     # 署名の検証(production 環境のみ)
-    if Rails.env.production?
-      signature = request.env['HTTP_X_LINE_SIGNATURE']
-      unless @client.validate_signature(body, signature)
-        return head :bad_request
-      end
+    if Rails.env.production? && !validate_signature(body, request)
+      return head :bad_request
     end
 
     events = @client.parse_events_from(body)
@@ -59,6 +56,13 @@ class WebhookController < ApplicationController
       config.channel_secret = ENV['LINE_CHANNEL_SECRET']
       config.channel_token = ENV['LINE_CHANNEL_TOKEN']
     end
+  end
+
+  # 署名の検証を行う
+  # @param body 検証を行う request の body
+  def validate_signature(body, request)
+    signature = request.env['HTTP_X_LINE_SIGNATURE']
+    @client.validate_signature(body, signature)
   end
 
   # events の各 event に共通プロパティなどの必須項目が入ってるか検証
