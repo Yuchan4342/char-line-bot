@@ -130,7 +130,7 @@ class WebhookController < ApplicationController
   def reply_to_message_event(event)
     return unless event['type'] == 'message'
 
-    reply_token = event['reply_token']
+    reply_token = event['replyToken']
     case event['message']['type']
     when 'text' # テキスト
       send_message(reply_token, reply_to_text(event['message']['text']))
