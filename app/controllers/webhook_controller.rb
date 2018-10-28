@@ -30,18 +30,18 @@ class WebhookController < ApplicationController
       get_model(event)
 
       case event['type']
-      when 'message' # message event
-        reply_to_message_event(event)
+      # message event
+      when 'message' then reply_to_message_event(event)
       when 'follow' # follow event
         link_menu
         logger.info 'Followed or Unblocked.'
       when 'unfollow' # blocked event
         unlink_menu
         logger.info 'Blocked.'
-      when 'join' # グループから退出したときのevent
-        logger.info 'Joined group or room.'
-      when 'leave' # グループから退出したときのevent
-        logger.info 'Left group or room.'
+      # グループに参加したときのevent
+      when 'join' then logger.info 'Joined group or room.'
+      # グループから退出したときのevent
+      when 'leave' then logger.info 'Left group or room.'
       end
     end
     head :ok
