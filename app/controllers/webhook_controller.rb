@@ -112,7 +112,8 @@ class WebhookController < ApplicationController
   def process_event(event)
     case event['type']
     # message event
-    when 'message' then reply_to_message_event(event)
+    when 'message' then link_menu
+                        reply_to_message_event(event)
     # follow event
     when 'follow' then link_menu
                        logger.info 'Followed or Unblocked.'
@@ -129,18 +130,17 @@ class WebhookController < ApplicationController
   def reply_to_message_event(event)
     return unless event['type'] == 'message'
 
-    # 送信ユーザとリッチメニューをリンクする
-    link_menu
+    reply_token = event['reply_token']
     case event['message']['type']
     when 'text' # テキスト
-      send_message(event['replyToken'], reply_to_text(event['message']['text']))
+      send_message(reply_token, reply_to_text(event['message']['text']))
     # when 'image' # 画像
     # when 'video' # 映像
     # when 'audio' # 音声
     # when 'file' # ファイル
     # when 'location' # 位置情報
     when 'sticker' # スタンプ
-      send_message(event['replyToken'], 'おもしろいスタンプだ' + @user&.suffix + '！')
+      send_message(reply_token, 'おもしろいスタンプだ' + @user&.suffix + '！')
     end
   end
 
