@@ -20,17 +20,14 @@ class User < ApplicationRecord
   def self.get_by(user_id)
     # ユーザをDBから取得して返す
     user = User.find_by(user_id: user_id)
+    logger.info(if user.nil?
+                  'create new User'
+                else
+                  "Registered User. #{user&.user_name}"
+                end)
     # ユーザIDがデータベースに追加されていなければ追加する
-    if user.nil?
-      logger.info 'create new User'
-      user = User.create(
-        user_id: user_id,
-        suffix: 'チャー',
-        linked: true
-      )
-    else
-      logger.info "Registered User. #{user&.user_name}"
-    end
-    user
+    user || User.create(user_id: user_id,
+                        suffix: 'チャー',
+                        linked: true)
   end
 end
