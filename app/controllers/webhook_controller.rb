@@ -18,35 +18,14 @@ class WebhookController < ApplicationController
     body = request.body.read
 
     # 署名の検証(production 環境のみ)
-    if Rails.env.production?
-      signature = request.env['HTTP_X_LINE_SIGNATURE']
-      unless @client.validate_signature(body, signature)
-        return head :bad_request
-      end
+    if Rails.env.production? && !validate_signature(body, request)
+      return head :bad_request
     end
 
     events = @client.parse_events_from(body)
     return head :bad_request unless validate_events(events)
 
-    events.each do |event|
-      logger.info event
-      get_model(event)
-
-      case event['type']
-      when 'message' # message event
-        reply_to_message_event(event)
-      when 'follow' # follow event
-        link_menu
-        logger.info 'Followed or Unblocked.'
-      when 'unfollow' # blocked event
-        unlink_menu
-        logger.info 'Blocked.'
-      when 'join' # グループから退出したときのevent
-        logger.info 'Joined group or room.'
-      when 'leave' # グループから退出したときのevent
-        logger.info 'Left group or room.'
-      end
-    end
+    process_events(events)
     head :ok
   end
 
@@ -59,6 +38,13 @@ class WebhookController < ApplicationController
       config.channel_secret = ENV['LINE_CHANNEL_SECRET']
       config.channel_token = ENV['LINE_CHANNEL_TOKEN']
     end
+  end
+
+  # 署名の検証を行う
+  # @param body 検証を行う request の body
+  def validate_signature(body, request)
+    signature = request.env['HTTP_X_LINE_SIGNATURE']
+    @client.validate_signature(body, signature)
   end
 
   # events の各 event に共通プロパティなどの必須項目が入ってるか検証
@@ -85,7 +71,8 @@ class WebhookController < ApplicationController
     create_wh_event(event)
   end
 
-  # WebhookEvent モデルを生成する
+  # WebhookEvent モデル @wh_event を生成する
+  # @param event: @wh_event に入れたい json データ.
   def create_wh_event(event)
     @wh_event = WebhookEvent.create(
       event_type: event['type'],
@@ -95,7 +82,12 @@ class WebhookController < ApplicationController
       room_id: @room&.id,
       talk_group_id: @group&.id
     )
-    return unless @wh_event.event_type == 'message'
+    create_message(event) if @wh_event.event_type == 'message'
+  end
+
+  # @wh_event に関連する Messageモデルを生成する.
+  # @param event: 生成するモデルに入れたい json データ.
+  def create_message(event)
     Message.create(
       reply_token: event['replyToken'],
       message_id: event['message']['id'],
@@ -105,8 +97,38 @@ class WebhookController < ApplicationController
     )
   end
 
+  # events に対するループ処理
+  # @param events 処理したいイベントの配列
+  def process_events(events)
+    events.each do |event|
+      logger.info event
+      get_model(event)
+      process_event(event)
+    end
+  end
+
+  # 各 event に対する処理
+  # @param event 処理したいイベント
+  def process_event(event)
+    case event['type']
+    # message event
+    when 'message' then reply_to_message_event(event)
+    # follow event
+    when 'follow' then link_menu
+                       logger.info 'Followed or Unblocked.'
+    # blocked event
+    when 'unfollow' then unlink_menu
+                         logger.info 'Blocked.'
+    # グループに参加したときのevent
+    when 'join' then logger.info 'Joined group or room.'
+    # グループから退出したときのevent
+    when 'leave' then logger.info 'Left group or room.'
+    end
+  end
+
   def reply_to_message_event(event)
     return unless event['type'] == 'message'
+
     # 送信ユーザとリッチメニューをリンクする
     link_menu
     case event['message']['type']
@@ -161,6 +183,7 @@ class WebhookController < ApplicationController
   # 送信ユーザとリッチメニューをリンクする
   def link_menu
     return unless @user&.linked
+
     res = @client.link_user_rich_menu(@user&.user_id, RICHMENU_ID)
     logger.info "Linked. #{res.code} #{res.body}"
   end
@@ -168,6 +191,7 @@ class WebhookController < ApplicationController
   # 送信ユーザとリッチメニューのリンクを削除する
   def unlink_menu
     return if @user&.linked
+
     res = @client.unlink_user_rich_menu(@user&.user_id)
     logger.info "Link deleted. #{res.code} #{res.body}"
   end
