@@ -85,7 +85,8 @@ class WebhookController < ApplicationController
     create_wh_event(event)
   end
 
-  # WebhookEvent モデルを生成する
+  # WebhookEvent モデル @wh_event を生成する
+  # @param event: @wh_event に入れたい json データ.
   def create_wh_event(event)
     @wh_event = WebhookEvent.create(
       event_type: event['type'],
@@ -95,8 +96,12 @@ class WebhookController < ApplicationController
       room_id: @room&.id,
       talk_group_id: @group&.id
     )
-    return unless @wh_event.event_type == 'message'
+    create_message(event) if @wh_event.event_type == 'message'
+  end
 
+  # @wh_event に関連する Messageモデルを生成する.
+  # @param event: 生成するモデルに入れたい json データ.
+  def create_message(event)
     Message.create(
       reply_token: event['replyToken'],
       message_id: event['message']['id'],
