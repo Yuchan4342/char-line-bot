@@ -2,8 +2,11 @@
 
 AllCops:
   TargetRubyVersion: 2.5
-  # ref: https://github.com/rails/rails/blob/master/.rubocop.yml
   Exclude:
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    # ref: https://github.com/rails/rails/blob/master/.rubocop.yml
     - '**/templates/**/*'
     - '**/vendor/**/*'
     - 'actionpack/lib/action_dispatch/journey/parser.rb'
