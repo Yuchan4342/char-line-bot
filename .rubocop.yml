@@ -1,85 +1,39 @@
-inherit_from: .rubocop_todo.yml
-
 # .rubocop.yml
-Rails:
-  Enabled: true
-Style/AsciiComments:
-  Enabled: false
+
 AllCops:
   TargetRubyVersion: 2.5
-  RubyInterpreters:
-    - ruby
-    - macruby
-    - rake
-    - jruby
-    - rbx
-  Include:
-# from default.yml
-    - '**/*.rb'
-    - '**/*.arb'
-    - '**/*.axlsx'
-    - '**/*.builder'
-    - '**/*.fcgi'
-    - '**/*.gemspec'
-    - '**/*.god'
-    - '**/*.jb'
-    - '**/*.jbuilder'
-    - '**/*.mspec'
-    - '**/*.opal'
-    - '**/*.pluginspec'
-    - '**/*.podspec'
-    - '**/*.rabl'
-    - '**/*.rake'
-    - '**/*.rbuild'
-    - '**/*.rbw'
-    - '**/*.rbx'
-    - '**/*.ru'
-    - '**/*.ruby'
-    - '**/*.spec'
-    - '**/*.thor'
-    - '**/*.watchr'
-    - '**/.irbrc'
-    - '**/.pryrc'
-    - '**/buildfile'
-    - '**/config.ru'
-    - '**/Appraisals'
-    - '**/Berksfile'
-    - '**/Brewfile'
-    - '**/Buildfile'
-    - '**/Capfile'
-    - '**/Cheffile'
-    - '**/Dangerfile'
-    - '**/Deliverfile'
-    - '**/Fastfile'
-    - '**/*Fastfile'
-    - '**/Gemfile'
-    - '**/Guardfile'
-    - '**/Jarfile'
-    - '**/Mavenfile'
-    - '**/Podfile'
-    - '**/Puppetfile'
-    - '**/Rakefile'
-    - '**/Snapfile'
-    - '**/Thorfile'
-    - '**/Vagabondfile'
-    - '**/Vagrantfile'
+  # ref: https://github.com/rails/rails/blob/master/.rubocop.yml
   Exclude:
-    - 'db/**/*'
-    - 'config/**/*'
-    - 'script/**/*'
-    - '.bundle/**/*'
-    - '.vscode/**/*'
-    - 'misc/**/*'
-    - !ruby/regexp /old_and_unused\.rb$/
-# from default.yml
+    - '**/templates/**/*'
+    - '**/vendor/**/*'
+    - 'actionpack/lib/action_dispatch/journey/parser.rb'
+    - 'railties/test/fixtures/tmp/**/*'
     - 'node_modules/**/*'
-    - 'vendor/**/*'
+
+Performance:
+  Exclude:
+    - '**/test/**/*'
+
+AsciiComments:
+  Enabled: false
+
+Rails:
+  Enabled: true
+
 Style/ExpandPathArguments:
   Exclude:
     - 'bin/**'
+
 Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
   Exclude:
-    - 'bin/**'
+    - 'actionview/test/**/*.builder'
+    - 'actionview/test/**/*.ruby'
+    - 'actionpack/test/**/*.builder'
+    - 'actionpack/test/**/*.ruby'
+    - 'activestorage/db/migrate/**/*.rb'
+
 Style/MixinUsage:
   Exclude:
     - 'bin/setup'
@@ -87,3 +41,5 @@ Style/MixinUsage:
 Style/StderrPuts:
   Exclude:
     - 'bin/yarn'
+
+inherit_from: .rubocop_todo.yml
