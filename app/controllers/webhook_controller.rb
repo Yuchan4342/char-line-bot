@@ -162,22 +162,22 @@ class WebhookController < ApplicationController
       else
         output_text = input_text + @user&.suffix
       end
-      @message = { type: 'text', text: output_text }
-      # 送信
-      logger.info "Send #{@message}"
-      @client.reply_message(event['replyToken'], @message)
+      send_message(event['replyToken'], output_text)
     # when 'image' # 画像
     # when 'video' # 映像
     # when 'audio' # 音声
     # when 'file' # ファイル
     # when 'location' # 位置情報
     when 'sticker' # スタンプ
-      output_text = 'おもしろいスタンプだ' + @user&.suffix + '！'
-      @message = { type: 'text', text: output_text }
-      # 送信
-      logger.info "Send #{@message}"
-      @client.reply_message(event['replyToken'], @message)
+      send_message(event['replyToken'], 'おもしろいスタンプだ' + @user&.suffix + '！')
     end
+  end
+
+  # メッセージを送信する.
+  def send_message(token, text)
+    @message = { type: 'text', text: text }
+    logger.info "Send #{@message}"
+    @client.reply_message(token, @message)
   end
 
   # 送信ユーザとリッチメニューをリンクする
