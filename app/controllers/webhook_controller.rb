@@ -114,13 +114,11 @@ class WebhookController < ApplicationController
     # message event
     when 'message' then reply_to_message_event(event)
     # follow event
-    when 'follow'
-      link_menu
-      logger.info 'Followed or Unblocked.'
+    when 'follow' then link_menu
+                       logger.info 'Followed or Unblocked.'
     # blocked event
-    when 'unfollow'
-      unlink_menu
-      logger.info 'Blocked.'
+    when 'unfollow' then unlink_menu
+                         logger.info 'Blocked.'
     # グループに参加したときのevent
     when 'join' then logger.info 'Joined group or room.'
     # グループから退出したときのevent
