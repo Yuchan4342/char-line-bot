@@ -210,6 +210,8 @@ GEM
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
+    sitemap_generator (6.0.1)
+      builder (~> 3.0)
     solargraph (0.28.4)
       coderay (~> 1.1)
       eventmachine (~> 1.2, >= 1.2.5)
@@ -284,6 +286,7 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 5.0)
   selenium-webdriver
+  sitemap_generator
   solargraph
   spring
   spring-watcher-listen (~> 2.0.0)
