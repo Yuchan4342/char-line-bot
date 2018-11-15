@@ -90,3 +90,6 @@ gem 'awesome_print'
 gem 'pry-byebug'
 gem 'pry-doc'
 gem 'pry-rails'
+
+# リダイレクトの設定.
+gem 'rack-rewrite'
