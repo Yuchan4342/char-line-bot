@@ -46,8 +46,6 @@ group :development, :test do
   gem 'selenium-webdriver'
   # er図の生成 `rails erd`
   gem 'rails-erd'
-  # sitemap 生成.
-  gem 'sitemap_generator'
 end
 
 group :development do
@@ -95,3 +93,6 @@ gem 'pry-rails'
 
 # リダイレクトの設定.
 gem 'rack-rewrite'
+
+# sitemap 生成.
+gem 'sitemap_generator'
