@@ -93,3 +93,6 @@ gem 'pry-rails'
 
 # リダイレクトの設定.
 gem 'rack-rewrite'
+
+# sitemap 生成.
+gem 'sitemap_generator'
