@@ -1,3 +1,5 @@
+<%= javascript_include_tag 'top' %>
+
 <h3>Top Page</h3>
 <p>
 このLINE botはあなたのメッセージの後ろに「チャー」をつけて返します！<br>
@@ -7,21 +9,9 @@
 <p>
 LINE ID:
 <span id="line-id">@ido0212s</span>
-<!-- コピーボタン -->
-<button class="btn1" ontouchstart="" data-clipboard-target="#line-id">Copy</button>
+<!-- Copy Button -->
+<button class="clb-copy-id-btn" data-clipboard-target="#line-id">Copy</button>
 </p>
-
-<!-- コピーボタンの実装JS -->
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/clipboard.js/1.5.3/clipboard.min.js"></script>
-<script>
-  $(function () {
-    var clipboard = new Clipboard('.btn1');
-    clipboard.on('success', function(e) {
-      e.clearSelection();
-    });
-  });
-</script>
 
 <p>
 <a href="https://line.me/R/ti/p/%40ido0212s">
