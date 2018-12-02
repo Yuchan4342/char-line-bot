@@ -59,7 +59,7 @@ body {
   margin: 5px;
 }
 
-.btn1 {
+.clb-copy-id-btn {
   font-size: 12px;
   text-align: center;
   margin: 0 5px 0;
@@ -72,13 +72,14 @@ body {
   cursor: pointer;
   border-style: none;
   user-select: none;
+  outline: none;
 }
 
-.btn1:hover { /* カーソルが載ったとき */
+.clb-copy-id-btn:hover { /* カーソルが載ったとき */
   opacity: 0.8;
 }
 
-.btn1:active { /* ボタンを押したとき */
+.clb-copy-id-btn:active { /* ボタンを押したとき */
   box-shadow: 0 2px 0 #004400;
   transform: translate(0, 2px);
 }

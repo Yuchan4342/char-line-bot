@@ -96,3 +96,9 @@ gem 'rack-rewrite'
 
 # sitemap 生成.
 gem 'sitemap_generator'
+
+# jQuery
+gem 'jquery-rails'
+
+# Clipboard コピーボタン用.
+gem 'clipboard-rails'
