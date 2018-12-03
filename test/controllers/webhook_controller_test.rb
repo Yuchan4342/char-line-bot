@@ -65,6 +65,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert_equal assigns(:user).suffix, 'チャー'
   end
 
+  # change-string 関連
   test "'change-string'に対してメッセージ'後ろに付けたい文字列を入れてくださいチャー'を返す" do
     text = '後ろに付けたい文字列を入れてくださいチャー'
     post callback_path, params: text_message_events('change-string')
@@ -78,6 +79,52 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert assigns(:user).changing_suffix
   end
 
+  test "'change-string'を送った後に一般の文字列を送ったとき" do
+    text = 'ほげに切り替えました！'
+    post callback_path, params: text_message_events('ほげ', 'hoge3')
+    assert_response :success
+    assert_equal reply_message(text), assigns(:message)
+    assert_not assigns(:user).changing_suffix
+    assert_equal assigns(:user).suffix, 'ほげ'
+  end
+
+  test "'change-string'を送った後に文字列'change-to-char'を送ったとき" do
+    text = 'チャーに切り替えました！'
+    post callback_path, params: text_message_events('change-to-char', 'hoge3')
+    assert_response :success
+    assert_equal reply_message(text), assigns(:message)
+    assert_not assigns(:user).changing_suffix
+    assert_equal assigns(:user).suffix, 'チャー'
+  end
+
+  test "'change-string'を送った後に文字列'change-to-masa'を送ったとき" do
+    text = 'まさに切り替えました！'
+    post callback_path, params: text_message_events('change-to-masa', 'hoge3')
+    assert_response :success
+    assert_equal reply_message(text), assigns(:message)
+    assert_not assigns(:user).changing_suffix
+    assert_equal assigns(:user).suffix, 'まさ'
+  end
+
+  test "'change-string'を送った後に文字列'メニュー追加'を送ったとき" do
+    text = 'リッチメニューはすでに追加されています。'
+    post callback_path, params: text_message_events('メニュー追加', 'hoge3')
+    assert_response :success
+    assert_equal reply_message(text), assigns(:message)
+    assert_not assigns(:user).changing_suffix
+    assert_equal assigns(:user).suffix, 'チャー'
+  end
+
+  test "'change-string'を送った後に文字列'メニュー削除'を送ったとき" do
+    text = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
+    post callback_path, params: text_message_events('メニュー削除', 'hoge3')
+    assert_response :success
+    assert_equal reply_message(text), assigns(:message)
+    assert_not assigns(:user).changing_suffix
+    assert_equal assigns(:user).suffix, 'チャー'
+  end
+
+  # suffix 関連
   test 'メッセージを送ったときに属性 suffix が変更されていない' do
     post callback_path, params: text_message_events('HogeHoge')
     assert_equal assigns(:user).suffix, 'チャー'
