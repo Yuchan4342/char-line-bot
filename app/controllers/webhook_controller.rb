@@ -150,15 +150,21 @@ class WebhookController < ApplicationController
   def reply_to_text(input_text)
     case input_text
     when 'change-string'
+      @user.update(changing_suffix: true)
       '後ろに付けたい文字列を入れてくださいチャー'
     when 'change-to-char', 'change-to-masa'
       suffix = input_text == 'change-to-char' ? 'チャー' : 'まさ'
-      @user.update(suffix: suffix)
-      return "#{suffix}に切替"
+      @user.update(suffix: suffix, changing_suffix: false)
+      "#{suffix}に切り替えました！"
     when 'メニュー追加', 'メニュー削除'
       process_link_unlink_menu(input_text == 'メニュー追加')
     else
-      input_text + @user&.suffix
+      if @user.changing_suffix
+        @user.update(suffix: input_text, changing_suffix: false)
+        "#{input_text}に切り替えました！"
+      else
+        input_text + @user&.suffix
+      end
     end
   end
 
@@ -166,6 +172,7 @@ class WebhookController < ApplicationController
   # @param is_add テキストが 'メニュー追加' であるかどうか
   # @return 返すテキストメッセージ
   def process_link_unlink_menu(is_add)
+    @user.update(changing_suffix: false)
     return 'リッチメニューはすでに追加されています。' if @user.linked && is_add
     return 'リッチメニューはすでに削除されています。' if !@user.linked && !is_add
 
