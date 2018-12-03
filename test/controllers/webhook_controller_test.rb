@@ -52,7 +52,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
   test "'change-to-masa'で属性 suffix が 'まさ' に切り替わる" do
     post callback_path, params: text_message_events('change-to-masa')
     assert_response :success
-    text1 = 'まさに切替'
+    text1 = 'まさに切り替えました！'
     assert_equal reply_message(text1), assigns(:message)
     assert_equal assigns(:user).suffix, 'まさ'
   end
@@ -60,7 +60,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
   test "'change-to-char'で属性 suffix が 'チャー' に切り替わる" do
     post callback_path, params: text_message_events('change-to-char', 'hoge2')
     assert_response :success
-    text2 = 'チャーに切替'
+    text2 = 'チャーに切り替えました！'
     assert_equal reply_message(text2), assigns(:message)
     assert_equal assigns(:user).suffix, 'チャー'
   end
@@ -70,6 +70,12 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     post callback_path, params: text_message_events('change-string')
     assert_response :success
     assert_equal reply_message(text), assigns(:message)
+  end
+
+  test "'change-string'で属性 changing_suffix が true に切り替わる" do
+    post callback_path, params: text_message_events('change-string')
+    assert_response :success
+    assert assigns(:user).changing_suffix
   end
 
   test 'メッセージを送ったときに属性 suffix が変更されていない' do

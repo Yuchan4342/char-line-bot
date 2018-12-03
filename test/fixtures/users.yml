@@ -18,6 +18,7 @@ one:
   id: 101
   user_id: 'hoge1'
   suffix: 'チャー'
+  changing_suffix: false
   linked: true
   user_name: 'チャー'
 
@@ -25,5 +26,6 @@ two:
   id: 102
   user_id: 'hoge2'
   suffix: 'まさ'
+  changing_suffix: false
   linked: false
   user_name: 'まさ'
