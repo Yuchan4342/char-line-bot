@@ -6,7 +6,6 @@
 #
 #  id              :bigint(8)        not null, primary key
 #  user_id         :string
-#  linked          :boolean
 #  user_name       :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
