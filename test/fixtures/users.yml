@@ -2,13 +2,14 @@
 #
 # Table name: users
 #
-#  id         :bigint(8)        not null, primary key
-#  user_id    :string
-#  linked     :boolean
-#  user_name  :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  suffix     :string
+#  id              :bigint(8)        not null, primary key
+#  user_id         :string
+#  linked          :boolean
+#  user_name       :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  suffix          :string
+#  changing_suffix :boolean          default(FALSE)
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
@@ -17,6 +18,7 @@ one:
   id: 101
   user_id: 'hoge1'
   suffix: 'チャー'
+  changing_suffix: false
   linked: true
   user_name: 'チャー'
 
@@ -24,5 +26,15 @@ two:
   id: 102
   user_id: 'hoge2'
   suffix: 'まさ'
+  changing_suffix: false
   linked: false
   user_name: 'まさ'
+
+# 'change-string' を送った後の状態の User
+three:
+  id: 103
+  user_id: 'hoge3'
+  suffix: 'チャー'
+  changing_suffix: true
+  linked: true
+  user_name: 'チャー'
