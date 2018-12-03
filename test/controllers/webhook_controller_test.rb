@@ -65,6 +65,13 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert_equal assigns(:user).suffix, 'チャー'
   end
 
+  test "'change-string'に対してメッセージ'後ろに付けたい文字列を入れてくださいチャー'を返す" do
+    text = '後ろに付けたい文字列を入れてくださいチャー'
+    post callback_path, params: text_message_events('change-string')
+    assert_response :success
+    assert_equal reply_message(text), assigns(:message)
+  end
+
   test 'メッセージを送ったときに属性 suffix が変更されていない' do
     post callback_path, params: text_message_events('HogeHoge')
     assert_equal assigns(:user).suffix, 'チャー'
