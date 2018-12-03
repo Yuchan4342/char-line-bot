@@ -17,38 +17,6 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert_equal reply_message(text), assigns(:message)
   end
 
-  test "メニュー'メニュー追加'に対する動作" do
-    # linked = true (リッチメニューがすでに追加されている)の場合
-    post callback_path, params: text_message_events('メニュー追加')
-    assert_response :success
-    text1 = 'リッチメニューはすでに追加されています。'
-    assert_equal reply_message(text1), assigns(:message)
-    assert assigns(:user).linked
-
-    # linked = false (リッチメニューが追加されていない)の場合
-    post callback_path, params: text_message_events('メニュー追加', 'hoge2')
-    assert_response :success
-    text2 = "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
-    assert_equal reply_message(text2), assigns(:message)
-    assert assigns(:user).linked
-  end
-
-  test "メニュー'メニュー削除'に対する動作" do
-    # linked = true (リッチメニューが追加されている)の場合
-    post callback_path, params: text_message_events('メニュー削除')
-    assert_response :success
-    text1 = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
-    assert_equal reply_message(text1), assigns(:message)
-    assert_not assigns(:user).linked
-
-    # linked = false (リッチメニューが追加されていない)の場合
-    post callback_path, params: text_message_events('メニュー削除', 'hoge2')
-    assert_response :success
-    text2 = 'リッチメニューはすでに削除されています。'
-    assert_equal reply_message(text2), assigns(:message)
-    assert_not assigns(:user).linked
-  end
-
   test "'change-to-masa'で属性 suffix が 'まさ' に切り替わる" do
     post callback_path, params: text_message_events('change-to-masa')
     assert_response :success
@@ -104,24 +72,6 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert_equal reply_message(text), assigns(:message)
     assert_not assigns(:user).changing_suffix
     assert_equal assigns(:user).suffix, 'まさ'
-  end
-
-  test "'change-string'を送った後に文字列'メニュー追加'を送ったとき" do
-    text = 'リッチメニューはすでに追加されています。'
-    post callback_path, params: text_message_events('メニュー追加', 'hoge3')
-    assert_response :success
-    assert_equal reply_message(text), assigns(:message)
-    assert_not assigns(:user).changing_suffix
-    assert_equal assigns(:user).suffix, 'チャー'
-  end
-
-  test "'change-string'を送った後に文字列'メニュー削除'を送ったとき" do
-    text = "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
-    post callback_path, params: text_message_events('メニュー削除', 'hoge3')
-    assert_response :success
-    assert_equal reply_message(text), assigns(:message)
-    assert_not assigns(:user).changing_suffix
-    assert_equal assigns(:user).suffix, 'チャー'
   end
 
   # suffix 関連
