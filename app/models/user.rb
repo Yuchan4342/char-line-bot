@@ -4,13 +4,14 @@
 #
 # Table name: users
 #
-#  id         :bigint(8)        not null, primary key
-#  user_id    :string
-#  linked     :boolean
-#  user_name  :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  suffix     :string
+#  id              :bigint(8)        not null, primary key
+#  user_id         :string
+#  linked          :boolean
+#  user_name       :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  suffix          :string
+#  changing_suffix :boolean          default(FALSE)
 #
 
 # User クラス: Bot にイベントを送ったユーザ情報を保存する
