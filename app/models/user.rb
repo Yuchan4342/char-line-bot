@@ -28,7 +28,6 @@ class User < ApplicationRecord
                 end)
     # ユーザIDがデータベースに追加されていなければ追加する
     user || User.create(user_id: user_id,
-                        suffix: 'チャー',
-                        linked: true)
+                        suffix: 'チャー')
   end
 end

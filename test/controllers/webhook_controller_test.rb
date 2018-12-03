@@ -82,13 +82,6 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert_equal assigns(:user).suffix, 'まさ'
   end
 
-  test 'メッセージを送ったときに linked が変更されていない' do
-    post callback_path, params: text_message_events('HogeHoge')
-    assert assigns(:user).linked
-    post callback_path, params: text_message_events('HogeHoge', 'hoge2')
-    assert_not assigns(:user).linked
-  end
-
   test 'フォローイベントで新規ユーザーが User に追加されている' do
     post callback_path, params: follow_events('hoge3')
     assert_not_nil User.find_by(user_id: 'hoge3')
