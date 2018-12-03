@@ -112,14 +112,11 @@ class WebhookController < ApplicationController
   def process_event(event)
     case event['type']
     # message event
-    when 'message' then link_menu
-                        reply_to_message_event(event)
+    when 'message' then reply_to_message_event(event)
     # follow event
-    when 'follow' then link_menu
-                       logger.info 'Followed or Unblocked.'
+    when 'follow' then logger.info 'Followed or Unblocked.'
     # blocked event
-    when 'unfollow' then unlink_menu
-                         logger.info 'Blocked.'
+    when 'unfollow' then logger.info 'Blocked.'
     # グループに参加したときのevent
     when 'join' then logger.info 'Joined group or room.'
     # グループから退出したときのevent
@@ -156,8 +153,6 @@ class WebhookController < ApplicationController
       suffix = input_text == 'change-to-char' ? 'チャー' : 'まさ'
       @user.update(suffix: suffix, changing_suffix: false)
       "#{suffix}に切り替えました！"
-    when 'メニュー追加', 'メニュー削除'
-      process_link_unlink_menu(input_text == 'メニュー追加')
     else
       if @user.changing_suffix
         @user.update(suffix: input_text, changing_suffix: false)
@@ -168,46 +163,10 @@ class WebhookController < ApplicationController
     end
   end
 
-  # 'メニュー追加', 'メニュー削除' に対する処理.
-  # @param is_add テキストが 'メニュー追加' であるかどうか
-  # @return 返すテキストメッセージ
-  def process_link_unlink_menu(is_add)
-    @user.update(changing_suffix: false)
-    return 'リッチメニューはすでに追加されています。' if @user.linked && is_add
-    return 'リッチメニューはすでに削除されています。' if !@user.linked && !is_add
-
-    @user.update(linked: is_add)
-    if is_add
-      # 送信ユーザとリッチメニューをリンクする
-      link_menu
-      "リッチメニューを追加しました。\n削除したいときは「メニュー削除」と送ってください。"
-    else
-      # リッチメニューとのリンクを削除する
-      unlink_menu
-      "リッチメニューを削除しました。\n追加したいときは「メニュー追加」と送ってください。"
-    end
-  end
-
   # メッセージを送信する.
   def send_message(token, text)
     @message = { type: 'text', text: text }
     logger.info "Send #{@message}"
     @client.reply_message(token, @message)
-  end
-
-  # 送信ユーザとリッチメニューをリンクする
-  def link_menu
-    return unless @user&.linked
-
-    res = @client.link_user_rich_menu(@user&.user_id, RICHMENU_ID)
-    logger.info "Linked. #{res.code} #{res.body}"
-  end
-
-  # 送信ユーザとリッチメニューのリンクを削除する
-  def unlink_menu
-    return if @user&.linked
-
-    res = @client.unlink_user_rich_menu(@user&.user_id)
-    logger.info "Link deleted. #{res.code} #{res.body}"
   end
 end

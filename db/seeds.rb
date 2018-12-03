@@ -13,6 +13,5 @@
 User.create(
   talk_type: 'user',
   user_id: 'hoge1',
-  linked: true,
   user_name: 'チャー'
 )

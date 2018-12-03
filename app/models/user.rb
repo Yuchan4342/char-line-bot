@@ -6,7 +6,6 @@
 #
 #  id              :bigint(8)        not null, primary key
 #  user_id         :string
-#  linked          :boolean
 #  user_name       :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
@@ -28,7 +27,6 @@ class User < ApplicationRecord
                 end)
     # ユーザIDがデータベースに追加されていなければ追加する
     user || User.create(user_id: user_id,
-                        suffix: 'チャー',
-                        linked: true)
+                        suffix: 'チャー')
   end
 end
