@@ -59,6 +59,12 @@ body {
   margin: 5px;
 }
 
+.clb-talk-img {
+  width: 90%;
+  max-width: 500px;
+  margin: 10px 0 20px;
+}
+
 .clb-copy-id-btn {
   font-size: 12px;
   text-align: center;
@@ -96,6 +102,18 @@ body {
 
 p {
   margin: 10px 0px;
+}
+
+.clb-blog-link {
+  color: #005000;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 5px;
+}
+
+.clb-blog-link:hover {
+  opacity: 0.8;
+  background-color: #e0ffe0;
 }
 
 #qr {
