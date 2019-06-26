@@ -20,11 +20,8 @@ html, body {
   height: 100%;
 }
 
-div.body1 {
-  height: 100%;
-  min-height: 100%;
-  height: auto;
-  background-color: #fefefe;
+html {
+  background-color: #CCFFCC;
 }
 
 body {
@@ -39,7 +36,7 @@ body {
   border-left:  1px solid #000;
   border-right: 1px solid #000;
   line-height: 1.5em;
-  background-color: #CCFFCC;
+  background-color: #fff;
 }
 
 .header {

@@ -12,21 +12,19 @@
   </head>
 
   <body>
-    <div class="body1">
-      <h1 class="header">
-        <%= link_to image_tag('logo.png', class: 'logo'), root_path %>
-        <div>おチャーbot</div>
-      </h1>
-      <div class="pb-5">
-        <%= yield %>
-      </div>
-      <footer>
-        <div class="container-fluid">
-          <div class="row">
-            <div class="pull-right">Copyright &copy; 2019 おチャー</div>
-          </div>
-        </div>
-      </footer>
+    <h1 class="header">
+      <%= link_to image_tag('logo.png', class: 'logo'), root_path %>
+      <div>おチャーbot</div>
+    </h1>
+    <div class="pb-5">
+      <%= yield %>
     </div>
+    <footer>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="pull-right">Copyright &copy; 2019 おチャー</div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
