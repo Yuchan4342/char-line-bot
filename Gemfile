@@ -78,26 +78,21 @@ gem 'faraday_middleware'
 
 # Minitest assigns 用
 gem 'rails-controller-testing'
-
 # モデルのカラム情報追加
 gem 'annotate'
-
 # rails console (irb/pry) の出力整形
 gem 'awesome_print'
-
 # pry を導入
 gem 'pry-byebug'
 gem 'pry-doc'
 gem 'pry-rails'
-
 # リダイレクトの設定.
 gem 'rack-rewrite'
-
 # sitemap 生成.
 gem 'sitemap_generator'
-
 # jQuery
 gem 'jquery-rails'
-
+# Bootstrap
+gem 'bootstrap', '~> 4.3.1'
 # Clipboard コピーボタン用.
 gem 'clipboard-rails'
