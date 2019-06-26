@@ -1,42 +1,39 @@
 <%= javascript_include_tag 'top' %>
 
 <div class="container">
-  <h3>Top Page</h3>
-  <p>
-    このLINE botはあなたのメッセージの後ろに「チャー」をつけて返します。
-  </p>
-  <p>
-  <b>☆☆新機能☆☆</b><br />
-    下の「文字列切替」メニューから、<br />
-    後ろにつける文字に<b>好きな文字を</b>設定できます！
-  </p>
-  <p>
-    <div>○トーク画面イメージ</div>
-    <%= image_tag('o-char2.0.png', class: 'clb-talk-img', alt: 'talk image') %>
-  </p>
-
-  <p>
-    友だち登録はこちら！↓↓↓
-  </p>
-
-  <p>
-    <a href="https://line.me/R/ti/p/%40ido0212s">
-      <img height="36" border="0" alt="友だち追加" src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png">
-    </a>
-    </p>
-  <p>
-    LINE ID:
-    <span id="line-id">@ido0212s</span>
-    <!-- Copy Button -->
-    <button class="clb-copy-id-btn" data-clipboard-target="#line-id">Copy</button>
-  </p>
-
-  <p>
-    <div>Bot の管理者: <a href="https://www.o-char.com" class="clb-blog-link">おチャーのブログ</a></div>
-  </p>
-
-  <p>
-    <div>LINE QRコード↓</div>
-    <img id="qr" src="https://qr-official.line.me/L/-g-rxQQgVQ.png">
-  </p>
+  <div class="row">
+    <div class="col-md-12">
+      <h3>おチャーbot とは?</h3>
+      <div class="mb-4">
+        このLINE botはあなたのメッセージの後ろに「チャー」をつけて返します。
+      </div>
+      <h4>☆☆新機能☆☆</h4>
+      <div class="mb-4">
+        下の「文字列切替」メニューから、後ろにつける文字に<b>好きな文字を</b>設定できます！
+      </div>
+      <h4>トーク画面イメージ</h4>
+      <div>
+        <%= image_tag('o-char2.0.png', class: 'col-md-8 mt-2 mb-4', alt: 'talk image') %>
+      </div>
+      <div class="mt-4"><h4>友だち登録はこちら！</h4></div>
+      <div class="mb-4">
+        <a href="https://line.me/R/ti/p/%40ido0212s">
+          <img height="36" border="0" alt="友だち追加" src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png">
+        </a>
+      </div>
+      <div class="mt-4"><h4>LINE ID</h4></div>
+      <div class="mb-3">
+        <span id="line-id">@ido0212s</span>
+        <!-- Copy Button -->
+        <button class="clb-copy-id-btn" data-clipboard-target="#line-id">コピー</button>
+      </div>
+      <div class="mt-4"><h4>QRコード</h4></div>
+      <div>
+        <img id="qr" src="https://qr-official.line.me/L/-g-rxQQgVQ.png">
+      </div>
+      <div class="my-3">
+        管理者: <a href="https://www.o-char.com" class="clb-blog-link">おチャー</a>
+      </div>
+    </div>
+  </div>
 </div>
