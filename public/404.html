@@ -6,23 +6,27 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-  div.body1 {
+  html, body {
     height: 100%;
-    min-height: 100%;
-    height: auto;
-    background-color: #fefefe;
+  }
+
+  html {
+    background-color: #ccffcc;
   }
 
   body {
     font-family: Verdana, sans-serif;
     font-size: 16px;
+    position: relative;
+    min-height: 100%;
+    height: auto;
     width: 90%;
     max-width: 750px;
     margin: 0px auto;
     border-left:  1px solid #000;
     border-right: 1px solid #000;
     line-height: 1.5em;
-    background-color: #CCFFCC;
+    background-color: #fefefe;
   }
 
   .header {
@@ -30,6 +34,7 @@
     padding: 10px 9px;
     margin: 0px 0px 10px;
     border-bottom: 1px solid #ddd;
+    line-height: 80px;
   }
 
   .container {
@@ -38,10 +43,13 @@
     height: 400px;
   }
 
-  .footer {
-    height: 24px;
-    padding: 5px 4px;
-    margin: 10px 0px 0px;
+  footer {
+    /* コンテンツの高さが足りない時にウィンドウの一番下に置かれるようにする. */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
     border-top: 1px solid #ddd;
   }
 
@@ -51,29 +59,26 @@
     float: left;
     margin: 5px;
   }
-
-  #site-title {
-    font-size: 30px;
-    padding-top: 20px;
-  }
   </style>
 </head>
 
 <body>
-  <div class="body1">
-    <h1 class="header">
-      <div><a href="/"><img src="image/logo.png" class="logo"></a></div>
-      <div id="site-title">おチャーbot</div>
-    </h1>
+  <h1 class="header">
+    <div><a href="/"><img src="image/logo.png" class="logo"></a></div>
+    <div>おチャーbot</div>
+  </h1>
+  <div class="pb-5">
     <div class="container">
-      <div>
-        <h1>お探しのページが見つかりません。</h1>
-        <p>アドレスが間違っているか, ページが移動・削除された可能性があります。</p>
-      </div>
-    </div>
-    <div class="footer">
-      <div id="copyright">&copy; 2018 Yuto Iwata</div>
+      <h1>お探しのページが見つかりません。</h1>
+      <p>アドレスが間違っているか, ページが移動・削除された可能性があります。</p>
     </div>
   </div>
+  <footer>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="pull-right">Copyright &copy; 2019 おチャー</div>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
