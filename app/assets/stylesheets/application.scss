@@ -36,7 +36,7 @@ body {
 }
 
 .header {
-  height: 69px;
+  height: 80px;
   padding: 10px 9px;
   margin: 0px 0px 10px;
   border-bottom: 1px solid #ddd;
@@ -90,11 +90,6 @@ body {
 .clb-copy-id-btn:active { /* ボタンを押したとき */
   box-shadow: 0 2px 0 #004400;
   transform: translate(0, 2px);
-}
-
-#site-title {
-  font-size: 30px;
-  padding-top: 20px;
 }
 
 #copyright {
