@@ -44,8 +44,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .header {
   height: 80px;
-  padding: 10px 9px;
-  margin: 0px 0px 10px;
+  line-height: 80px;
   border-bottom: 1px solid #ddd;
 }
 
@@ -68,7 +67,7 @@ footer {
   width: 60px;
   height: 60px;
   float: left;
-  margin: 5px;
+  margin: 10px;
 }
 
 .clb-copy-id-btn {
