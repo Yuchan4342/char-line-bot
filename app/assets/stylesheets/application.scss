@@ -72,28 +72,8 @@ footer {
 }
 
 .clb-copy-id-btn {
-  font-size: 12px;
-  text-align: center;
-  margin: 0 5px 0;
-  width: 60px;
-  height: 30px;
   border-radius: 2px;
-  background: #008800; /* ボタン色 */
-  box-shadow: 0 4px 0 #004400;
-  color: #FFF;
   cursor: pointer;
-  border-style: none;
-  user-select: none;
-  outline: none;
-}
-
-.clb-copy-id-btn:hover { /* カーソルが載ったとき */
-  opacity: 0.8;
-}
-
-.clb-copy-id-btn:active { /* ボタンを押したとき */
-  box-shadow: 0 2px 0 #004400;
-  transform: translate(0, 2px);
 }
 
 .clb-blog-link {
