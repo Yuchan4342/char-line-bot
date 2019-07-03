@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby ENV['CUSTOM_RUBY_VERSION'] || "~> 2.5.x" # For heroku || default
+ruby ENV['CUSTOM_RUBY_VERSION'] || '~> 2.5.x' # For heroku || default
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?('/')
