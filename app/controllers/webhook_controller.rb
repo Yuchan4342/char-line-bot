@@ -36,7 +36,11 @@ class WebhookController < ApplicationController
     @client ||= Line::Bot::Client.new do |config|
       # シークレットとアクセストークンの設定
       config.channel_secret = ENV['LINE_CHANNEL_SECRET']
-      config.channel_token = ENV['LINE_CHANNEL_TOKEN']
+      config.channel_token = if Rails.env.test?
+                               'channel_token'
+                             else
+                               ENV['LINE_CHANNEL_TOKEN']
+                             end
     end
   end
 
