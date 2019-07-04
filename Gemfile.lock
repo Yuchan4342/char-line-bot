@@ -129,7 +129,7 @@ GEM
     parallel (1.17.0)
     parser (2.6.3.0)
       ast (~> 2.4.0)
-    pg (0.21.0)
+    pg (1.1.4)
     popper_js (1.14.5)
     pry (0.12.2)
       coderay (~> 1.1.0)
@@ -200,6 +200,9 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.7)
+    rubocop-rails (2.1.0)
+      rack (>= 1.1)
+      rubocop (>= 0.72.0)
     ruby-graphviz (1.2.4)
     ruby-progressbar (1.10.1)
     ruby_dep (1.5.0)
@@ -293,17 +296,18 @@ DEPENDENCIES
   jquery-rails
   line-bot-api
   listen (>= 3.0.5, < 3.2)
-  pg (~> 0.18)
+  pg (>= 0.18, < 2.0)
   pry-byebug
   pry-doc
   pry-rails
-  puma (~> 3.7)
+  puma (~> 3.11)
   rack-rewrite
-  rails (~> 5.2.0)
+  rails (~> 5.2.3)
   rails-controller-testing
   rails-erd
   rails_12factor
   rubocop
+  rubocop-rails
   sass-rails (~> 5.0)
   selenium-webdriver
   sitemap_generator
