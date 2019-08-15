@@ -14,3 +14,10 @@ services:
     tty: true
     stdin_open: true
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
+  db:
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=mysecretpassword"
