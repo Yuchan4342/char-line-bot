@@ -30,9 +30,11 @@ development:
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
   #username: line-bot
+  username: <%= ENV.fetch('DATABASE_USER') { 'root' } %>
 
   # The password associated with the postgres role (username).
   #password:
+  password: <%= ENV.fetch('DATABASE_PASSWORD') { 'password' } %>
 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
