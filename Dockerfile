@@ -1,4 +1,4 @@
-FROM ruby:2.6
+FROM ruby:2.6.3
 # update node version
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
         && apt-get install -y nodejs
