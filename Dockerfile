@@ -13,5 +13,4 @@ ADD Gemfile.lock /workdir/Gemfile.lock
 RUN gem install bundler
 RUN bundle install
 RUN apt update
-# develop 環境向けなのでここではコピーしない.
-# ADD . /workdir
+ADD . /workdir
