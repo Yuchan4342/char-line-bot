@@ -1,4 +1,5 @@
 FROM ruby:2.6.3
+ENV LANG C.UTF-8
 # update node version
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
         && apt-get install -y nodejs
