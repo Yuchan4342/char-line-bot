@@ -9,7 +9,6 @@ services:
       RAILS_ENV: development
       DATABASE_HOST: db
       DATABASE_USER: postgres
-      DATABASE_PASSWORD: mysecretpassword
     ports:
       - 3000:3000
     volumes:
