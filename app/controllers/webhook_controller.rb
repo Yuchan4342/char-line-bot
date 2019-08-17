@@ -146,25 +146,34 @@ class WebhookController < ApplicationController
   end
 
   # text メッセージを受け取った場合の処理.
-  # @param text 受け取ったテキスト
-  # @return 返すテキストメッセージ
+  # @param [String] input_text 受け取ったテキスト
+  # @return [String] 返すテキストメッセージ
   def reply_to_text(input_text)
     case input_text
     when 'change-string'
-      @user.update(changing_suffix: true)
-      '後ろに付けたい文字列を入れてくださいチャー'
+      reply_to_change_string
     when 'change-to-char', 'change-to-masa'
-      suffix = input_text == 'change-to-char' ? 'チャー' : 'まさ'
-      @user.update(suffix: suffix, changing_suffix: false)
-      "#{suffix}に切り替えました！"
+      change_suffix_and_reply(input_text == 'change-to-char' ? 'チャー' : 'まさ')
     else
-      if @user.changing_suffix
-        @user.update(suffix: input_text, changing_suffix: false)
-        "#{input_text}に切り替えました！"
-      else
-        input_text + @user&.suffix
-      end
+      return change_suffix_and_reply(input_text) if @user.changing_suffix
+
+      input_text + @user&.suffix
     end
+  end
+
+  # メッセージ 'change-string' を受け取った場合の処理.
+  # @return [String] 返すテキストメッセージ
+  def reply_to_change_string
+    @user.update(changing_suffix: true)
+    'うしろにつけたいテキストを送ってくださいチャー'
+  end
+
+  # うしろに付けるテキストを設定してテキストメッセージを返す.
+  # @param [String] new_suffix 新しくうしろに付けるテキスト
+  # @return [String] 返すテキストメッセージ
+  def change_suffix_and_reply(new_suffix)
+    @user.update(suffix: new_suffix, changing_suffix: false)
+    "#{new_suffix}に切り替えました！"
   end
 
   # メッセージを送信する.
