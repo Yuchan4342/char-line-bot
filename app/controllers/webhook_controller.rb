@@ -158,8 +158,7 @@ class WebhookController < ApplicationController
       "#{suffix}に切り替えました！"
     else
       if @user.changing_suffix
-        @user.update(suffix: input_text, changing_suffix: false)
-        "#{input_text}に切り替えました！"
+        change_suffix_and_reply(input_text)
       else
         input_text + @user&.suffix
       end
@@ -171,6 +170,14 @@ class WebhookController < ApplicationController
   def reply_to_change_string
     @user.update(changing_suffix: true)
     '後ろに付けたい文字列を入れてくださいチャー'
+  end
+
+  # 後ろに付ける文字列を設定してテキストメッセージを返す.
+  # @param [String] new_suffix 新しく後ろに付ける文字列
+  # @return [String] 返すテキストメッセージ
+  def change_suffix_and_reply(new_suffix)
+    @user.update(suffix: new_suffix, changing_suffix: false)
+    "#{new_suffix}に切り替えました！"
   end
 
   # メッセージを送信する.
