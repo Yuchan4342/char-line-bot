@@ -146,8 +146,8 @@ class WebhookController < ApplicationController
   end
 
   # text メッセージを受け取った場合の処理.
-  # @param text 受け取ったテキスト
-  # @return 返すテキストメッセージ
+  # @param [String] input_text 受け取ったテキスト
+  # @return [String] 返すテキストメッセージ
   def reply_to_text(input_text)
     case input_text
     when 'change-string'
@@ -167,7 +167,7 @@ class WebhookController < ApplicationController
   end
 
   # メッセージ 'change-string' を受け取った場合の処理.
-  # @return 返すテキストメッセージ
+  # @return [String] 返すテキストメッセージ
   def reply_to_change_string
     @user.update(changing_suffix: true)
     '後ろに付けたい文字列を入れてくださいチャー'
