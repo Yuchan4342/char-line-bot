@@ -34,8 +34,8 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
   end
 
   # change-string 関連
-  test "'change-string'に対してメッセージ'後ろに付けたい文字列を入れてくださいチャー'を返す" do
-    text = '後ろに付けたい文字列を入れてくださいチャー'
+  test "'change-string'に対してメッセージ'うしろにつけたいテキストを送ってくださいチャー'を返す" do
+    text = 'うしろにつけたいテキストを送ってくださいチャー'
     post callback_path, params: text_message_events('change-string')
     assert_response :success
     assert_equal reply_message(text), assigns(:message)
@@ -47,7 +47,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert assigns(:user).changing_suffix
   end
 
-  test "'change-string'を送った後に一般の文字列を送ったとき" do
+  test "'change-string'を送った後に一般のメッセージを送ったとき" do
     text = 'ほげに切り替えました！'
     post callback_path, params: text_message_events('ほげ', 'hoge3')
     assert_response :success
@@ -56,7 +56,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert_equal assigns(:user).suffix, 'ほげ'
   end
 
-  test "'change-string'を送った後に文字列'change-to-char'を送ったとき" do
+  test "'change-string'を送った後にメッセージ'change-to-char'を送ったとき" do
     text = 'チャーに切り替えました！'
     post callback_path, params: text_message_events('change-to-char', 'hoge3')
     assert_response :success
@@ -65,7 +65,7 @@ class WebhookControllerTest < ActionDispatch::IntegrationTest
     assert_equal assigns(:user).suffix, 'チャー'
   end
 
-  test "'change-string'を送った後に文字列'change-to-masa'を送ったとき" do
+  test "'change-string'を送った後にメッセージ'change-to-masa'を送ったとき" do
     text = 'まさに切り替えました！'
     post callback_path, params: text_message_events('change-to-masa', 'hoge3')
     assert_response :success

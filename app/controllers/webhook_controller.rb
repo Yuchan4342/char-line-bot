@@ -165,11 +165,11 @@ class WebhookController < ApplicationController
   # @return [String] 返すテキストメッセージ
   def reply_to_change_string
     @user.update(changing_suffix: true)
-    '後ろに付けたい文字列を入れてくださいチャー'
+    'うしろにつけたいテキストを送ってくださいチャー'
   end
 
-  # 後ろに付ける文字列を設定してテキストメッセージを返す.
-  # @param [String] new_suffix 新しく後ろに付ける文字列
+  # うしろに付けるテキストを設定してテキストメッセージを返す.
+  # @param [String] new_suffix 新しくうしろに付けるテキスト
   # @return [String] 返すテキストメッセージ
   def change_suffix_and_reply(new_suffix)
     @user.update(suffix: new_suffix, changing_suffix: false)
