@@ -155,11 +155,9 @@ class WebhookController < ApplicationController
     when 'change-to-char', 'change-to-masa'
       change_suffix_and_reply(input_text == 'change-to-char' ? 'チャー' : 'まさ')
     else
-      if @user.changing_suffix
-        change_suffix_and_reply(input_text)
-      else
-        input_text + @user&.suffix
-      end
+      return change_suffix_and_reply(input_text) if @user.changing_suffix
+
+      input_text + @user&.suffix
     end
   end
 
