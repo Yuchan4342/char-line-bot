@@ -151,8 +151,7 @@ class WebhookController < ApplicationController
   def reply_to_text(input_text)
     case input_text
     when 'change-string'
-      @user.update(changing_suffix: true)
-      '後ろに付けたい文字列を入れてくださいチャー'
+      reply_to_change_string
     when 'change-to-char', 'change-to-masa'
       suffix = input_text == 'change-to-char' ? 'チャー' : 'まさ'
       @user.update(suffix: suffix, changing_suffix: false)
@@ -165,6 +164,13 @@ class WebhookController < ApplicationController
         input_text + @user&.suffix
       end
     end
+  end
+
+  # メッセージ 'change-string' を受け取った場合の処理.
+  # @return 返すテキストメッセージ
+  def reply_to_change_string
+    @user.update(changing_suffix: true)
+    '後ろに付けたい文字列を入れてくださいチャー'
   end
 
   # メッセージを送信する.
