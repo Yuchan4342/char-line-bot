@@ -1,4 +1,4 @@
-FROM ruby:2.6.3
+FROM ruby:2.6.5
 ENV LANG C.UTF-8
 # update node version
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
