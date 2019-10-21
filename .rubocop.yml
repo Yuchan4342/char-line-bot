@@ -14,7 +14,7 @@ AllCops:
     - 'railties/test/fixtures/tmp/**/*'
     - 'node_modules/**/*'
 
-AsciiComments:
+Style/AsciiComments:
   Enabled: false
 
 Rails:
