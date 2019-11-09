@@ -56,8 +56,7 @@ group :development do
   # running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  # rubocop コード規約に則っているかチェック
-  gem 'rubocop', require: false
+  # rubocop コード規約に則っているかチェック.
   gem 'rubocop-rails', require: false
   # Solargraph for Ruby (http://solargraph.org)
   gem 'solargraph', require: false
