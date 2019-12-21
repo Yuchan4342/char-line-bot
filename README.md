@@ -43,7 +43,10 @@ Data on database are not removed.
 ### Create database / データベースの作成
 Execute only in the first start.  
 初回起動時にのみ行います。  
-```docker-compose exec web rails db:create```
+```docker-compose exec app bundle exec rails db:create```
 
 ### Migrate database / データベースのマイグレーション
-```docker-compose exec web rails db:migrate```
+```docker-compose exec app bundle exec rails db:migrate```
+
+### Execute minitest / テスト(minitest)実行
+```docker-compose exec app bundle exec rails test```
