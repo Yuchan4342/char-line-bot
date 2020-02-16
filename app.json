@@ -1,0 +1,13 @@
+{
+  "name": "char-line-bot",
+  "description": "line bot test",
+  "env": {
+  },
+  "addons": [
+    "heroku-postgresql:hobby-dev"
+  ],
+  "scripts": {
+    "test": "bundle exec rubocop && bundle exec rails test",
+    "postdeploy": "bundle exec rake db:migrate"
+  }
+}
