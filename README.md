@@ -57,7 +57,7 @@ Execute the following command to check coding style and test together.
 コーディング規約チェックとテスト実行をまとめて以下のコマンドで行うことができます。  
 ```docker-compose exec app ./test.sh```
 
-Execute the following command to check coding style.
+Execute the following command to check coding style.  
 コーディング規約をチェックするには以下のコマンドを実行します。  
 ```docker-compose exec app bundle exec rubocop```
 
