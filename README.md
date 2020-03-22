@@ -48,5 +48,12 @@ Execute only in the first start.
 ### Migrate database / データベースのマイグレーション
 ```docker-compose exec app bundle exec rails db:migrate```
 
+### Check coding rules / コーディング規約にしたがっているかチェック
+```docker-compose exec app bundle exec rubocop```
+
+Please execute the following command together with minitest.  
+テスト実行とまとめて以下のコマンドで行うことができます。  
+```docker-compose exec app ./test.sh```
+
 ### Execute minitest / テスト(minitest)実行
 ```docker-compose exec app bundle exec rails test```
