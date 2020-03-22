@@ -48,5 +48,34 @@ Execute only in the first start.
 ### Migrate database / データベースのマイグレーション
 ```docker-compose exec app bundle exec rails db:migrate```
 
-### Execute minitest / テスト(minitest)実行
+## For Developers / 開発者向け
+### Check coding style and minitest / コーディング規約・テスト(minitest)
+Please execute the following commands while the containers are running.  
+以下のコマンドは Docker コンテナが起動している状態で実行してください。  
+
+Execute the following command to check coding style and test together.  
+コーディング規約チェックとテスト実行をまとめて以下のコマンドで行うことができます。  
+```docker-compose exec app ./test.sh```
+
+Execute the following command to check coding style.  
+コーディング規約をチェックするには以下のコマンドを実行します。  
+```docker-compose exec app bundle exec rubocop```
+
+Execute the following command to take minitest.  
+テスト(minitest)を実行するには以下のコマンドを実行します。  
 ```docker-compose exec app bundle exec rails test```
+
+### Update gems / Gem のアップデート
+First, execute the following command.  
+まず、以下のコマンドを実行します。  
+```bundle update```
+
+Then, build an Docker image and start.  
+Please check coding rules by rubocop and execute minitest.  
+その後、Docker image をビルドして起動します。  
+rubocop でのコーディング規約チェックとテスト実行も行ってください。
+```
+docker-compose build
+docker-compose up
+docker-compose exec app ./test.sh
+```
