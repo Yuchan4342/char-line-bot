@@ -74,3 +74,8 @@ Then, build an Docker image and start.
 Please check coding rules by rubocop and execute minitest.  
 その後、Docker image をビルドして起動します。  
 rubocop でのコーディング規約チェックとテスト実行も行ってください。
+```
+docker-compose build
+docker-compose up
+docker-compose exec app ./test.sh
+```
