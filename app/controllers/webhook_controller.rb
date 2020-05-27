@@ -18,9 +18,7 @@ class WebhookController < ApplicationController
     body = request.body.read
 
     # 署名の検証(production 環境のみ)
-    if Rails.env.production? && !validate_signature(body, request)
-      return head :bad_request
-    end
+    return head :bad_request if Rails.env.production? && !validate_signature(body, request)
 
     events = @client.parse_events_from(body)
     return head :bad_request unless validate_events(events)
@@ -55,13 +53,10 @@ class WebhookController < ApplicationController
   def validate_events(events)
     events.each do |event|
       # 共通プロパティ
-      if event['type'].nil? || event['timestamp'].nil? || event['source'].nil?
-        return false
-      end
+      return false if event['type'].nil? || event['timestamp'].nil? || event['source'].nil?
+
       # source 下で必ず存在するプロパティ
-      if event['source']['type'].nil? || event['source']['userId'].nil?
-        return false
-      end
+      return false if event['source']['type'].nil? || event['source']['userId'].nil?
     end
     true
   end
