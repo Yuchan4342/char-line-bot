@@ -136,7 +136,7 @@ class WebhookController < ApplicationController
     # when 'file' # ファイル
     # when 'location' # 位置情報
     when 'sticker' # スタンプ
-      send_message(reply_token, 'おもしろいスタンプだ' + @user&.suffix + '！')
+      send_message(reply_token, "おもしろいスタンプだ#{@user&.suffix}！")
     end
   end
 
